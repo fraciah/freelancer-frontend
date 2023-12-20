@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { createContext } from "react";
-import { getAccessToken, removeAccessToken, setAccessToken } from "../utils/auth/AuthService";
+import { getAccessToken, removeAccessToken, setAccessToken } from "../../../lib/Auth/AuthService";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useChatContext } from "./ChatProvider";
+
 
 export const AuthContext = createContext();
 
@@ -83,7 +83,7 @@ export const AuthProvider = props => {
             } else {
                 const res = await registerClient.json();
                 const status = registerClient.status;
-                if (status===400){
+                if (status=== 400){
                     const errors = Object.values(res);
                     setRegisterError(errors);
                     console.log(errors);
@@ -98,7 +98,7 @@ export const AuthProvider = props => {
 
     }
 
-    const handleLogin = async (e) => {
+     const handleLogin = async (e) => {
         const orderId = new URLSearchParams(location.search).get('order');
         const redirect = new URLSearchParams(location.search).get('redirect');
         setLoading(true);

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
+
 
 input {
   caret-color: red;
@@ -128,4 +128,18 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+
+
+.Button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.card_info{
+  font-size: 14px;
+  padding-top:2px;
 }
