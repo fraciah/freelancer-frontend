@@ -14,7 +14,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 20px 45px 20px 20px;
     box-sizing: border-box;
     color: gray;
 }
@@ -44,6 +44,9 @@
   caret-color: #000;
   color: #000;
 }
+.search-input:focus{
+  border: solid 2px var(--primary-color);
+}
 .notif-bell{
   cursor: pointer;
 }
@@ -60,4 +63,14 @@
   font-size: 1.2rem;
   font-weight: 600;
   margin-right: 10px;
+}
+.img-placeholder{
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
