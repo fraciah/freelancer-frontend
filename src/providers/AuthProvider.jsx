@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { createContext } from "react";
-import { getAccessToken, removeAccessToken, setAccessToken } from "../../../lib/Auth/AuthService";
+import { getAccessToken, removeAccessToken, setAccessToken } from "../../utils/Auth/AuthService";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';

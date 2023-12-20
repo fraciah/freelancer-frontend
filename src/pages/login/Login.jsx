@@ -1,6 +1,6 @@
 import React from 'react';
 import './login.css';
-import { useAuthContext } from '../../comppnents/providers/AuthProvider';
+import { useAuthContext } from '../../providers/AuthProvider';
 import { FiUser } from "react-icons/fi";
 import { MdLock } from "react-icons/md";
 import { IoEye, IoEyeOff } from "react-icons/io5";
@@ -80,9 +80,7 @@ const Login = () => {
           {loading ? <LoadingDots color="#1387E6" size={15} /> : 'Sign In'}
         </button>
       </form>
-      <div className="card_info">
-        <p>Not registered? <a href="#">Create an account</a></p>
-      </div>
+
     </div>
   );
 }
