@@ -40,10 +40,9 @@ const Login = () => {
       toast.error('Username and password are required.');
       return;
     }
-
-    toast.loading('Logging in...');
-    handleLogin(notifyLoginSuccess);
+    handleLogin(e,notifyLoginSuccess);
   };
+  
 
   return (
     <div className="btn">
