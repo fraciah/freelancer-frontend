@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
+    <div className="btn">
       <div className="brand-logo">
         <img src={gigitise} style={{ width: '6rem' }} alt="logo" />
       </div>
@@ -57,11 +57,12 @@ const Login = () => {
           <input 
             required 
             id='username' 
+            className=''
             type="text" 
             placeholder='Username'
           />
         </div>
-        <div className='login-content'>
+        <div className='login-content '>
           <MdLock className='password-icon' size={iconSize} />
           <input 
             required 
