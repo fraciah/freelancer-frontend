@@ -24,6 +24,7 @@ export const AuthProvider = props => {
     const [loadingReg, setLoadingReg] = useState(false);
     const [registerError, setRegisterError] = useState(null);
     const [successRegister, setSuccessRegister] = useState(false);
+    const [successLogin, setSuccessLogin] = useState(false);
     
     const headers = {
         'content-Type':'application/json',
@@ -99,14 +100,16 @@ export const AuthProvider = props => {
     }
 
      const handleLogin = async (e) => {
+        e.preventDefault(); 
         const orderId = new URLSearchParams(location.search).get('order');
         const redirect = new URLSearchParams(location.search).get('redirect');
         setLoading(true);
-        e.preventDefault();
         setLoginError({});
         const username = e.target.username.value;
         const password = e.target.password.value;
-        const loginUrl = `${import.meta.env.VITE_API_URL}/token/c/`;
+        const loginUrl = `${import.meta.env.VITE_API_URL}/token/f/`;
+        console.log('Profile URL:', profileUrl);
+        console.log('Login URL:', loginUrl);
 
         try {
             const controller = new AbortController();
@@ -122,12 +125,15 @@ export const AuthProvider = props => {
                 }),
                 signal:controller.signal           
             })
+            console.log('Request:', getToken);
     
             const status = getToken.status;
             clearTimeout(timeoutId);
 
             if (status===200){
                 const token = await getToken.json();
+                setSuccessLogin(true)
+                
     
                 const accessToken = token.access;
                 setAccessToken(accessToken);
@@ -246,6 +252,7 @@ export const AuthProvider = props => {
             loading,
             loginError,
             successRegister,
+            successLogin
         }
         }>
             {props.children}
