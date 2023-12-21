@@ -1,0 +1,76 @@
+* {
+  --fontsize-small:  0.90rem;
+  --fontsize-normal: 0.95rem;
+  --primary-color: #7fc2f5;
+}
+.nav{
+    background-color: #fff;
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 45px 20px 20px;
+    box-sizing: border-box;
+    color: gray;
+}
+.heading-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.heading-container h2{
+  font-size: 2.2rem;
+}
+.logo-img{
+    height: 3rem;
+    width: 3rem;
+    margin-right: 10px;
+}
+.search-nav{
+  width: 40%;
+}
+.search-input{
+  height: 90%;
+  background-color: #fff;
+  padding: 0.7rem 0.8rem;
+  border-radius: 2rem;
+  border: solid 1px gray;
+  font-size: var(--fontsize-small);
+  caret-color: #000;
+  color: #000;
+}
+.search-input:focus{
+  border: solid 2px var(--primary-color);
+}
+.notif-bell{
+  cursor: pointer;
+}
+.notif-icon{
+  color: var(--primary-color);
+}
+.profile{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.profile article{
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-right: 10px;
+}
+.img-placeholder{
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
