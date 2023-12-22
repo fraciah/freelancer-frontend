@@ -47,6 +47,14 @@
 .search-input:focus{
   border: solid 2px var(--primary-color);
 }
+.logout{
+  font-size: 1.2rem;
+  background-color: #ECF0F3;
+  padding: 4px 6px;
+  font-weight: 300;
+  color: var(--primary-color);
+  cursor: pointer;
+}
 .notif-bell{
   cursor: pointer;
 }
