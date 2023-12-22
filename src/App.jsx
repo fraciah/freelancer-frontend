@@ -3,6 +3,7 @@ import Login from './pages/login/Login';
 import { Route, Routes } from 'react-router-dom';
 import { useAuthContext } from './providers/AuthProvider';
 import Navbar from './components/navbar/Navbar';
+import Dashboard from './pages/dashboard/Dashboard';
 
 function App() {
   const { userToken } = useAuthContext();
@@ -11,6 +12,7 @@ function App() {
     return (
       <>
         <Navbar />
+        <Dashboard />
         <Routes>
           {/* Dashboard route here */}
           {/* Profile route here */}

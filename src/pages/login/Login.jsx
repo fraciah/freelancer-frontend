@@ -14,7 +14,9 @@ const Login = () => {
   const { loginError, handleLogin, loading } = useAuthContext();
   const [visible, setVisible] = useState(false);
   const passwordRef = useRef();
+  const usernameRef = useRef()
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   
   const togglePassword = () => {
     setVisible(!visible);
@@ -27,35 +29,19 @@ const Login = () => {
     }
   }, [loginError]);
 
-  const notifyLoginSuccess = () => {
-    toast.success('Login successful!'); 
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const username = e.target.username.value;
-    const password = e.target.password.value;
-
-    if (!username || !password) {
-      toast.error('Username and password are required.');
-      return;
-    }
-    handleLogin(e,notifyLoginSuccess);
-  };
-  
-
   return (
     <div className="btn">
       <div className="brand-logo">
         <img src={gigitise} style={{ width: '6rem' }} alt="logo" />
       </div>
       <div className="brand-title">Gigitise</div>
-      <form onSubmit={handleSubmit} className="inputs">
+      <form onSubmit={handleLogin} className="inputs">
         <div className='login-content'>
           <FiUser className='username-icon' size={iconSize} />
           <input 
             required 
-            id='username' 
+            id='username'
+            ref={usernameRef} value={username} onChange={(e)=>setUsername(e.target.value)} 
             className=''
             type="text" 
             placeholder='Username'
@@ -66,7 +52,7 @@ const Login = () => {
           <input 
             required 
             id='password' 
-            ref={passwordRef}  
+            ref={passwordRef} value={password} onChange={(e)=>setPassword(e.target.value)} 
             type={visible ? "text" : "password"} 
             placeholder='Password' 
           />
