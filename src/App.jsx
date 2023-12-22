@@ -6,11 +6,23 @@ import Navbar from './components/navbar/Navbar';
 
 function App() {
   const { userToken } = useAuthContext();
+
+  const Main = () => {
+    return (
+      <>
+        <Navbar />
+        <Routes>
+          {/* Dashboard route here */}
+          {/* Profile route here */}
+          {/* ...etc... */}
+        </Routes>
+      </>      
+    )
+  }
   return (
     <>
       <Routes>
         <Route path='/app' element={userToken?<Main/>:<Login/>}/>
-        <Route path='/navbar' element={<Navbar/>}/>
       </Routes>
     </>
   )
