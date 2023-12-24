@@ -13,37 +13,65 @@ const OrderComponent = ({ content }) => {
 
   const maxCharsToDisplay = 70;
 
-  const handleClick = () => {
-    navigate(`./order/${orderId}`);
-  };
 
   return (
-    <div onClick={handleClick} className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <a href="#">
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {(content.title.length > maxCharsToDisplay) ? `${content.title.slice(0, 60)}...` : content.title}
-        </h5>
-      </a>
-      <div className="inline-flex items-center text-blue-600 hover:underline">
-        {content.category}
-      </div>
-      <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">${content.amount}</p>
-      {status === 'Completed' ? (
-        <div className='fx-end'>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">completed</p>
-        </div>
-      ) : (
-        <div className='fx-end'>
-          <article className="inline-flex items-center px-3 py-2 text-sm font-medium text-center"
-            style={{
-              color: deadlinePassed ? 'red' : '',
-              backgroundColor: deadlinePassed ? '#f7fafc' : ''
-            }}>
-            {deadline}
-          </article>
-        </div>
-      )}
+    
+    <div className='pt-[30px] mt-4 pl-3 flex '  onClick={()=>navigate(`./order/${orderId}`)}>
+      <a
+  href="#"
+  class="relative block overflow-hidden rounded-lg border bg-gray-200 border-gray-100 sm:p-6 lg:p-8"
+>
+  <span
+    class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
+  ></span>
+
+  <div class="sm:flex sm:justify-between sm:gap-4">
+    <div>
+      <h3 class="text-lg font-bold text-gray-900 sm:text-xl">
+      {
+                        (content.title.length > maxCharsToDisplay)?`${(content.title).slice(0,60)}...`:
+                        content.title
+                    }
+      </h3>
+
+      <p class="mt-1 text-xs font-medium text-gray-600">
+        category: {content.category}
+        </p>
     </div>
+
+    <div class="sm:block sm:shrink-0">
+    ${content.amount}
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <p class=" text-sm text-gray-500">
+     {content.instructions}
+    </p>
+  </div>
+
+  <dl class="mt-6 flex gap-4 sm:gap-6">
+    {
+                    status === 'Completed'?
+                    <dd class="text-xs text-gray-500 flex flex-col-reverse">completed on</dd>:
+                    <div className='fx-end'>
+                        <dd className='text-xs ' style={{
+                            color: deadlinePassed?`text-red-500 `:'',
+                            backgroundColor: deadlinePassed?`text-gray-500`:''
+                        }}>
+                                <div class="flex flex-col-reverse">
+      <dt class="text-sm font-medium text-gray-600">Deadline</dt>
+      <dd class="text-xs text-gray-500">{deadline}</dd>
+    </div>
+                        </dd>
+                    </div>
+                }   
+
+
+  </dl>
+</a>
+    </div>
+
   );
 }
 

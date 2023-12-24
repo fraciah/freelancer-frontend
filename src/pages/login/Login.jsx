@@ -30,7 +30,8 @@ const Login = () => {
   }, [loginError]);
 
   return (
-    <div className="btn">
+    <div className='login-container'>
+          <div className="btn">
       <div className="brand-logo">
         <img src={gigitise} style={{ width: '6rem' }} alt="logo" />
       </div>
@@ -68,6 +69,8 @@ const Login = () => {
       </form>
 
     </div>
+    </div>
+
   );
 }
 
