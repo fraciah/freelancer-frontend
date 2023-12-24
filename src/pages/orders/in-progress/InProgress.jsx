@@ -2,7 +2,7 @@ import React from 'react';
 import './in-progress.css';
 import OrderComponent from '../../../components/order-component/OrderComponent';
 import { useOrderContext } from '../../../providers/OrderProvider';
-import LoadingSkeletonOrder from '../../loading/Loading';
+
 const InProgress = () => {
 
     const {ordersInProgress, loading} = useOrderContext();
