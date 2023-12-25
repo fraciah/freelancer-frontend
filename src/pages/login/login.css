@@ -4,7 +4,8 @@ input {
   caret-color: red;
 }
 
-body {
+/* Update styles to use a specific class or ID for the Login component */
+.login-container {
   margin: 0;
   width: 100vw;
   height: 100vh;
@@ -16,6 +17,17 @@ body {
   place-items: center;
   overflow: hidden;
   font-family: poppins;
+}
+
+.login-container .btn {
+  position: relative;
+  width: 350px;
+  height: 500px;
+  border-radius: 20px;
+  padding: 40px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
 }
 
 .btn {

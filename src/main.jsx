@@ -5,13 +5,16 @@ import App from './App.jsx'
 import './index.css'
 import { AuthProvider } from './providers/AuthProvider.jsx'
 import ToasterContext from './components/toasterContext.jsx'
+import { OrderProvider } from './providers/OrderProvider.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
     <AuthProvider>
+    <OrderProvider>
     <ToasterContext/>
         <App />
+    </OrderProvider>
     </AuthProvider>
   </BrowserRouter>
   </React.StrictMode>,
