@@ -20,6 +20,9 @@ const Navbar = () => {
         <div className="search-nav">
             <input className="search-input" type="text" placeholder="Search categories of orders" />
         </div>
+        <div>
+            <h2 className="logout">Logout</h2>
+        </div>
         <div className="notif-bell">
             <IoMdNotificationsOutline className="notif-icon" size={iconSize} />
         </div>
