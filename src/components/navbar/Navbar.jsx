@@ -23,7 +23,7 @@ const Navbar = () => {
                 <input className="search-input" type="text" placeholder="Search categories of orders" />
             </div>
             <div>
-                <h2 className="logout">Logout</h2>
+                <h2 className="logout" onClick={()=>handleLogOut()}>Logout</h2>
             </div>
             <div className="notif-bell">
                 <IoMdNotificationsOutline className="notif-icon" size={iconSize} />
