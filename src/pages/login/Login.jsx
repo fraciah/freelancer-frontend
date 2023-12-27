@@ -8,6 +8,7 @@ import { useState, useEffect, useRef } from 'react';
 import LoadingDots from "../../icons/loading-dots";
 import { toast } from "react-hot-toast"
 import gigitise from '../../../public/gigitise.svg';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const iconSize = 30;
@@ -67,6 +68,12 @@ const Login = () => {
           {loading ? <LoadingDots color="#1387E6" size={15} /> : 'Sign In'}
         </button>
       </form>
+      <div className='register-prompt'>
+                        
+                        <article className='reset-password'>
+                            <Link to='/'>Forgot password</Link>
+                        </article>
+                    </div>
 
     </div>
     </div>
