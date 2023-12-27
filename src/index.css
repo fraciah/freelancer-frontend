@@ -2,6 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+* {
+    --fontsize-normal: 0.95rem;
+    --fontsize-small:  0.90rem;
+    --primary-color:#0360d1;
+    /* --secondary-color:#a7caff; */
+    --secondary-color: #7fc2f5;
+    --complementary:#eb7100;
+    --text-color:#535354;
+    --background: #f7fafc;
+    --green-var:#14a014;
+  }
+  
+  :root {
     font-family:'Poppins', sans-serif;
-}
+    line-height: 1.5;
+    font-weight: 300;  
+    font-size: var(--fontsize-normal);
+    color: var(--text-color);
+    letter-spacing: 0.2px;
+  }
+  
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  
+  
+  h1 {
+    margin: 0;
+    padding: 0;
+  }
+  
+  
+  /* Skeleton animation */
+  
+  @keyframes skeleton-loading {
+    0% {
+      background-color: hsl(202, 16%, 86%);
+    }
+  
+    100% {
+      background-color: hsl(200, 20%, 95%);
+    }
+    
+  }
