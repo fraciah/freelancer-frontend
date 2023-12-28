@@ -3,15 +3,41 @@ import { useNavigate } from "react-router-dom";
 import gigitise from '../../../public/gigitise.svg';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { useAuthContext } from '../../providers/AuthProvider';
+import { useOrderContext } from '../../providers/OrderProvider';
+// import { useNotificationContext } from '../../providers/NotificationProvider';
 import './navbar.css';
 
 const Navbar = () => {
     const iconSize = 28;
     const { loadingUserProfile, loadedUserProfile, handleLogOut } = useAuthContext();
     const [userProfile, setUserProfile] = useState(loadedUserProfile);
+    
+    const { orders } = useOrderContext();
+    // console.log("orders",orders);
 
+    // const { unreadNotif } = useNotificationContext();
+    // console.log("Unread",unreadNotif);
 
     const navigate = useNavigate();
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+
+    const searchOrdersFromQuery = (input) => {
+        setSearchQuery(input);
+
+        const filteredSuggestions = orders.filter((order)=>{
+            return order.title.toLowerCase().includes(searchQuery.toLowerCase())
+        })
+
+        setSuggestions(filteredSuggestions.slice(0,5));
+
+    }
+    const goToOrder = (id) => {
+        setSearchQuery('');
+        setSuggestions([]);
+        navigate(`./order/${id}`);
+    }
 
     return(
         <div className="nav">
@@ -20,7 +46,22 @@ const Navbar = () => {
                 <h2>Gigitise</h2>
             </div>
             <div className="search-nav">
-                <input className="search-input" type="text" placeholder="Search categories of orders" />
+                <input className="search-input" onChange={(e)=>searchOrdersFromQuery(e.target.value)}
+                type="text" placeholder="Search categories of orders" />
+                {
+                    (suggestions.length > 0 && searchQuery) && 
+                    <div className='suggestions'>
+                        {
+                            suggestions?.map((suggestedOrder, index)=>{
+                                return(
+                                    <div className='suggested' key={index} onClick={()=>goToOrder(suggestedOrder.id)}>
+                                        <article>{suggestedOrder.title}</article>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                }
             </div>
             <div>
                 <h2 className="logout" onClick={()=>handleLogOut()}>Logout</h2>
