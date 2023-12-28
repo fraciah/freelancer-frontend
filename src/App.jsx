@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { useAuthContext } from './providers/AuthProvider';
 import Navbar from './components/navbar/Navbar';
 import Dashboard from './pages/dashboard/Dashboard';
+import Profile from './pages/profile/Profile';
 
 function App() {
   const { userToken } = useAuthContext();
@@ -12,8 +13,9 @@ function App() {
     return (
       <>
         <Navbar />
-        <Dashboard />
+        {/* <Dashboard /> */}
         <Routes>
+          <Route path='profile' element={<Profile/>}/>
           {/* Dashboard route here */}
           {/* Profile route here */}
           {/* ...etc... */}
@@ -24,7 +26,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/app' element={userToken?<Main/>:<Login/>}/>
+        <Route path='/app/*' element={userToken?<Main/>:<Login/>}/>
       </Routes>
     </>
   )
