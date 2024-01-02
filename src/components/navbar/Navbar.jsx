@@ -2,40 +2,83 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import gigitise from '../../../public/gigitise.svg';
 import { IoMdNotificationsOutline } from 'react-icons/io';
+import { useAuthContext } from '../../providers/AuthProvider';
+import { useOrderContext } from '../../providers/OrderProvider';
+// import { useNotificationContext } from '../../providers/NotificationProvider';
 import './navbar.css';
 
 const Navbar = () => {
-  const iconSize = 28;
-  const [username, setUsername] = useState('Username');
-  const [profilePhoto, setProfilePhoto] = useState(null);
+    const iconSize = 28;
+    const { loadingUserProfile, loadedUserProfile, handleLogOut } = useAuthContext();
+    const [userProfile, setUserProfile] = useState(loadedUserProfile);
+    
+    const { orders } = useOrderContext();
+    // console.log("orders",orders);
 
-  const navigate = useNavigate();
+    // const { unreadNotif } = useNotificationContext();
+    // console.log("Unread",unreadNotif);
 
-  return (
-    <div className="nav">
-        <div style={{ cursor: 'pointer' }} className="heading-container">
-            <img src={gigitise} className="logo-img" alt="gigitise-img" />
-            <h2>Gigitise</h2>
+    const navigate = useNavigate();
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+
+    const searchOrdersFromQuery = (input) => {
+        setSearchQuery(input);
+
+        const filteredSuggestions = orders.filter((order)=>{
+            return order.title.toLowerCase().includes(searchQuery.toLowerCase())
+        })
+
+        setSuggestions(filteredSuggestions.slice(0,5));
+
+    }
+    const goToOrder = (id) => {
+        setSearchQuery('');
+        setSuggestions([]);
+        navigate(`./order/${id}`);
+    }
+
+    return(
+        <div className="nav">
+            <div className="heading-container">
+                <img src={gigitise} className="logo-img" alt="gigitise-logo" />
+                <h2>Gigitise</h2>
+            </div>
+            <div className="search-nav">
+                <input className="search-input" onChange={(e)=>searchOrdersFromQuery(e.target.value)}
+                type="text" placeholder="Search categories of orders" />
+                {
+                    (suggestions.length > 0 && searchQuery) && 
+                    <div className='suggestions'>
+                        {
+                            suggestions?.map((suggestedOrder, index)=>{
+                                return(
+                                    <div className='suggested' key={index} onClick={()=>goToOrder(suggestedOrder.id)}>
+                                        <article>{suggestedOrder.title}</article>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                }
+            </div>
+            <div>
+                <h2 className="logout" onClick={()=>handleLogOut()}>Logout</h2>
+            </div>
+            <div className="notif-bell">
+                <IoMdNotificationsOutline className="notif-icon" size={iconSize} />
+            </div>
+            <div className="profile-info" onClick={() => navigate('./profile')}>
+                <article style={{width: loadingUserProfile?'3rem':''}}>{userProfile?.username}</article>
+                {
+                userProfile?.profile_photo?
+                <img src={userProfile?.profile_photo} alt="profile cover" />:
+                <article className='img-placeholder'>{userProfile && `${(userProfile?.username?.charAt(0)?.toUpperCase() + userProfile?.username.slice(1).slice(0,1))}`}</article>
+                }
+            </div>
         </div>
-        <div className="search-nav">
-            <input className="search-input" type="text" placeholder="Search categories of orders" />
-        </div>
-        <div>
-            <h2 className="logout">Logout</h2>
-        </div>
-        <div className="notif-bell">
-            <IoMdNotificationsOutline className="notif-icon" size={iconSize} />
-        </div>
-        <div className="profile" onClick={() => navigate('./profile')}>
-            <article>{username}</article>
-            {profilePhoto ? (
-                <img src={profilePhoto} alt="ProfileImg" />
-            ) : (
-                <article className="img-placeholder">{username.slice(0, 1).toUpperCase()}{username.slice(1, 2).toLowerCase()}</article>
-            )}
-        </div>
-    </div>
-  );
+    );
 };
 
 export default Navbar;
