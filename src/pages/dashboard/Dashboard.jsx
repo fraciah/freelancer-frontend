@@ -23,9 +23,8 @@ const FreelancerDashboard = () => {
         <div class="flex flex-col flex-1 overflow-y-auto">
             <nav class="flex-1 px-2 py-4 bg-[#7fc2f5] rounded-lg">
             
-                <a href=""  onClick={()=>setCurrentPage(0)}
-              class={`flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700 ${
-                (currentPage == 0) && 'bg-gray-700'
+                <a href="" 
+              class={`flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700 
               }`}>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -34,9 +33,9 @@ const FreelancerDashboard = () => {
                     </svg>
                     Dashboard
                 </a>
-                <a href="#" onClick={() => handlePageChange('inProgress')}
-              class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${
-                currentPage === 'inProgress' && 'bg-gray-700'
+                <a href="#"  onClick={()=>setCurrentPage(0)}
+              class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 rounded-lg ${
+                (currentPage == 0) && 'bg-gray-700'
               }`}>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -46,7 +45,7 @@ const FreelancerDashboard = () => {
                     In progress
                 </a>
                 <a href="#" onClick={()=>setCurrentPage(1)}
-              class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${
+              class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 rounded-lg ${
                 (currentPage == 1) && 'bg-gray-700'
               }`}>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
@@ -56,7 +55,7 @@ const FreelancerDashboard = () => {
                     </svg>
                     Completed
                 </a>
-                <a href="#" onClick={()=>setCurrentPage(2)} class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${(currentPage == 2)} && 'bg-gray-700'`}>
+                <a href="#" onClick={()=>setCurrentPage(2)} class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 rounded-lg ${(currentPage == 2)} && 'bg-gray-700'`}>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
