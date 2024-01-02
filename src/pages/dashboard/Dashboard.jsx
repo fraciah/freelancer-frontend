@@ -3,11 +3,12 @@ import { useOrderContext } from '../../providers/OrderProvider';
 import OrderComponent from '../../components/order-component/OrderComponent';
 import InProgress from '../orders/in-progress/InProgress';
 import Completed from '../orders/completed/Completed';
+import './dashboard.css';
 import Solved from '../solved/Solved';
 
 const FreelancerDashboard = () => {
   const { orders, loading } = useOrderContext();
-  const [currentPage, setCurrentPage] = useState('dashboard');
+  const [currentPage, setCurrentPage] = useState(0); 
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -15,15 +16,16 @@ const FreelancerDashboard = () => {
  
 
   return (
-    <div className="flex h-screen bg-gray-100 pt-[50px]">
+    <div className="flex h-screen  pt-[50px]">
       {/* Sidebar */}
       
-    <div class="hidden md:flex flex-col w-64 bg-white rounded-lg">
+    <div class="hidden md:flex flex-col w-64 rounded-lg">
         <div class="flex flex-col flex-1 overflow-y-auto">
             <nav class="flex-1 px-2 py-4 bg-[#7fc2f5] rounded-lg">
-                <a href=""  onClick={() => handlePageChange('dashboard')}
+            
+                <a href=""  onClick={()=>setCurrentPage(0)}
               class={`flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700 ${
-                currentPage === 'dashboard' && 'bg-gray-700'
+                (currentPage == 0) && 'bg-gray-700'
               }`}>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -43,9 +45,9 @@ const FreelancerDashboard = () => {
                     </svg>
                     In progress
                 </a>
-                <a href="#" onClick={() => handlePageChange('completed')}
+                <a href="#" onClick={()=>setCurrentPage(1)}
               class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${
-                currentPage === 'completed' && 'bg-gray-700'
+                (currentPage == 1) && 'bg-gray-700'
               }`}>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -54,7 +56,7 @@ const FreelancerDashboard = () => {
                     </svg>
                     Completed
                 </a>
-                <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                <a href="#" onClick={()=>setCurrentPage(2)} class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${(currentPage == 2)} && 'bg-gray-700'`}>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -98,18 +100,17 @@ const FreelancerDashboard = () => {
             </div>
           </section>
         ) : (
-          <div>
-          {currentPage === 'inProgress' && <InProgress />}
-          {currentPage === 'completed' && <Completed />}
-          {currentPage === 'dashboard' && (
-            // Orders grid component based on the selected page
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {orders.map((order) => (
-                <OrderComponent key={order.id} content={order} />
-              ))}
+<div className='dashboard'>
+            <div className='actions'>
+                
+
             </div>
-          )}
-        </div>
+            <div className='dashboard-content'>
+                {(currentPage === 0) && <InProgress />}
+                {(currentPage === 1) && <Completed />}
+                {(currentPage === 2) && <Solved />}
+            </div>
+        </div>        
         )}
       </div>
     </div>
