@@ -1,0 +1,45 @@
+/* .notification-float-box {
+    position: absolute;
+    bottom: 5%;
+    left: 1%;
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 8px;
+    width: 25%;
+    cursor: pointer;
+}
+
+.notification-float-box article {
+    max-width: 95%;
+}
+
+.notification-float-box small {
+    align-self: flex-end;
+}
+
+.cross {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    background-color: inherit;
+    z-index: 1;
+    cursor: pointer;
+} */
+
+.app {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.app-main-content {
+    position: inherit;
+    width: 80%;
+}
+
+.routes {
+    padding: 1rem 0;
+}

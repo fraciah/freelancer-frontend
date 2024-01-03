@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useOrderContext } from '../../providers/OrderProvider';
 import OrderComponent from '../../components/order-component/OrderComponent';
-import { MdAdd, MdTaskAlt, MdPendingActions, MdAccessTime } from 'react-icons/md';
 import InProgress from '../orders/in-progress/InProgress';
 import Completed from '../orders/completed/Completed';
 import './dashboard.css';
@@ -10,7 +9,6 @@ import Solved from '../solved/Solved';
 const FreelancerDashboard = () => {
   const { orders, loading } = useOrderContext();
   const [currentPage, setCurrentPage] = useState(0); 
-  const iconSize = 25;
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -19,46 +17,6 @@ const FreelancerDashboard = () => {
 
   return (
     <div className="flex h-screen  pt-[50px]">
-      {/* Sidebar */}
-      
-    <div class="hidden md:flex flex-col w-64 rounded-lg">
-        <div class="flex flex-col flex-1 overflow-y-auto">
-            <nav class="flex-1 px-2 py-4 bg-[#7fc2f5] rounded-lg gap-4">
-            
-                <a href="" 
-              class={`flex items-center px-4 pt-4 pb-2 mt-2 rounded-lg text-gray-100 hover:bg-gray-700  gap-4
-              }`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    Dashboard
-                </a>
-                <a href="#"  onClick={()=>setCurrentPage(0)}
-              class={`flex items-center px-4 pt-4 gap-4 py-2 mt-2 pb-2 text-gray-100 hover:bg-gray-700 rounded-lg ${
-                (currentPage == 0) && 'bg-gray-700'
-              }`}>
-                   <MdPendingActions size={iconSize} className='h-6 w-6 mr-2'/>
-
-                    In progress
-                </a>
-                <a href="#" onClick={()=>setCurrentPage(1)}
-              class={`flex items-center px-4 pt-4 mt-4 pb-2  text-gray-100 hover:bg-gray-700 rounded-lg ${
-                (currentPage == 1) && 'bg-gray-700'
-              }`}>
-                   <MdTaskAlt size={iconSize} className='h-6 w-6 mr-2'/>
-                    Completed
-                </a>
-                <a href="#" onClick={()=>setCurrentPage(2)} class={`flex items-center px-4 pt-4 pb-2  mt-4 text-gray-100 hover:bg-gray-700 rounded-lg ${(currentPage == 2)} && 'bg-gray-700'`}>
-                <MdAccessTime size={iconSize} className='h-6 w-6 mr-2'/>
-                    solved
-                </a>
-            </nav>
-        </div>
-    </div>
-
-
       {/* Dashboard content */}
       <div className="flex-1 overflow-x-hidden ">
         {loading ? (
@@ -90,10 +48,8 @@ const FreelancerDashboard = () => {
             </div>
           </section>
         ) : (
-<div className='dashboard'>
+        <div className='dashboard'>
             <div className='actions'>
-                
-
             </div>
             <div className='dashboard-content'>
                 {(currentPage === 0) && <InProgress />}
@@ -108,3 +64,4 @@ const FreelancerDashboard = () => {
 };
 
 export default FreelancerDashboard;
+
