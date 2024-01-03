@@ -9,10 +9,11 @@ import { timeAgo } from '../../../utils/helpers/TimeAgo';
 import './profile.css';
 
 const Profile = () => {
-    // console.log("profile rendered");
     const { loadingUserProfile, loadedUserProfile, submitNewBio, uploadProfilePhoto } = useAuthContext();
 
     const [userProfile, setUserProfile] = useState(loadedUserProfile);
+
+    const { ordersCompleted, ordersInProgress, } = useOrderContext();
 
     const [editBio, setEditBio] = useState(false);
     const [editedBio, setEditedBio] = useState(userProfile?.bio);
@@ -111,21 +112,21 @@ const Profile = () => {
                             <MdTaskAlt className='text-sky-300' size={iconSize}/>
                             <article>Total Orders</article>
                         </div>
-                        <article className=''>*</article>
+                        <article className=''>{userProfile?.orders_count}</article>
                     </div>
                     <div className='justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdPendingActions className='text-sky-300' size={iconSize}/>
                             <article>Orders in Progress</article>
                         </div>
-                        <article className=''>*</article>
+                        <article className=''>{ordersInProgress.length}</article>
                     </div>
                     <div className='justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdOutlineAddTask className='text-sky-300' size={iconSize}/>
                             <article>Orders completed</article>
                         </div>
-                        <article className=''>*</article>
+                        <article className=''>{ordersCompleted?.length}</article>
                     </div>
                     <div className='justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
