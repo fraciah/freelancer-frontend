@@ -77,12 +77,35 @@
 .logout:hover{
   border: solid 1px var(--primary-color);
 }
-.notif-bell{
-  cursor: pointer;
+.notif-bell {
+  position: relative;
+  padding: 0.3rem;
+  transition: transform 0.5 ease-in-out;
+}
+.notif-bell:hover {
+  transform: rotate(10deg);
 }
 .notif-icon{
   color: var(--primary-color);
 }
+.notif-bell div {
+  position: absolute;
+  display: flex;
+  top: 4%;    
+  left: 1.1rem;    
+  background-color: red;    
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+}
+.notif-bell div article {
+  color: white;
+  font-size: 0.8rem;
+}
+
 .profile-info{
   display: flex;
   justify-content: center;
