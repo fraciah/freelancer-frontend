@@ -23,10 +23,10 @@ const FreelancerDashboard = () => {
       
     <div class="hidden md:flex flex-col w-64 rounded-lg">
         <div class="flex flex-col flex-1 overflow-y-auto">
-            <nav class="flex-1 px-2 py-4 bg-[#7fc2f5] rounded-lg">
+            <nav class="flex-1 px-2 py-4 bg-[#7fc2f5] rounded-lg gap-4">
             
                 <a href="" 
-              class={`flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700 
+              class={`flex items-center px-4 pt-4 pb-2 mt-2 rounded-lg text-gray-100 hover:bg-gray-700  gap-4
               }`}>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -36,7 +36,7 @@ const FreelancerDashboard = () => {
                     Dashboard
                 </a>
                 <a href="#"  onClick={()=>setCurrentPage(0)}
-              class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 rounded-lg ${
+              class={`flex items-center px-4 pt-4 gap-4 py-2 mt-2 pb-2 text-gray-100 hover:bg-gray-700 rounded-lg ${
                 (currentPage == 0) && 'bg-gray-700'
               }`}>
                    <MdPendingActions size={iconSize} className='h-6 w-6 mr-2'/>
@@ -44,13 +44,13 @@ const FreelancerDashboard = () => {
                     In progress
                 </a>
                 <a href="#" onClick={()=>setCurrentPage(1)}
-              class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 rounded-lg ${
+              class={`flex items-center px-4 pt-4 mt-4 pb-2  text-gray-100 hover:bg-gray-700 rounded-lg ${
                 (currentPage == 1) && 'bg-gray-700'
               }`}>
                    <MdTaskAlt size={iconSize} className='h-6 w-6 mr-2'/>
                     Completed
                 </a>
-                <a href="#" onClick={()=>setCurrentPage(2)} class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 rounded-lg ${(currentPage == 2)} && 'bg-gray-700'`}>
+                <a href="#" onClick={()=>setCurrentPage(2)} class={`flex items-center px-4 pt-4 pb-2  mt-4 text-gray-100 hover:bg-gray-700 rounded-lg ${(currentPage == 2)} && 'bg-gray-700'`}>
                 <MdAccessTime size={iconSize} className='h-6 w-6 mr-2'/>
                     solved
                 </a>
