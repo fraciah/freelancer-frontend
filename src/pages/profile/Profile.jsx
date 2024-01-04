@@ -78,9 +78,6 @@ const Profile = () => {
 
     return (
     <div className='h-screen flex mt-14'>
-        <div className='w-64 bg-sky-300'>
-            {/* the sidebar */}
-        </div>
         <div className='flex-1 flex flex-col'>
             <div className='p-4 my-10'>
                 <div className='flex gap-3 items-center'>

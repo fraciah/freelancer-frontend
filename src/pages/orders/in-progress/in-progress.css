@@ -1,3 +1,5 @@
+
+
 .main-in-progress{
     width: 100%;
     position: relative;
@@ -6,6 +8,9 @@
     grid-template-columns: repeat(3, 30%);
     gap: 1rem;
     align-items: center;
+    margin-top: 70px;
+    margin-left: 10px;
+    
     
 }
 
