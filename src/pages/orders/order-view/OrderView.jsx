@@ -1,10 +1,10 @@
 import React from 'react';
 import './orderview.css';
 import { IoMdDownload } from "react-icons/io";
-import Chat from '../../../../components/main/chat/Chat';
+import Chat from '../../../components/chat/Chat';
 import { MdModeEdit } from "react-icons/md";
 import { useParams } from 'react-router-dom';
-import { useOrderContext } from '../../../../providers/OrderProvider';
+import { useOrderContext } from '../../../providers/OrderProvider';
 import { timeAgo } from '../../../../utils/helpers/TimeAgo';
 import { MdAdd } from "react-icons/md";
 import { useState } from 'react';
@@ -14,7 +14,7 @@ import { useRef } from 'react';
 import { VscFile } from "react-icons/vsc";
 import OrderSkeletonLoading from '../../loading/OrderSkeletonLoading';
 import PulseLoader from "react-spinners/PulseLoader";
-import { useAuthContext } from '../../../../providers/AuthProvider';
+import { useAuthContext } from '../../../providers/AuthProvider';
 
 const OrderView = () => {
 
@@ -41,6 +41,10 @@ const OrderView = () => {
 
     const [editInstructions, setEditInstructions] = useState(false);
     const [editedInstructions, setEditedInstructions] = useState(orderContent?.instructions);
+    const [loadingAttachment, setLoadingAttachment] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState(null);
+ 
+
 
     const toggleInstructionMode =  () => {
         setEditedInstructions(orderContent?.instructions);
@@ -183,7 +187,9 @@ const OrderView = () => {
                                 orderContent?.status === 'In Progress' && 
                                 <button onClick={changeOrderStatus} className='complete-order'>Complete Order</button>
                             }                    
-                        </div>                                                  
+                        </div> 
+                        <h2 className="card-jobtitle">by <a href=""><span>{orderContent.client.user.username}</span></a></h2>
+                                                                         
                             <div  className='order-soln'>
                                 {
                                 orderContent?.solution?
@@ -207,89 +213,59 @@ const OrderView = () => {
                                 </>:
                                     <strong style={{color:'orange'}}>Solution will be uploaded soon</strong>            
                                 }
-                            </div>                                    
+                            </div>     
+
                         <div className="instructions">
                             <strong>
                                 {
                                     orderContent?.status ==='In Progress'?
-                                    (orderContent?.instructions ? 'Instructions':  ('Add Instructions')):
+                                    (orderContent?.instructions ? 'Instructions':  ('No instructions available at the moment.')):
                                     orderContent?.status ==='Completed' && 'Instructions'
                                 } 
-                                {                        
-                                orderContent?.status === 'In Progress' &&  
-                                (
-                                    editInstructions &&(orderContent?.instructions != editedInstructions)?
-                                    <button className='submit-instructions' onClick={updateNewInstructions}>Submit</button>:
-                                    <MdModeEdit className='edit-icon' style={{cursor:'pointer'}} size={iconSize} onClick={toggleInstructionMode}/>
-                                )
-                                }
+                               
                             </strong>
                             {                                                
                                 (
-                                    editInstructions?
-                                    <div style={{width:'100%'}}>
-                                        <textarea placeholder='Tell us about your order!' name="instructions" id="instructions" value={editedInstructions} 
-                                            style={{
-                                                width:'inherit',
-                                                padding:'0.5rem 0', 
-                                                outline:'none', 
-                                                border:'none'
-                                            }}  
-                                            rows="5" readOnly={false}  
-                                            onChange={handleInstructionChange}                                  
-                                        />                                
-                                    </div>:                            
-                                    (
+                                                             
+                                    
                                         orderContent?.instructions &&
                                         <div>                            
                                             <article>                                    
                                                 {orderContent?.instructions}
                                             </article>                                                        
                                         </div>
-                                    )
+                                    
                                 )
                             }
                         </div>
                         {
                             orderContent?.status ==='Completed' && !orderContent?.attachment?null:
                             <div className='attachments'>
-                                {
-                                    orderContent?.attachment &&
-                                    loadingAttachemnt ? 
-                                    <div style={{height:'1.5rem'}}>
-                                        <PulseLoader size={10}  color='#7fc2f5' />
-                                    </div>:
-                                    <strong style={{height:'1.5rem'}}>
-                                        {
-                                            orderContent?.attachment?'Attachments':'Attachments'
-                                        }
-                                        {orderContent?.status ==='In Progress' && <MdAdd onClick={openFileDialog} style={{cursor:'pointer'}} size={20}/>}
-                                        <input onChange={uploadAttachmentFile} ref={fileInputRef} style={{ display: 'none' }} size={20 * 1024 * 1024} type="file" name="" id="" />
-                                    </strong>
-                                }
-                                {
-                                    !orderContent?.attachment &&
-                                    orderContent?.status ==='In Progress' &&
-                                    <div className='upload-div'>
-                                        <article onClick={openFileDialog}>
-                                            <VscFile className='file-icon' size={iconSize}/>                                
-                                            Upload an attachment
-                                            <input onChange={uploadAttachmentFile} ref={fileInputRef} style={{ display: 'none' }} size={20 * 1024 * 1024} type="file" name="" id="" />
-                                            </article>
-                                    </div>
-                                }
-                                {
-                                    orderContent?.attachment &&
-                                    <div>
-                                        <a href={orderContent?.attachment} target='_blank'>
-                                            {
-                                                (orderContent?.attachment)
-                                                .substring(orderContent?.attachment.lastIndexOf('/')+1)  
-                                            }  
-                                        </a>                          
-                                    </div>
-                                }
-                            </div>
+                            {orderContent?.attachment && loadingAttachment ? (
+                              <div style={{ height: '1.5rem' }}>
+                                <PulseLoader size={10} color='#7fc2f5' />
+                              </div>
+                            ) : (
+                              <strong style={{ height: '1.5rem' }}>
+                                {orderContent?.attachment ? 'Attachments' : 'Attachments'}
+                                {orderContent?.status === 'In Progress' }
+                              </strong>
+                            )}
+                            {!orderContent?.attachment && orderContent?.status === 'In Progress' && (
+                              <div className='upload-div'>
+                                <article onClick={openFileDialog}>
+                                  No Attachments available at the moment.
+                                </article>
+                              </div>
+                            )}
+                            {orderContent?.attachment && (
+                              <div>
+                                <a href={orderContent?.attachment} target='_blank' download>
+                                  {orderContent?.attachment.substring(orderContent?.attachment.lastIndexOf('/') + 1)}
+                                </a>
+                              </div>
+                            )}
+                          </div>
                         }
                     </div>
                     <Chat orderId={orderId} client={orderContent.client} freelancer={orderContent.freelancer} />
