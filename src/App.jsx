@@ -8,7 +8,7 @@ import Navbar from './components/navbar/Navbar';
 import SideNav from './components/sidenav/SideNav';
 import Completed from './pages/orders/completed/Completed';
 import InProgress from './pages/orders/in-progress/InProgress';
-
+import Profile from './pages/profile/Profile';
 
 function App() {
   const { userToken } = useAuthContext();
@@ -26,6 +26,8 @@ function App() {
                 <Route path='/' element={<Dashboard />}/> 
                 <Route path='/in-progress' element={<InProgress/>}/> 
                 <Route path='/completed'element={<Completed/>}/>
+                <Route path='/profile'element={<Profile/>}/>
+                
               </Routes> 
             </div>   
           </div>                  
