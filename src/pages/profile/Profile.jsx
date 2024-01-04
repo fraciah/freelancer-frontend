@@ -77,7 +77,7 @@ const Profile = () => {
     const iconSize = 25;
 
     return (
-    <div className='h-screen flex mt-14'>
+    <div className='flex mt-14'>
         <div className='flex-1 flex flex-col'>
             <div className='p-4 my-10'>
                 <div className='flex gap-3 items-center'>
