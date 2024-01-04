@@ -1,7 +1,8 @@
 .order-view {
     position: relative;
-    padding: 0 1rem;
+    padding-top: 60px;
     display: flex;
+    padding-left: 10px;
     /* justify-content: space-between; */
     /* flex-direction: column; */
     /* background-color: red; */
@@ -49,14 +50,28 @@
     width: inherit;
     background-color: var(--secondary-color);
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     color: #f5f5f5;  
     transition: transform 0.3s;  
+    padding: 0.5rem 0.7rem;
+    cursor: pointer;
+    font-size: var(--fontsize-normal);
+    width: fit-content;
 }
 
 .complete-order:hover {
     transform: scale(1.03);
 }
+
+.card-jobtitle {
+    bottom: 0;
+    font-size: 11px;
+    white-space: nowrap;
+    font-weight: 600;
+    
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
 
 .order-soln div div{
     position: inherit;

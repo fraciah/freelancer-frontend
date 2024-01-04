@@ -18,7 +18,7 @@ const SideNav = () => {
                 Gigitise
             </h1>
             <div className='actions'>
-                <Link to='./in-progress' className="nav-item ">
+                <Link to='/app' className="nav-item ">
                     <FiMenu size={iconSize}/>
                     Dashboard
                 </Link>
