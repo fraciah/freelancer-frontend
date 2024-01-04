@@ -17,57 +17,6 @@ const FreelancerDashboard = () => {
 
   return (
     <div className="flex h-screen  pt-[50px]">
-      {/* Sidebar */}
-      
-    <div class="hidden md:flex flex-col w-64 rounded-lg">
-        <div class="flex flex-col flex-1 overflow-y-auto">
-            <nav class="flex-1 px-2 py-4 bg-[#7fc2f5] rounded-lg">
-            
-                <a href="" 
-              class={`flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700 
-              }`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    Dashboard
-                </a>
-                <a href="#"  onClick={()=>setCurrentPage(0)}
-              class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 rounded-lg ${
-                (currentPage == 0) && 'bg-gray-700'
-              }`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                    In progress
-                </a>
-                <a href="#" onClick={()=>setCurrentPage(1)}
-              class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 rounded-lg ${
-                (currentPage == 1) && 'bg-gray-700'
-              }`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    Completed
-                </a>
-                <a href="#" onClick={()=>setCurrentPage(2)} class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 rounded-lg ${(currentPage == 2)} && 'bg-gray-700'`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    solved
-                </a>
-            </nav>
-        </div>
-    </div>
-
-
       {/* Dashboard content */}
       <div className="flex-1 overflow-x-hidden ">
         {loading ? (
@@ -99,10 +48,8 @@ const FreelancerDashboard = () => {
             </div>
           </section>
         ) : (
-<div className='dashboard'>
+        <div className='dashboard'>
             <div className='actions'>
-                
-
             </div>
             <div className='dashboard-content'>
                 {(currentPage === 0) && <InProgress />}
