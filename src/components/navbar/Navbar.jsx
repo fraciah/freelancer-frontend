@@ -4,7 +4,7 @@ import gigitise from '../../../public/gigitise.svg';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { useAuthContext } from '../../providers/AuthProvider';
 import { useOrderContext } from '../../providers/OrderProvider';
-// import { useNotificationContext } from '../../providers/NotificationProvider';
+import { useNotificationContext } from '../../providers/NotificationProvider';
 import './navbar.css';
 
 const Navbar = () => {
@@ -13,9 +13,9 @@ const Navbar = () => {
     const [userProfile, setUserProfile] = useState(loadedUserProfile);
     
     const { orders } = useOrderContext();
-    // console.log("orders",orders);
+    console.log("orders",orders);
 
-    // const { unreadNotif } = useNotificationContext();
+    const { unreadNotif } = useNotificationContext();
     // console.log("Unread",unreadNotif);
 
     const navigate = useNavigate();
@@ -66,9 +66,21 @@ const Navbar = () => {
             <div>
                 <h2 className="logout" onClick={()=>handleLogOut()}>Logout</h2>
             </div>
-            <div className="notif-bell">
-                <IoMdNotificationsOutline className="notif-icon" size={iconSize} />
-            </div>
+            <div className='notif-bell' style={{cursor:'pointer'}} onClick={()=>navigate('./notifications')} >
+                <IoMdNotificationsOutline className='notif-icon'  size={iconSize}/>
+                {
+                    unreadNotif.length > 0 &&
+                    <div>
+                        <article>
+                            {
+                            unreadNotif.length > 9?
+                            '9+':
+                            unreadNotif.length
+                            }
+                        </article>
+                    </div>
+                }
+            </div> 
             <div className="profile-info" onClick={() => navigate('./profile')}>
                 <article style={{width: loadingUserProfile?'3rem':''}}>{userProfile?.username}</article>
                 {
