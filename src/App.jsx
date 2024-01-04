@@ -9,8 +9,9 @@ import SideNav from './components/sidenav/SideNav';
 import Completed from './pages/orders/completed/Completed';
 import InProgress from './pages/orders/in-progress/InProgress';
 
+
 function App() {
-  const { userToken, loadedUserProfile } = useAuthContext();
+  const { userToken } = useAuthContext();
 
   const Main = ()  => {
 
@@ -28,10 +29,7 @@ function App() {
               </Routes> 
             </div>   
           </div>                  
-        </main> 
-        {
-          loadedUserProfile?.is_verified === 'False' && <ActivateAccount token={userToken} email={loadedUserProfile?.email}/>
-        }       
+        </main>       
       </>
     )
   }
