@@ -9,6 +9,7 @@ import SideNav from './components/sidenav/SideNav';
 import Completed from './pages/orders/completed/Completed';
 import InProgress from './pages/orders/in-progress/InProgress';
 import Profile from './pages/profile/Profile';
+import Notification from './pages/notification/Notification';
 import OrderView from './pages/orders/order-view/OrderView';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                 <Route path='/in-progress' element={<InProgress/>}/> 
                 <Route path='/completed'element={<Completed/>}/>
                 <Route path='/profile'element={<Profile/>}/>
+                <Route path='/notifications'element={<Notification/>}/>
                 <Route path='/order/:orderId' element={<OrderView/>}/>
               </Routes> 
             </div>   
