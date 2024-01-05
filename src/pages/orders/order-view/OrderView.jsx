@@ -219,7 +219,7 @@ const OrderView = () => {
                 </div>
             </a>
             <IoMdDownload onClick={downloadFile} className='cursor-pointer' size={iconSize} />
-            <article className='text-gray-500'>{uploadedAt}</article>
+            <span className='text-gray-500 align-baseline'>{uploadedAt}</span>
         </div>
         )}
     </div>
