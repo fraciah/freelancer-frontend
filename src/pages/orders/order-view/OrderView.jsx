@@ -152,11 +152,7 @@ const OrderView = () => {
                         <div className='order-elements'>
                             <article>{orderContent?.category}</article>
                             <strong>{!loading && ('$'+orderContent?.amount)}</strong>
-                            <article className='status'>{orderContent?.status}</article>
-                            {
-                                orderContent?.status === 'In Progress' && 
-                                <button onClick={changeOrderStatus} className='complete-order'>Complete Order</button>
-                            }                    
+                            <article className='status'>{orderContent?.status}</article>                   
                         </div> 
                         <h2 className="card-jobtitle">by <a href=""><span>{orderContent.client.user.username}</span></a></h2>
                                                                          
@@ -219,7 +215,7 @@ const OrderView = () => {
                 </div>
             </a>
             <IoMdDownload onClick={downloadFile} className='cursor-pointer' size={iconSize} />
-            <span className='text-gray-500 align-baseline'>{uploadedAt}</span>
+            <span className='text-gray-500 '>{uploadedAt}</span>
         </div>
         )}
     </div>
