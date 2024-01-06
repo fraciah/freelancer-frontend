@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import gigitise from '../../../public/gigitise.svg';
-import { IoMdNotificationsOutline } from 'react-icons/io';
+import { IoMdNotificationsOutline, IoMdSettings } from 'react-icons/io';
 import { useAuthContext } from '../../providers/AuthProvider';
 import { useOrderContext } from '../../providers/OrderProvider';
 import { useNotificationContext } from '../../providers/NotificationProvider';
@@ -77,6 +77,9 @@ const Navbar = () => {
                             </article>
                         </div>
                     }
+                </div>
+                <div className='settings'>
+                    <IoMdSettings className='settings-icon' onClick={()=>navigate('./settings')} style={{cursor:'pointer'}} size={iconSize}/>
                 </div>
                 <div className="profile-info" onClick={() => navigate('./profile')}>
                     <article style={{width: loadingUserProfile?'3rem':''}}>{userProfile?.username}</article>
