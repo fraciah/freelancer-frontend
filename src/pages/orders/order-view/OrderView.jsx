@@ -154,71 +154,69 @@ const OrderView = () => {
                             <strong>{!loading && ('$'+orderContent?.amount)}</strong>
                             <article className='status'>{orderContent?.status}</article>                   
                         </div> 
-                        <h2 className="card-jobtitle">by <a href=""><span>{orderContent.client.user.username}</span></a></h2>
-                                                                         
-                            
+                        <h2 className="card-jobtitle">by <a href=""><span>{orderContent.client.user.username}</span></a></h2>                                                                                                     
                         <div className='order-soln'>
                         {orderContent?.solution && loadingAttachemnt ? (
-    <div className="h-6 w-full rounded-md bg-indigo-100 animate-pulse"></div>
-) : (
-    <div className='flex items-center justify-between h-6'>
-        <strong className="h-6">
-            {orderContent?.solution ? 'Solutions' : 'Solutions'}
-            {orderContent?.status === 'In Progress' && (
-                <>
-                    <input
-                        onChange={uploadAttachmentFile}
-                        ref={fileInputRef}
-                        className="hidden"
-                        size={20 * 1024 * 1024}
-                        type="file"
-                        name=""
-                        id=""
-                    />
-                    <span className='ml-6 text-sm text-gray-500 '>solution type:</span>
-                    <select
-                        onChange={(e) => setSolutionType(e.target.value)}
-                        value={solutionType}
-                        className="ml-2 border rounded-md text-sm "
-                    >
-                        <option value="Draft">Draft</option>
-                        <option value="Final">Final</option>
-                    </select>
-                </>
-            )}
-        </strong>
-    </div>
-)}
+                            <div className="h-6 w-full rounded-md bg-indigo-100 animate-pulse"></div>
+                        ) : (
+                            <div className='solution flex items-center justify-between h-6'>
+                                <strong className="h-6">
+                                    {orderContent?.solution ? 'Solutions' : 'Solutions'}
+                                    {orderContent?.status === 'In Progress' && (
+                                        <>
+                                            <input
+                                                onChange={uploadAttachmentFile}
+                                                ref={fileInputRef}
+                                                className="hidden"
+                                                size={20 * 1024 * 1024}
+                                                type="file"
+                                                name=""
+                                                id=""
+                                            />
+                                            <span className='ml-6 text-sm text-gray-500 '>solution type:</span>
+                                            <select
+                                                onChange={(e) => setSolutionType(e.target.value)}
+                                                value={solutionType}
+                                                className="ml-2 border rounded-md text-sm "
+                                            >
+                                                <option value="Draft">Draft</option>
+                                                <option value="Final">Final</option>
+                                            </select>
+                                        </>
+                                    )}
+                                </strong>
+                            </div>
+                        )}
 
-    {!orderContent?.solution && orderContent?.status === 'In Progress' && (
-    <div className='upload-div' style={{ color: 'orange' }}>
-      <article onClick={openFileDialog}>
-        <VscFile className='file-icon' size={iconSize} />
-        Upload your draft or final solution
-        <input onChange={uploadAttachmentFile} ref={fileInputRef} className="hidden" size={20 * 1024 * 1024} type="file" name="" id="" />
-      </article>
-    </div>
-  )}
-  {orderContent?.solution && (
-    <div className="solution-details mt-2 flex items-center gap-8 text-xs ml-[200px] pb-6 justify-end">
-            <a href={orderContent?.solution?.solution} id='solution-file' rel="noopener noreferrer" download className="block rounded-lg p-4 shadow-sm bg-white" >
-                {typeof orderContent?.solution?.solution === 'string' ?
-                 orderContent?.solution?.solution.substring(orderContent?.solution?.solution.lastIndexOf('/') + 1)
-                : ''}
-                    <div className="mt-2">
-                    <dl>
-                        <div>
-                            <dt className="sr-only">Type</dt>
-                            <dd className="text-sm text-gray-500">{orderContent?.solution?._type}</dd>
+                        {!orderContent?.solution && orderContent?.status === 'In Progress' && (
+                        <div className='upload-div' style={{ color: 'orange' }}>
+                            <article onClick={openFileDialog}>
+                                <VscFile className='file-icon' size={iconSize} />
+                                Upload solution
+                                <input onChange={uploadAttachmentFile} ref={fileInputRef} className="hidden" size={20 * 1024 * 1024} type="file" name="" id="" />
+                            </article>
                         </div>
-                    </dl>
-                </div>
-            </a>
-            <IoMdDownload onClick={downloadFile} className='cursor-pointer' size={iconSize} />
-            <span className='text-gray-500 '>{uploadedAt}</span>
-        </div>
-        )}
-    </div>
+                        )}
+                    {orderContent?.solution && (
+                        <div className="solution-details mt-2 flex items-center gap-8 text-xs ml-[200px] pb-6 justify-end">
+                                <a href={orderContent?.solution?.solution} id='solution-file' rel="noopener noreferrer" download className="block rounded-lg p-4 shadow-sm bg-white" >
+                                    {typeof orderContent?.solution?.solution === 'string' ?
+                                    orderContent?.solution?.solution.substring(orderContent?.solution?.solution.lastIndexOf('/') + 1)
+                                    : ''}
+                                        <div className="mt-2">
+                                        <dl>
+                                            <div>
+                                                <dt className="sr-only">Type</dt>
+                                                <dd className="text-sm text-gray-500">{orderContent?.solution?._type}</dd>
+                                            </div>
+                                        </dl>
+                                    </div>
+                                </a>
+                                <IoMdDownload onClick={downloadFile} className='cursor-pointer' size={iconSize} />
+                                <span className='text-gray-500 '>{uploadedAt}</span>
+                            </div>
+                            )}
+                        </div>
 
                         <div className="instructions">
                             <strong>
