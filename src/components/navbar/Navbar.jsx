@@ -58,33 +58,35 @@ const Navbar = () => {
                         }
                     </div>
                 }
-            </div>
-            <div>
-                <h2 className="logout" onClick={()=>handleLogOut()}>Logout</h2>
-            </div>
-            <div className='notif-bell' style={{cursor:'pointer'}} onClick={()=>navigate('./notifications')} >
-                <IoMdNotificationsOutline className='notif-icon'  size={iconSize}/>
-                {
-                    unreadNotif.length > 0 &&
-                    <div>
-                        <article>
-                            {
-                            unreadNotif.length > 9?
-                            '9+':
-                            unreadNotif.length
-                            }
-                        </article>
-                    </div>
-                }
-            </div> 
-            <div className="profile-info" onClick={() => navigate('./profile')}>
-                <article style={{width: loadingUserProfile?'3rem':''}}>{userProfile?.username}</article>
-                {
-                userProfile?.profile_photo?
-                <img src={userProfile?.profile_photo} alt="profile cover" />:
-                <article className='img-placeholder'>{userProfile && `${(userProfile?.username?.charAt(0)?.toUpperCase() + userProfile?.username.slice(1).slice(0,1))}`}</article>
-                }
-            </div>
+            </div>             
+            <div className="profile">
+                <div>
+                    <h2 className="logout" onClick={()=>handleLogOut()}>Logout</h2>
+                </div>
+                <div className='notif-bell' style={{cursor:'pointer'}} onClick={()=>navigate('./notifications')} >
+                    <IoMdNotificationsOutline className='notif-icon'  size={iconSize}/>
+                    {
+                        unreadNotif.length > 0 &&
+                        <div>
+                            <article>
+                                {
+                                unreadNotif.length > 9?
+                                '9+':
+                                unreadNotif.length
+                                }
+                            </article>
+                        </div>
+                    }
+                </div>
+                <div className="profile-info" onClick={() => navigate('./profile')}>
+                    <article style={{width: loadingUserProfile?'3rem':''}}>{userProfile?.username}</article>
+                    {
+                    userProfile?.profile_photo?
+                    <img src={userProfile?.profile_photo} alt="profile cover" />:
+                    <article className='img-placeholder'>{userProfile && `${(userProfile?.username?.charAt(0)?.toUpperCase() + userProfile?.username.slice(1).slice(0,1))}`}</article>
+                    }
+                </div>
+            </div>            
         </div>
     );
 };
