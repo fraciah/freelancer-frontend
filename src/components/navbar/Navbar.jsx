@@ -40,11 +40,7 @@ const Navbar = () => {
     }
 
     return(
-        <div className="nav">
-            <div className="heading-container">
-                <img src={gigitise} className="logo-img" alt="gigitise-logo" />
-                <h2>Gigitise</h2>
-            </div>
+        <div className="nav">           
             <div className="search-nav">
                 <input className="search-input" onChange={(e)=>searchOrdersFromQuery(e.target.value)}
                 type="text" placeholder="Search categories of orders" />

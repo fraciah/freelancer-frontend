@@ -1,30 +1,20 @@
 * {
   --fontsize-small:  0.90rem;
   --fontsize-normal: 0.95rem;
-  --primary-color: #7fc2f5;
+  --secondary-color: #7fc2f5;
 }
 .nav{
-    /* background-color: #ecf0f3; */
-    height: 50px;
-    width: 100%;
-    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    color: gray;
+    position: sticky;
     top: 0;
     left: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 28px 45px 28px 20px;
-    box-sizing: border-box;
-    color: gray;
-}
-.heading-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.heading-container h2{
-  font-size: 2.2rem;
+    background-color: #fff;
+    z-index: 1;
+    height: 10vh;
 }
 .logo-img{
     height: 3rem;
@@ -32,20 +22,20 @@
     margin-right: 10px;
 }
 .search-nav{
-  width: 35%;
+  position: inherit;
+  width: 45%;
 }
 .search-input{
-  height: 90%;
-  background-color: #fff;
-  padding: 0.5rem 0.6rem;
-  border-radius: 2rem;
-  border: solid 1px var(--primary-color);
-  font-size: var(--fontsize-small);
-  caret-color: #000;
-  color: #000;
+  position: relative;    
+    width: 100%;
+    padding: 0.7rem 0.8rem;
+    border-radius: 2rem;
+    border: solid 1px var(--secondary-color);
+    font-size: var(--fontsize-normal);
+    outline-color: var(--secondary-color);
 }
 .search-input:focus{
-  border: solid 2px var(--primary-color);
+  border: solid 2px var(--secondary-color);
 }
 .suggestions {
   position: absolute;
@@ -71,11 +61,11 @@
   background-color: #ECF0F3;
   padding: 4px 6px;
   font-weight: 300;
-  color: var(--primary-color);
+  color: var(--secondary-color);
   cursor: pointer;
 }
 .logout:hover{
-  border: solid 1px var(--primary-color);
+  border: solid 1px var(--secondary-color);
 }
 .notif-bell {
   position: relative;
@@ -86,7 +76,7 @@
   transform: rotate(10deg);
 }
 .notif-icon{
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 .notif-bell div {
   position: absolute;
@@ -118,7 +108,7 @@
   margin-right: 10px;
 }
 .img-placeholder{
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   color: #fff;
   border-radius: 50%;
   height: 2.5rem;
