@@ -149,35 +149,40 @@ export const OrderProvider = (props) => {
         } finally {}
     }
 
-    const uploadAttachment = async(file, orderId) => {
+    const uploadAttachment = async (file, orderId, solutionType) => {
+        const solutionUrl = `${import.meta.env.VITE_API_URL}/orders/${orderId}`;
         setLoadingAttachment(true);
+      
         try {
-            const data = new FormData();
-            data.append('attachment', file);
-            const response = await fetch(`${ordersUrl}${orderId}/`, {
-                method:'put',
-                headers:{
-                    'Authorization':`Bearer ${userToken}`
-                },
-                body:data
-            })
-
-            if (data.ok) {
-                const dataRes = await response.json();
-                return (dataRes)
-            } else {
-                const status = response.status;
-                if (status===401){
-                    console.log("NOT ALLOWED")
-                    navigate(`../login?order=${orderId}`);
-                }
+          const data = new FormData();
+          data.append('solution', file);
+          data.append('_type', solutionType); // Include the solutionType in the FormData
+      
+          const response = await fetch(`${solutionUrl}/solution/`, {
+            method: 'post',
+            headers: {
+              'Authorization': `Bearer ${userToken}`,
+            },
+            body: data,
+          });
+      
+          if (response.ok) {
+            const dataRes = await response.json();
+            return dataRes;
+          } else {
+            const status = response.status;
+            if (status === 401) {
+              console.log("NOT ALLOWED");
+              navigate(`../login?order=${orderId}`);
             }
+          }
         } catch (error) {
-            console.error(error);
+          console.error(error);
         } finally {
-            setLoadingAttachment(false);
+          setLoadingAttachment(false);
         }
-    }
+      };
+      
 
     const completeOrder = async(orderId) => {
         try {

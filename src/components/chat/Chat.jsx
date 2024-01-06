@@ -75,12 +75,21 @@ const Chat = ({orderId, client, freelancer}) => {
         <div className='chat'>
             <div className="chat-header">
                 <div className="receiver-profile">
-                    {/* <img src="" alt="profile cover" /> */}
-                    <article>Julie Anna</article>      
+                    <article  className='img-chat' >{`${(getReceiver()?.charAt(0)?.toUpperCase() + getReceiver()?.slice(1).slice(0,1))}`}</article>
+                    <div style={{
+                        display:'flex',
+                        flexDirection:'column',
+                    }}>
+                        <article>
+                            {getReceiver()}                    
+                        </article>
                     {
-                        typing && <article>&nbsp; Typing...</article>
-                    }              
-                </div>                                
+                        
+                        typing && <span>Typing...</span>
+                        
+                    }
+                    </div>                          
+                </div>                                               
             </div>
             {
                 (chats?.length > 0)?
@@ -112,7 +121,7 @@ const Chat = ({orderId, client, freelancer}) => {
                 </div>
             }            
             <form className='message-reply-box' onSubmit={submitMessage}>
-                <textarea required type="text" value={msg} ref={messageRef} onChange={checkMsg} placeholder='Type your message' />                
+                <input required type="text" value={msg} ref={messageRef} onChange={checkMsg} placeholder='Type your message' />                
                 <IoSend size={25} type='submit' className={ msg?'submit-message active':'submit-message inactive' }/>
             </form>
         </div>

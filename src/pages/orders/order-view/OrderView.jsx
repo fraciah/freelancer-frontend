@@ -31,50 +31,18 @@ const OrderView = () => {
 
     const {orderId} = useParams();
 
-    const {loadingAttachemnt, updateInstructions, completeOrder, getAllOrders, uploadAttachment } = useOrderContext();
+    const {loadingAttachemnt, completeOrder, getAllOrders, uploadAttachment } = useOrderContext();
 
     const [orderContent, setOrderContent] = useState();
 
     const [loading, setLoading] = useState(true);
       
     const uploadedAt = timeAgo(orderContent?.solution?.created);
+ 
+    const [solutionType, setSolutionType] = useState('Draft'); 
 
-    const [editInstructions, setEditInstructions] = useState(false);
-    const [editedInstructions, setEditedInstructions] = useState(orderContent?.instructions);
-    const [loadingAttachment, setLoadingAttachment] = useState(false);
-  const [uploadStatus, setUploadStatus] = useState(null);
  
 
-
-    const toggleInstructionMode =  () => {
-        setEditedInstructions(orderContent?.instructions);
-        setEditInstructions(!editInstructions);
-    }
-
-    const handleInstructionChange = (e) => {
-        setEditedInstructions(e.target.value);
-    }
-
-    const updateNewInstructions = () => {        
-        updateInstructions(editedInstructions, orderId)        
-        .then((data)=>{
-            if (data) {
-                const updatedOrder = {
-                    ...orderContent,
-                    instructions:data.instructions
-                };    
-                updatedOrder.instructions = data.instructions;            
-                setOrderContent(updatedOrder);
-            }
-            
-        })
-        setEditInstructions(false);
-        // setOrder(getOrder(orderId)); 
-        
-        // useCallback(()=>{
-        //     setRefresh((prev)=>prev+1);
-        // },[])
-    }
 
     const changeOrderStatus = () => {
         completeOrder(orderId)
@@ -101,15 +69,15 @@ const OrderView = () => {
         console.log("Submitted");
         if (attachment) {
             if (attachment.size <= 20 *1024 *1024){
-                uploadAttachment(attachment, orderId)
+                uploadAttachment(attachment, orderId, solutionType)
                 .then((res)=>{
-                    const attachmentUrl = res?.attachment;
+                    const attachmentUrl = res?.solution;
 
                     const updatedOrder = {
-                        ...orderContent, attachment: attachmentUrl
+                        ...orderContent, solution: attachmentUrl
                     }
 
-                    orderContent.attachment = attachmentUrl;
+                    orderContent.solution = attachmentUrl;
 
                     setOrderContent(updatedOrder);
 
@@ -129,6 +97,8 @@ const OrderView = () => {
             .substring(orderContent?.solution.solution.lastIndexOf('/')+1);
         link.click();
     } 
+      
+      
 
     const getOrder = async(orderId) => {  
         try {
@@ -182,38 +152,71 @@ const OrderView = () => {
                         <div className='order-elements'>
                             <article>{orderContent?.category}</article>
                             <strong>{!loading && ('$'+orderContent?.amount)}</strong>
-                            <article className='status'>{orderContent?.status}</article>
-                            {
-                                orderContent?.status === 'In Progress' && 
-                                <button onClick={changeOrderStatus} className='complete-order'>Complete Order</button>
-                            }                    
+                            <article className='status'>{orderContent?.status}</article>                   
                         </div> 
-                        <h2 className="card-jobtitle">by <a href=""><span>{orderContent.client.user.username}</span></a></h2>
-                                                                         
-                            <div  className='order-soln'>
-                                {
-                                orderContent?.solution?
-                                <>
-                                    <strong>Uploaded Work</strong>
-                                    <div className='solutions'>
-                                        {                            
+                        <h2 className="card-jobtitle">by <a href=""><span>{orderContent.client.user.username}</span></a></h2>                                                                                                     
+                        <div className='order-soln'>
+                        {orderContent?.solution && loadingAttachemnt ? (
+                            <div className="h-6 w-full rounded-md bg-indigo-100 animate-pulse"></div>
+                        ) : (
+                            <div className='solution flex items-center justify-between h-6'>
+                                <strong className="h-6">
+                                    {orderContent?.solution ? 'Solutions' : 'Solutions'}
+                                    {orderContent?.status === 'In Progress' && (
+                                        <>
+                                            <input
+                                                onChange={uploadAttachmentFile}
+                                                ref={fileInputRef}
+                                                className="hidden"
+                                                size={20 * 1024 * 1024}
+                                                type="file"
+                                                name=""
+                                                id=""
+                                            />
+                                            <span className='ml-6 text-sm text-gray-500 '>solution type:</span>
+                                            <select
+                                                onChange={(e) => setSolutionType(e.target.value)}
+                                                value={solutionType}
+                                                className="ml-2 border rounded-md text-sm "
+                                            >
+                                                <option value="Draft">Draft</option>
+                                                <option value="Final">Final</option>
+                                            </select>
+                                        </>
+                                    )}
+                                </strong>
+                            </div>
+                        )}
+
+                        {!orderContent?.solution && orderContent?.status === 'In Progress' && (
+                        <div className='upload-div' style={{ color: 'orange' }}>
+                            <article onClick={openFileDialog}>
+                                <VscFile className='file-icon' size={iconSize} />
+                                Upload solution
+                                <input onChange={uploadAttachmentFile} ref={fileInputRef} className="hidden" size={20 * 1024 * 1024} type="file" name="" id="" />
+                            </article>
+                        </div>
+                        )}
+                    {orderContent?.solution && (
+                        <div className="solution-details mt-2 flex items-center gap-8 text-xs ml-[200px] pb-6 justify-end">
+                                <a href={orderContent?.solution?.solution} id='solution-file' rel="noopener noreferrer" download className="block rounded-lg p-4 shadow-sm bg-white" >
+                                    {typeof orderContent?.solution?.solution === 'string' ?
+                                    orderContent?.solution?.solution.substring(orderContent?.solution?.solution.lastIndexOf('/') + 1)
+                                    : ''}
+                                        <div className="mt-2">
+                                        <dl>
                                             <div>
-                                                <a href={`${orderContent?.solution?.solution}`} id='solution-file' >
-                                                    {
-                                                        (orderContent?.solution.solution)
-                                                        .substring(orderContent?.solution.solution.lastIndexOf('/')+1)                                            
-                                                    }
-                                                </a>
-                                                <article>{orderContent?.solution._type}</article>
-                                                <IoMdDownload className='download-icon' onClick={downloadFile} style={{cursor:'pointer'}} size={iconSize}/>
-                                                <article className=''>{uploadedAt}</article>
+                                                <dt className="sr-only">Type</dt>
+                                                <dd className="text-sm text-gray-500">{orderContent?.solution?._type}</dd>
                                             </div>
-                                        }                        
+                                        </dl>
                                     </div>
-                                </>:
-                                    <strong style={{color:'orange'}}>Solution will be uploaded soon</strong>            
-                                }
-                            </div>     
+                                </a>
+                                <IoMdDownload onClick={downloadFile} className='cursor-pointer' size={iconSize} />
+                                <span className='text-gray-500 '>{uploadedAt}</span>
+                            </div>
+                            )}
+                        </div>
 
                         <div className="instructions">
                             <strong>
@@ -241,9 +244,9 @@ const OrderView = () => {
                         {
                             orderContent?.status ==='Completed' && !orderContent?.attachment?null:
                             <div className='attachments'>
-                            {orderContent?.attachment && loadingAttachment ? (
+                            {orderContent?.attachment && loadingAttachemnt ? (
                               <div style={{ height: '1.5rem' }}>
-                                <PulseLoader size={10} color='#7fc2f5' />
+                                
                               </div>
                             ) : (
                               <strong style={{ height: '1.5rem' }}>

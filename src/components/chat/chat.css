@@ -7,33 +7,53 @@
     bottom: 2%;
     right: 1%;
     z-index: 1;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-
 .chat-header {
     background-color: var(--secondary-color);
     color: #fff;
     display: flex;
-    height: 3rem;
+    align-items: center;
+    position: relative;
     padding: 0.5rem;
+    height: 14%;
+}
+
+.img-chat {
+    position: relative;
+    border: 2px solid;
+    padding: 9px;
+    border-radius: 50%;
+    font-weight: bold;
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    font-size: 18pt;
 }
 
 .receiver-profile {
     display: flex;
     align-items: center;
-    
+    flex-direction: row;    
+    position: inherit;
+    width: 100%;
 }
 
 .messages-box {
-    margin-top: 0.5rem;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     position: relative;
-    /* height: 50vh; */
+    height: 80%;
     overflow-y: auto;
 }
-
 
 .empty-inbox {
     position: relative;
@@ -80,35 +100,32 @@
 }
 
 .message-reply-box {
-    position: absolute;
+    position: relative;
     width: 100%;
-    bottom: 0;
-    z-index: 1;
+    height: 10%;
     background-color: var(--background);
-    padding: 0.5rem 0.5rem 2rem 1rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    justify-content: space-between;
 }
 
-.message-reply-box textarea {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+.message-reply-box input {
+    position: relative;
+    padding: 0.9rem 0.5rem;
     width: 100%;
-  
     border: solid 1px var(--secondary-color);
     border-radius: 8px;
     outline-color: var(--secondary-color);
-    /* font-size: var(--fontsize-normal); */
     font-size: var(--fontsize-normal);
     color: gray;
     resize: none;
     overflow-y: auto;
-    height: 4rem;
-    /* min-height: 2.5rem;    */
-    /* max-height: 4rem; */
+}
+
+.submit-message {
+    position: relative;
+    width: 20%;
 }
 
 .submit-message.active {
