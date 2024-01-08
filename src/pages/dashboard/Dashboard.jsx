@@ -6,15 +6,16 @@ import Completed from '../orders/completed/Completed';
 import './dashboard.css';
 import Solved from '../solved/Solved';
 import {HiMiniClipboardDocumentList} from 'react-icons/hi2';
+import LoadingSkeletonOrder from '../loading/Loading';
 
 const FreelancerDashboard = () => {
   const { orders, loading } = useOrderContext();
  
   return (
+    loading ?
+    <LoadingSkeletonOrder />: 
     <div className='dashboard'> 
-        {
-            loading ?
-            <LoadingSkeletonOrder />:                
+        {                           
             (orders?.length > 0)?
             orders?.map((order, index)=>{
                 return (
@@ -28,8 +29,8 @@ const FreelancerDashboard = () => {
                     <article className='create-task-helper' onClick={()=>navigate('./create-task')}>No gigs allocated yet!</article>
                 </div>
             </div>
-            }      
-        </div>   
+        }      
+    </div>   
   );
 };
 

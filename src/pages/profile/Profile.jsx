@@ -145,7 +145,15 @@ const Profile = () => {
                         </strong>
                         {
                             editBio ?
-                            <textarea name="" id="" rows="4" value={editedBio} onChange={(e)=>setEditedBio(e.target.value)}/>:
+                            <textarea name="" id="" rows="4" value={editedBio} onChange={(e)=>setEditedBio(e.target.value)}
+                            style={{
+                                resize:'none',
+                                border:'none',
+                                width:'100%',
+                                padding:'4px',
+                                outline:'none'
+                            }}
+                            />:
                             (
                                 userProfile?.bio?
                                 <article>

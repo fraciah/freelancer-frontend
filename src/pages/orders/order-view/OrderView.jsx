@@ -15,7 +15,9 @@ import { VscFile } from "react-icons/vsc";
 import OrderSkeletonLoading from '../../loading/OrderSkeletonLoading';
 import PulseLoader from "react-spinners/PulseLoader";
 import { useAuthContext } from '../../../providers/AuthProvider';
-
+import { checkDeadline } from '../../../../utils/helpers/DeadlineFormat';
+import { formatDeadline } from '../../../../utils/helpers/DeadlineFormat';
+ 
 const OrderView = () => {
 
     const ordersUrl = `${import.meta.env.VITE_API_URL}/orders/`
@@ -41,21 +43,9 @@ const OrderView = () => {
  
     const [solutionType, setSolutionType] = useState('Draft'); 
 
- 
+    const deadline = formatDeadline(orderContent?.deadline);
 
-
-    const changeOrderStatus = () => {
-        completeOrder(orderId)
-        .then((data)=>{
-            const updatedOrder = {
-                ...orderContent, 
-                status:data.status
-            }
-            orderContent.status = data.status;
-            setOrderContent(updatedOrder);            
-        })
-        getAllOrders();
-    }
+    const deadlinePassed = checkDeadline(orderContent?.deadline);    
 
     const openFileDialog = () => {
         console.log("Opening file dialog");
@@ -96,10 +86,8 @@ const OrderView = () => {
         link.download = (orderContent?.solution.solution)
             .substring(orderContent?.solution.solution.lastIndexOf('/')+1);
         link.click();
-    } 
+    }       
       
-      
-
     const getOrder = async(orderId) => {  
         try {
             const getOrderById = await fetch(`${ordersUrl}${orderId}`, {
@@ -152,7 +140,25 @@ const OrderView = () => {
                         <div className='order-elements'>
                             <article>{orderContent?.category}</article>
                             <strong>{!loading && ('$'+orderContent?.amount)}</strong>
-                            <article className='status'>{orderContent?.status}</article>                   
+                            <article className='status'>{orderContent?.status}</article>  
+                            {
+                                (orderContent?.status != 'Completed') &&
+                                <div>
+                                    {deadlinePassed && (
+                                    <article style={{
+                                        color: 'red',
+                                    }}>
+                                        {deadline}
+                                        <span className='ml-2'>overdue</span>
+                                    </article>
+                                    )}
+                                    {!deadlinePassed && (
+                                        <article style={{color:'green'}}>
+                                            {deadline} Remain
+                                        </article>
+                                    )}
+                                </div>
+                            }
                         </div> 
                         <h2 className="card-jobtitle">by <a href=""><span>{orderContent.client.user.username}</span></a></h2>                                                                                                     
                         <div className='order-soln'>
