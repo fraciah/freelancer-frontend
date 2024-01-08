@@ -27,7 +27,6 @@ const PasswordReset = () => {
                 toast.success('Reset link sent to your email');
                 const msg = await resetPasswordLink.json();
                 console.log(msg);
-                toast.error();
                 setEmailSession(email);
                 sessionStorage.setItem('email-session', email);
             } else {
