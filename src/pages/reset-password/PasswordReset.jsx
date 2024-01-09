@@ -54,8 +54,8 @@ const PasswordReset = () => {
     };
 
     return (
-        <div className="antialiased flex mt-[6%] ">
-            <div className="max-w-lg mx-auto my-10 bg-white p-8 rounded-xl shadow shadow-slate-300">
+        <div className="antialiased min-h-screen flex flex-col justify-center py-12 bg-[#f7fafc] sm:px-6 lg:px-8 px-6   ">
+            <div className="max-w-lg mx-auto my-10 bg-[#f7fafc] p-8 rounded-xl shadow shadow-slate-300">
                 <h1 className="text-2xl font-medium">Reset your Gigitise password</h1>
                 <p className="text-slate-500 mt-3">
                     {' '}
@@ -91,7 +91,7 @@ const PasswordReset = () => {
                         </button>
                         ) : emailSession ? (
                             <button
-                                className="w-full py-3 font-medium text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg border-indigo-500 hover:shadow inline-flex space-x-2 items-center justify-center"
+                                className="w-full py-3 font-medium text-white bg-blue-500 hover:bg-accent rounded-lg border-indigo-500 hover:shadow inline-flex space-x-2 items-center justify-center"
                                 onClick={() => resetPassword()}
                             >
                                 <svg
@@ -112,7 +112,7 @@ const PasswordReset = () => {
                             </button>
                         ) : (
                             <button
-                                className="w-full py-3 font-medium text-white bg-[#0360d1] hover:bg-indigo-500 rounded-lg border-indigo-500 hover:shadow inline-flex space-x-2 items-center justify-center"
+                                className="w-full py-3 font-medium text-white bg-[#0360d1] hover:bg-[#7fc2f5] rounded-lg border-indigo-500 hover:shadow inline-flex space-x-2 items-center justify-center"
                                 onClick={() => resetPassword()}
                             >
                                 <svg

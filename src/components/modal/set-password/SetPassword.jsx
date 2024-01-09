@@ -56,7 +56,7 @@ const SetPassword = () => {
         }
     };
     return (
-        <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6">
+        <div className="min-h-screen flex flex-col justify-center py-12 bg-[#f7fafc] sm:px-6 lg:px-8 px-6">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className="mt-6 text-center text-xl leading-9 font-extrabold text-gray-900">
                     Let's set your password again
