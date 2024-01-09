@@ -5,6 +5,7 @@ import Login from './pages/login/Login';
 import { useAuthContext } from './providers/AuthProvider';
 import { useState } from 'react';
 import PasswordReset from './pages/reset-password/PasswordReset';
+import SetPassword from './components/modal/set-password/SetPassword';
 import Navbar from './components/navbar/Navbar';
 import SideNav from './components/sidenav/SideNav';
 import Completed from './pages/orders/completed/Completed';
@@ -46,6 +47,7 @@ function App() {
         <Route path='login' element={<Login/>}/>
         <Route path='/app/*' element={userToken?<Main/>:<Login/>}/>
         <Route path='reset-password' element={<PasswordReset/>}/>
+        <Route path='/set-new-password/:uidb64/:token/' element={<SetPassword/>}/>
       </Routes>
     </>
   )
