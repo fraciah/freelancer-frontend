@@ -10,6 +10,30 @@ import { useAuthContext } from '../../providers/AuthProvider';
 const Settings = () => {
     const { loadedUserProfile } = useAuthContext();
     const [userProfile, setUserProfile] = useState(loadedUserProfile);
+    const [emailToggleStates, setEmailToggleStates] = useState({
+        uploadedWork: false,
+        newMessages: false,
+        deadline: false
+    });
+    const [appToggleStates, setAppToggleStates] = useState({
+        uploadedWork: false,
+        newMessages: false,
+        deadline: false
+    });
+
+    const handleEmailToggle = (field) => {
+        setEmailToggleStates(prevState => ({
+            ...prevState,
+            [field]: !prevState[field]
+        }));
+    };
+
+    const handleAppToggle = (field) => {
+        setAppToggleStates(prevState => ({
+            ...prevState,
+            [field]: !prevState[field]
+        }));
+    };
 
     const iconSize = 23;
     return (
@@ -34,30 +58,36 @@ const Settings = () => {
                             <strong><MdOutlineMarkEmailRead size={iconSize} /> Email Notifications</strong>                            
                             <div>
                                 <article>Uploaded Work</article>
-                                <span>ON</span>
+                                <input type="radio" checked={emailToggleStates.uploadedWork} hidden={true}/>
+                                <label onClick={() => handleEmailToggle('uploadedWork')}></label>
                             </div>
                             <div>
                                 <article>New Messages</article>
-                                <span>OFF</span>
+                                <input type="radio" checked={emailToggleStates.newMessages} hidden={true}/>
+                                <label onClick={() => handleEmailToggle('newMessages')}></label>
                             </div>
                             <div>
                                 <article>Dealine</article>
-                                <span>ON</span>
+                                <input type="radio" checked={emailToggleStates.deadline} hidden={true}/>
+                                <label onClick={() => handleEmailToggle('deadline')}></label>
                             </div>
                         </div>
                         <div className='pref'>
                             <strong><MdAppSettingsAlt size={iconSize}/> In App Notifications</strong>
                             <div>
                                 <article>Uploaded Work</article>
-                                <span>ON</span>
+                                <input type="radio" checked={appToggleStates.uploadedWork} hidden={true}/>
+                                <label onClick={() => handleAppToggle('uploadedWork')}></label>
                             </div>
                             <div>
                                 <article>New Messages</article>
-                                <span>ON</span>
+                                <input type="radio" checked={appToggleStates.newMessages} hidden={true}/>
+                                <label onClick={() => handleAppToggle('newMessages')}></label>
                             </div>
                             <div>
                                 <article>Dealine</article>
-                                <span>ON</span>
+                                <input type="radio" checked={appToggleStates.deadline} hidden={true}/>
+                                <label onClick={() => handleAppToggle('deadline')}></label>
                             </div>
                         </div>
                     </div>
