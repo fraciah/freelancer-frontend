@@ -67,7 +67,7 @@ const Settings = () => {
                                 <label onClick={() => handleEmailToggle('newMessages')}></label>
                             </div>
                             <div>
-                                <article>Dealine</article>
+                                <article>Deadline</article>
                                 <input type="radio" checked={emailToggleStates.deadline} hidden={true}/>
                                 <label onClick={() => handleEmailToggle('deadline')}></label>
                             </div>
@@ -85,7 +85,7 @@ const Settings = () => {
                                 <label onClick={() => handleAppToggle('newMessages')}></label>
                             </div>
                             <div>
-                                <article>Dealine</article>
+                                <article>Deadline</article>
                                 <input type="radio" checked={appToggleStates.deadline} hidden={true}/>
                                 <label onClick={() => handleAppToggle('deadline')}></label>
                             </div>
