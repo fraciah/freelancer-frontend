@@ -1,0 +1,68 @@
+.settings-page {
+    padding: 1rem;
+}
+
+.settings-personal {
+    display: flex;
+    gap: 2rem;
+}
+
+.settings-personal .feature-1, .feature-2 {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem;
+    background-color: var(--background);
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;    
+}
+.feature-1 {
+    cursor: pointer;
+}
+.settings-personal div article {
+    font-weight: 700;
+}
+
+.notifications-settings {
+    position: inherit;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.notifications-settings .content {
+    position: inherit;
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.pref {
+    position: inherit;
+    background-color: var(--background);
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+
+}
+
+.pref strong {
+    font-weight: 700;
+    padding: 1rem;
+    background-color: var(--secondary-color);
+    color: #fff;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.pref div {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+}

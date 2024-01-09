@@ -11,6 +11,7 @@ import InProgress from './pages/orders/in-progress/InProgress';
 import Profile from './pages/profile/Profile';
 import Notification from './pages/notification/Notification';
 import OrderView from './pages/orders/order-view/OrderView';
+import Settings from './pages/settings/Settings';
 
 function App() {
   const { userToken } = useAuthContext();
@@ -30,6 +31,7 @@ function App() {
                 <Route path='/completed'element={<Completed/>}/>
                 <Route path='/profile'element={<Profile/>}/>
                 <Route path='/notifications'element={<Notification/>}/>
+                <Route path='/settings'element={<Settings/>}/>
                 <Route path='/order/:orderId' element={<OrderView/>}/>
               </Routes> 
             </div>   
