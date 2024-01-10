@@ -4,6 +4,10 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Login from './pages/login/Login';
 import { useAuthContext } from './providers/AuthProvider';
 import { useState } from 'react';
+import PasswordReset from './pages/reset-password/PasswordReset';
+import SetPassword from './components/modal/set-password/SetPassword';
+import BadToken from './pages/bad-token/BadToken';
+import ExpiredToken from './pages/expired-token/ExpiredToken';
 import Navbar from './components/navbar/Navbar';
 import SideNav from './components/sidenav/SideNav';
 import Completed from './pages/orders/completed/Completed';
@@ -46,6 +50,10 @@ function App() {
       <Routes>
         <Route path='login' element={<Login/>}/>
         <Route path='/app/*' element={userToken?<Main/>:<Login/>}/>
+        <Route path='reset-password' element={<PasswordReset/>}/>
+        <Route path='/used-token/:uidb64/:token/' element={<ExpiredToken/>} />
+        <Route path='/bad-token/:uidb64/:token/' element={<BadToken/>} />
+        <Route path='/set-new-password/:uidb64/:token/' element={<SetPassword/>}/>
       </Routes>
     </>
   )

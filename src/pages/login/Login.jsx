@@ -71,7 +71,7 @@ const Login = () => {
       <div className='register-prompt'>
                         
                         <article className='reset-password'>
-                            <Link to='/'>Forgot password</Link>
+                            <Link to='/reset-password'>Forgot password</Link>
                         </article>
                     </div>
 
