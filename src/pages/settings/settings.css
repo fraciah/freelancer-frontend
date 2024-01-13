@@ -38,32 +38,50 @@
     gap: 1rem;
 }
 label{
-    width: 56px;
+    width: 54px;
     height: 25px;
     position: relative;
-    background-color: var(--secondary-color);
+    background-color: gray;
     border-radius: 12px;
     transition: 0.4s;
     cursor: pointer;
+    font-size: 12px;
 }
+
 label::before{
-    content: 'OFF';
-    font-size: 14px;
+    content: '';
     position: absolute;
-    width: 28px;
+    width: 25px;
     height: 20px;
     border-radius: 50%;
-    background-color: #fff;
+    background-color: white;
     top: 2px;
-    left: 0px;
+    left: 2px;
     transition: 0.4s;
 }
-input:checked + label{
-    background-color: var(--primary-color);
+
+label::after{
+    content: 'OFF';
+    position: absolute;
+    color: white;
+    top: 4px;
+    right: 3px;
+    transition: 0.4s;
 }
+
+input:checked + label{
+    background-color: var(--secondary-color);
+}
+
 input:checked + label::before{
+    background-color: white;
+    left: 24px;
+}
+
+input:checked + label::after{
     content: 'ON';
-    left: 25px;
+    color: white;
+    left: 2px;
 }
 .pref {
     position: inherit;
@@ -92,4 +110,18 @@ input:checked + label::before{
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 1rem;
+}
+
+@media screen and (max-width: 800px) {
+    .settings-personal {
+      flex-direction: column;
+      align-items: center;
+    }
+    .notifications-settings .content {
+      flex-direction: column;
+      align-items: center;
+    }
+    .pref {
+      width: 100%;
+    }
 }
