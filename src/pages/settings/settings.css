@@ -37,7 +37,7 @@
     width: 100%;
     gap: 1rem;
 }
-label{
+.label-toggle{
     width: 54px;
     height: 25px;
     position: relative;
@@ -48,7 +48,7 @@ label{
     font-size: 12px;
 }
 
-label::before{
+.label-toggle::before{
     content: '';
     position: absolute;
     width: 25px;
@@ -60,7 +60,7 @@ label::before{
     transition: 0.4s;
 }
 
-label::after{
+.label-toggle::after{
     content: 'OFF';
     position: absolute;
     color: white;
@@ -69,16 +69,16 @@ label::after{
     transition: 0.4s;
 }
 
-input:checked + label{
+.input-toggle:checked + .label-toggle{
     background-color: var(--secondary-color);
 }
 
-input:checked + label::before{
+.input-toggle:checked + .label-toggle::before{
     background-color: white;
     left: 24px;
 }
 
-input:checked + label::after{
+.input-toggle:checked + .label-toggle::after{
     content: 'ON';
     color: white;
     left: 2px;
