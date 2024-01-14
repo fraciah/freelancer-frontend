@@ -23,11 +23,12 @@ const Chat = ({orderId, client, freelancer}) => {
     const chatBoxRef = useRef();
 
     const getReceiver = () => {
-        if  (loadedUserProfile.username === client.user.username) {
-            return freelancer.user.username
-        } else if (loadedUserProfile.username === freelancer.user.username) {
-            return client.user.username
-        }
+        return client.user.username
+        // if  (loadedUserProfile.username === client.user.username) {
+        //     return freelancer.user.username
+        // } else if (loadedUserProfile.username === freelancer.user.username) {
+        //     return client.user.username
+        // }
     }
 
     const checkMsg = () =>{
@@ -51,7 +52,7 @@ const Chat = ({orderId, client, freelancer}) => {
 
     const submitMessage = (e) => {
         e.preventDefault();
-        sendChat(msg, orderId)
+        sendChat(msg, orderId, getReceiver())
         .then(()=>{
             setMsg('');                                   
         })
