@@ -6,12 +6,10 @@ import { MdModeEdit } from "react-icons/md";
 import { useParams } from 'react-router-dom';
 import { useOrderContext } from '../../../providers/OrderProvider';
 import { timeAgo } from '../../../../utils/helpers/TimeAgo';
-import { MdAdd } from "react-icons/md";
 import { useState } from 'react';
 import { useNavigate, } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useRef } from 'react';
-import { VscFile } from "react-icons/vsc";
 import OrderSkeletonLoading from '../../loading/OrderSkeletonLoading';
 import PulseLoader from "react-spinners/PulseLoader";
 import { useAuthContext } from '../../../providers/AuthProvider';
@@ -47,6 +45,16 @@ const OrderView = () => {
 
     const deadlinePassed = checkDeadline(orderContent?.deadline);    
 
+    
+    const [selectedFileName, setSelectedFileName] = useState(""); // State to store the selected file name
+
+    const handleFileInputChange = (e) => {
+      const selectedFile = e.target.files[0];
+  
+      if (selectedFile) {
+        setSelectedFileName(selectedFile.name); // Set the selected file name in the state
+      }
+    }
     const openFileDialog = () => {
         console.log("Opening file dialog");
         if(fileInputRef.current){
@@ -190,10 +198,16 @@ const OrderView = () => {
 
 {!orderContent?.solution && orderContent?.status === 'In Progress' && (
         <div className='upload-div'>
-          <article onClick={openFileDialog} className="block w-full cursor-pointer appearance-none rounded-l-md border border-gray-200 bg-white px-3 py-2 text-sm transition focus:z-10 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:opacity-75">
-            Upload solution
+          <span
+            onClick={openFileDialog}
+            className="block w-full cursor-pointer  h-auto  border border-sky-300 border-dashed bg-white px-3 py-2 text-sm transition  focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 "
+          >
+            <p className='text-center justify-center align-middle flex mt-1 text-sky-400'> {selectedFileName ? selectedFileName : 'Upload solution'}</p>
             <input
-              onChange={() => setSolutionType("Draft")} // Update the state with the selected file
+              onChange={(e) => {
+                setSolutionType("Draft");
+                handleFileInputChange(e);
+              }}
               ref={fileInputRef}
               className="hidden"
               size={20 * 1024 * 1024}
@@ -201,14 +215,14 @@ const OrderView = () => {
               name=""
               id="photobutton"
             />
-          </article>
+          </span>
 
           <div className=''>
-            <span className=' text-sm text-gray-500 '>solution type:</span>
+            <span className='text-sm text-gray-500'>solution type:</span>
             <select
               onChange={(e) => setSolutionType(e.target.value)}
               value={solutionType}
-              className=" h-10 border-2 border-sky-500 focus:outline-none focus:border-sky-400 text-sky-400 rounded  py-0 md:py-1 tracking-wider"
+              className="h-10 border-2 border-sky-500 focus:outline-none focus:border-sky-400 text-sky-400 rounded py-0 md:py-1 tracking-wider"
             >
               <option value="Draft">Draft</option>
               <option value="Final">Final</option>
@@ -217,7 +231,7 @@ const OrderView = () => {
 
           <button
             onClick={uploadAttachmentFile}
-            className="inline-block px-12 py-3 text-sm font-medium text-white bg-sky-400 border border-sky-400 rounded active:text-sky-400  hover:text-white cursor-pointer focus:outline-none focus:ring"
+            className="inline-block px-12 py-3 text-sm font-medium text-white bg-sky-400 border border-sky-400 rounded active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
           >
             Submit
           </button>
