@@ -30,15 +30,6 @@ const SideNav = () => {
                     <MdTaskAlt size={iconSize}/>
                     Completed
                 </Link>
-                <Link className="nav-item">
-                    <MdAccessTime size={iconSize}/>
-                    Solved
-                </Link>
-                
-
-                {/* <button className={`${(currentPage == 0)?'active-button':''}`} onClick={()=>setCurrentPage(0)}>In Progress</button>
-                <button className={`${(currentPage == 1)?'active-button':''}`} onClick={()=>setCurrentPage(1)}>Completed</button>
-                <button className={`${(currentPage == 2)?'active-button':''}`} onClick={()=>setCurrentPage(2)}>Solved</button> */}
             </div>
         </div>
     );

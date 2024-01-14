@@ -77,6 +77,55 @@
     position: inherit;
     gap: 4rem;
 }
+  
+  .order-soln {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: fit-content;
+  }
+  
+  .order-soln > div {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .order-soln strong {
+    height: 2rem;
+    /* Add any other styles for the strong element */
+  }
+  
+ 
+  
+  .solution-details {
+    display: flex;
+    gap: 4rem;
+    position: inherit;
+    position: inherit;
+    width: 30%;
+    padding: 1rem;
+    justify-content: space-between; 
+    
+    display: flex;
+    flex-direction: row;
+    transition: border 3s;
+  }
+  
+  .solution_type{
+    display: flex;
+  }
+  .uploadedAt{
+    font-size:medium;
+    padding-left: 90%;
+    
+    justify-content: flex-end;
+    height: fit-content;
+    position: inline; 
+  margin-right: 0.5rem;
+        
+  }
+  
 
 .instructions {
     line-height: 1.6;
@@ -123,7 +172,7 @@ textarea {
     position: inherit;
     width: 100%;
     display: flex;
-    justify-content: center;
+    
 }
 
 .upload-div article {

@@ -56,6 +56,13 @@ const Chat = ({orderId, client, freelancer}) => {
         .then(()=>{
             setMsg('');                                   
         })
+
+        if (msg)  {
+            sendChat(msg, orderId)
+            .then(()=>{
+                setMsg('');                                   
+            }) 
+        }
     }   
     
     useEffect(()=>{
@@ -123,7 +130,7 @@ const Chat = ({orderId, client, freelancer}) => {
             }            
             <form className='message-reply-box' onSubmit={submitMessage}>
                 <input required type="text" value={msg} ref={messageRef} onChange={checkMsg} placeholder='Type your message' />                
-                <IoSend size={25} type='submit' className={ msg?'submit-message active':'submit-message inactive' }/>
+                <IoSend title={!msg && 'Type a message'} size={25} type='submit' className={ msg?'submit-message active':'submit-message inactive' }/>
             </form>
         </div>
     );

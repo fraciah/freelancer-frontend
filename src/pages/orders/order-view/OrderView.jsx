@@ -6,16 +6,16 @@ import { MdModeEdit } from "react-icons/md";
 import { useParams } from 'react-router-dom';
 import { useOrderContext } from '../../../providers/OrderProvider';
 import { timeAgo } from '../../../../utils/helpers/TimeAgo';
-import { MdAdd } from "react-icons/md";
 import { useState } from 'react';
 import { useNavigate, } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useRef } from 'react';
-import { VscFile } from "react-icons/vsc";
 import OrderSkeletonLoading from '../../loading/OrderSkeletonLoading';
 import PulseLoader from "react-spinners/PulseLoader";
 import { useAuthContext } from '../../../providers/AuthProvider';
-
+import { checkDeadline } from '../../../../utils/helpers/DeadlineFormat';
+import { formatDeadline } from '../../../../utils/helpers/DeadlineFormat';
+ 
 const OrderView = () => {
 
     const ordersUrl = `${import.meta.env.VITE_API_URL}/orders/`
@@ -31,64 +31,30 @@ const OrderView = () => {
 
     const {orderId} = useParams();
 
-    const {loadingAttachemnt, updateInstructions, completeOrder, getAllOrders, uploadAttachment } = useOrderContext();
+    const {loadingAttachemnt,  uploadAttachment } = useOrderContext();
 
     const [orderContent, setOrderContent] = useState();
 
     const [loading, setLoading] = useState(true);
       
     const uploadedAt = timeAgo(orderContent?.solution?.created);
-
-    const [editInstructions, setEditInstructions] = useState(false);
-    const [editedInstructions, setEditedInstructions] = useState(orderContent?.instructions);
-    const [loadingAttachment, setLoadingAttachment] = useState(false);
-  const [uploadStatus, setUploadStatus] = useState(null);
  
+    const [solutionType, setSolutionType] = useState('Draft'); 
 
+    const deadline = formatDeadline(orderContent?.deadline);
 
-    const toggleInstructionMode =  () => {
-        setEditedInstructions(orderContent?.instructions);
-        setEditInstructions(!editInstructions);
+    const deadlinePassed = checkDeadline(orderContent?.deadline);    
+
+    
+    const [selectedFileName, setSelectedFileName] = useState(""); // State to store the selected file name
+
+    const handleFileInputChange = (e) => {
+      const selectedFile = e.target.files[0];
+  
+      if (selectedFile) {
+        setSelectedFileName(selectedFile.name); // Set the selected file name in the state
+      }
     }
-
-    const handleInstructionChange = (e) => {
-        setEditedInstructions(e.target.value);
-    }
-
-    const updateNewInstructions = () => {        
-        updateInstructions(editedInstructions, orderId)        
-        .then((data)=>{
-            if (data) {
-                const updatedOrder = {
-                    ...orderContent,
-                    instructions:data.instructions
-                };    
-                updatedOrder.instructions = data.instructions;            
-                setOrderContent(updatedOrder);
-            }
-            
-        })
-        setEditInstructions(false);
-        // setOrder(getOrder(orderId)); 
-        
-        // useCallback(()=>{
-        //     setRefresh((prev)=>prev+1);
-        // },[])
-    }
-
-    const changeOrderStatus = () => {
-        completeOrder(orderId)
-        .then((data)=>{
-            const updatedOrder = {
-                ...orderContent, 
-                status:data.status
-            }
-            orderContent.status = data.status;
-            setOrderContent(updatedOrder);            
-        })
-        getAllOrders();
-    }
-
     const openFileDialog = () => {
         console.log("Opening file dialog");
         if(fileInputRef.current){
@@ -96,40 +62,43 @@ const OrderView = () => {
         }
     }
 
-    const uploadAttachmentFile = (e) => {
-        const attachment = e.target.files[0];
-        console.log("Submitted");
+
+    const uploadAttachmentFile = () => {
+        // Function to handle file upload
+        const attachment = fileInputRef.current.files[0];
+    
         if (attachment) {
-            if (attachment.size <= 20 *1024 *1024){
-                uploadAttachment(attachment, orderId)
-                .then((res)=>{
-                    const attachmentUrl = res?.attachment;
-
-                    const updatedOrder = {
-                        ...orderContent, attachment: attachmentUrl
-                    }
-
-                    orderContent.attachment = attachmentUrl;
-
-                    setOrderContent(updatedOrder);
-
-                })
-            }
-            else {
-                console.log("Select lower size file");
-            }
+          if (attachment.size <= 20 * 1024 * 1024) {
+            uploadAttachment(attachment, orderId, solutionType)
+              .then((res) => {
+                const attachmentUrl = res?.solution;
+    
+                const updatedOrder = {
+                  ...orderContent,
+                  solution: attachmentUrl
+                }
+    
+                orderContent.solution = attachmentUrl;
+    
+                setOrderContent(updatedOrder);
+              })
+          } else {
+            console.log("Select a lower size file");
+          }
         } else {
-            console.log("Select correct file format");
+          console.log("Select a correct file format");
         }
-    }
+      }
+    
+      
 
     const downloadFile = () => {
         const link = document.getElementById('solution-file');
         link.download = (orderContent?.solution.solution)
             .substring(orderContent?.solution.solution.lastIndexOf('/')+1);
         link.click();
-    } 
-
+    }       
+      
     const getOrder = async(orderId) => {  
         try {
             const getOrderById = await fetch(`${ordersUrl}${orderId}`, {
@@ -182,38 +151,120 @@ const OrderView = () => {
                         <div className='order-elements'>
                             <article>{orderContent?.category}</article>
                             <strong>{!loading && ('$'+orderContent?.amount)}</strong>
-                            <article className='status'>{orderContent?.status}</article>
+                            <article className='status'>{orderContent?.status}</article>  
                             {
-                                orderContent?.status === 'In Progress' && 
-                                <button onClick={changeOrderStatus} className='complete-order'>Complete Order</button>
-                            }                    
+                                (orderContent?.status != 'Completed') &&
+                                <div>
+                                    {deadlinePassed && (
+                                    <article style={{
+                                        color: 'red',
+                                    }}>
+                                        {deadline}
+                                        <span className='ml-2'>overdue</span>
+                                    </article>
+                                    )}
+                                    {!deadlinePassed && (
+                                        <article style={{color:'green'}}>
+                                            {deadline} Remain
+                                        </article>
+                                    )}
+                                </div>
+                            }
                         </div> 
-                        <h2 className="card-jobtitle">by <a href=""><span>{orderContent.client.user.username}</span></a></h2>
-                                                                         
-                            <div  className='order-soln'>
-                                {
-                                orderContent?.solution?
-                                <>
-                                    <strong>Uploaded Work</strong>
-                                    <div className='solutions'>
-                                        {                            
-                                            <div>
-                                                <a href={`${orderContent?.solution?.solution}`} id='solution-file' >
-                                                    {
-                                                        (orderContent?.solution.solution)
-                                                        .substring(orderContent?.solution.solution.lastIndexOf('/')+1)                                            
-                                                    }
-                                                </a>
-                                                <article>{orderContent?.solution._type}</article>
-                                                <IoMdDownload className='download-icon' onClick={downloadFile} style={{cursor:'pointer'}} size={iconSize}/>
-                                                <article className=''>{uploadedAt}</article>
-                                            </div>
-                                        }                        
-                                    </div>
-                                </>:
-                                    <strong style={{color:'orange'}}>Solution will be uploaded soon</strong>            
-                                }
-                            </div>     
+                        <h2 className="card-jobtitle">by <a href=""><span>{orderContent.client.user.username}</span></a></h2>                                                                                                     
+                        <div className='order-soln'>
+  {orderContent?.solution && loadingAttachemnt ? (
+    <div className="animate-pulse"></div>
+  ) : (
+    <div className='solution'>
+      <strong>
+        {orderContent?.solution ? 'Solutions' : 'Solutions'}
+        {orderContent?.status === 'In Progress' && (
+          <>
+            <input
+              onChange={uploadAttachmentFile}
+              ref={fileInputRef}
+              className="hidden"
+              size={20 * 1024 * 1024}
+              type="file"
+              name=""
+              id=""
+            />
+          </>
+        )}
+      </strong>
+    </div>
+  )}
+
+{!orderContent?.solution && orderContent?.status === 'In Progress' && (
+        <div className='upload-div'>
+          <span
+            onClick={openFileDialog}
+            className="block w-full cursor-pointer  h-auto  border border-sky-300 border-dashed bg-white px-3 py-2 text-sm transition  focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 "
+          >
+            <p className='text-center justify-center align-middle flex mt-1 text-sky-400'> {selectedFileName ? selectedFileName : 'Upload solution'}</p>
+            <input
+              onChange={(e) => {
+                setSolutionType("Draft");
+                handleFileInputChange(e);
+              }}
+              ref={fileInputRef}
+              className="hidden"
+              size={20 * 1024 * 1024}
+              type="file"
+              name=""
+              id="photobutton"
+            />
+          </span>
+
+          <div className=''>
+            <span className='text-sm text-gray-500'>solution type:</span>
+            <select
+              onChange={(e) => setSolutionType(e.target.value)}
+              value={solutionType}
+              className="h-10 border-2 border-sky-500 focus:outline-none focus:border-sky-400 text-sky-400 rounded py-0 md:py-1 tracking-wider"
+            >
+              <option value="Draft">Draft</option>
+              <option value="Final">Final</option>
+            </select>
+          </div>
+
+          <button
+            onClick={uploadAttachmentFile}
+            className="inline-block px-12 py-3 text-sm font-medium text-white bg-sky-400 border border-sky-400 rounded active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
+          >
+            Submit
+          </button>
+        </div>
+      )}
+
+  {orderContent?.solution && (
+    <div className=" ">
+      <a
+        href={orderContent?.solution?.solution}
+        id='solution-file'
+        rel="noopener noreferrer"
+        download
+        className="block rounded-lg p-4 shadow-sm bg-white"
+      >
+        {typeof orderContent?.solution?.solution === 'string' ?
+          orderContent?.solution?.solution.substring(orderContent?.solution?.solution.lastIndexOf('/') + 1)
+          : ''}
+
+      </a>
+      <div className="mt-2">
+          <dl>
+            <div>
+              <dd className="text-sm text-gray-500"><span className="mr-2">Solutiion type :</span>{orderContent?.solution?._type}</dd>
+            </div>
+          </dl>
+        </div>
+      <IoMdDownload onClick={downloadFile} className='cursor-pointer' size={iconSize} />
+      <span className='text-gray-500 '>{uploadedAt}</span>
+    </div>
+  )}
+</div>
+
 
                         <div className="instructions">
                             <strong>
@@ -241,9 +292,9 @@ const OrderView = () => {
                         {
                             orderContent?.status ==='Completed' && !orderContent?.attachment?null:
                             <div className='attachments'>
-                            {orderContent?.attachment && loadingAttachment ? (
+                            {orderContent?.attachment && loadingAttachemnt ? (
                               <div style={{ height: '1.5rem' }}>
-                                <PulseLoader size={10} color='#7fc2f5' />
+                                
                               </div>
                             ) : (
                               <strong style={{ height: '1.5rem' }}>

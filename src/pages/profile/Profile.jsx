@@ -103,29 +103,29 @@ const Profile = () => {
                         }}>{userProfile?.email}</article>
                     </div>
                 </div>
-                <div className='flex flex-wrap gap-4 w-full items-center mt-4'>
-                    <div className='justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
+                <div className='prof-summary flex flex-wrap gap-4 w-full items-center mt-4'>
+                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdTaskAlt className='text-sky-300' size={iconSize}/>
                             <article>Total Orders</article>
                         </div>
-                        <article className=''>{userProfile?.orders_count}</article>
+                        <span className=''>{userProfile?.orders_count}</span>
                     </div>
-                    <div className='justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
+                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdPendingActions className='text-sky-300' size={iconSize}/>
                             <article>Orders in Progress</article>
                         </div>
-                        <article className=''>{ordersInProgress.length}</article>
+                        <span className=''>{ordersInProgress.length}</span>
                     </div>
-                    <div className='justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
+                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdOutlineAddTask className='text-sky-300' size={iconSize}/>
                             <article>Orders completed</article>
                         </div>
-                        <article className=''>{ordersCompleted?.length}</article>
+                        <span className=''>{ordersCompleted?.length}</span>
                     </div>
-                    <div className='justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
+                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdAccessTime className='text-sky-300' size={iconSize}/>
                             <article>Last Login</article>
@@ -145,7 +145,15 @@ const Profile = () => {
                         </strong>
                         {
                             editBio ?
-                            <textarea name="" id="" rows="4" value={editedBio} onChange={(e)=>setEditedBio(e.target.value)}/>:
+                            <textarea name="" id="" rows="4" value={editedBio} onChange={(e)=>setEditedBio(e.target.value)}
+                            style={{
+                                resize:'none',
+                                border:'none',
+                                width:'100%',
+                                padding:'4px',
+                                outline:'none'
+                            }}
+                            />:
                             (
                                 userProfile?.bio?
                                 <article>

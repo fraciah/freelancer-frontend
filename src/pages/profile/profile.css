@@ -10,8 +10,26 @@
     border-radius: 4px;
     transition: border 3s;
 }
+
+.prof-element {
+    border-radius: 4px;
+}
+
+.prof-summary div span {
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    width: 1.8rem;
+    height: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f5f5f5;
+    font-size: 85%;
+}
+
 .save {
-    width: 30%;
+    position: relative;
+    width: 5rem;
     background-color: var(--secondary-color);
     border: solid 1px var(--secondary-color);
     color: #fff;

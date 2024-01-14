@@ -15,16 +15,17 @@
 .heading-logo {
     display: flex;
     align-items: center;
-    /* justify-content: center; */
     gap: 1rem;
     padding: 1rem;
-    font-size: 25pt;
+    font-size: 23pt;
     font-weight: bold;
 }
 
 .actions {
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
     text-decoration: none;    
     position: relative;
 }
@@ -54,7 +55,6 @@
     color: #fff;
     display: flex;
     background-color: #374151;
-    border-radius: 10px;
 }
 
 .nav-item {
