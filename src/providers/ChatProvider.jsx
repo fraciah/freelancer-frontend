@@ -31,14 +31,15 @@ export const ChatProvider = (props) => {
 
     let typingTimer;
 
-    const sendChat = async(msg, orderId) => {
+    const sendChat = async(msg, orderId, receiver) => {
         const chatsUrl = `${import.meta.env.VITE_API_URL}/orders/${orderId}/chats/`
         try {
             const sendChat = await fetch(chatsUrl, {
                 method:'post',
                 headers,
                 body: JSON.stringify({
-                    'message':msg
+                    'message':msg,
+                    'receiver':receiver
                 })
             })
 
