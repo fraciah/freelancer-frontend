@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { checkDeadline, formatDeadline } from '../../../utils/helpers/DeadlineFormat';
 
+ 
+
 const OrderComponent = ({ content }) => {
     const navigate = useNavigate();
     const orderId = content.id;
@@ -13,6 +15,8 @@ const OrderComponent = ({ content }) => {
 
     const maxCharsToDisplay = 70;
 
+  ;
+
     return (
         <div className='order-content' onClick={() => navigate(`../order/${orderId}`)}>
             <div className='title-box'>
@@ -23,6 +27,22 @@ const OrderComponent = ({ content }) => {
                     }
                 </article>
             </div>
+            
+            <div className='bottom-box '>
+                
+                <div className='fx-start'>
+                
+                </div>
+                {
+            content.status === 'Available' &&(
+                <div></div>
+            )
+                             
+            }
+                
+                </div>     
+           
+
             <div className='bottom-box'>
                 <div className='fx-start'>
                     <article>{content.category}</article>
