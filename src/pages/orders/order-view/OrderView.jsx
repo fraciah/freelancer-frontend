@@ -2,7 +2,6 @@ import React from 'react';
 import './orderview.css';
 import { IoMdDownload } from "react-icons/io";
 import Chat from '../../../components/chat/Chat';
-import { MdModeEdit } from "react-icons/md";
 import { useParams } from 'react-router-dom';
 import { useOrderContext } from '../../../providers/OrderProvider';
 import { timeAgo } from '../../../../utils/helpers/TimeAgo';
@@ -11,16 +10,18 @@ import { useNavigate, } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useRef } from 'react';
 import OrderSkeletonLoading from '../../loading/OrderSkeletonLoading';
-import PulseLoader from "react-spinners/PulseLoader";
 import { useAuthContext } from '../../../providers/AuthProvider';
 import { checkDeadline } from '../../../../utils/helpers/DeadlineFormat';
 import { formatDeadline } from '../../../../utils/helpers/DeadlineFormat';
- 
+import { useBiddingModal } from "../../BiddingModal/biddingModal";
+
 const OrderView = () => {
 
     const ordersUrl = `${import.meta.env.VITE_API_URL}/orders/`
 
     const { userToken } = useAuthContext();
+
+    const { BiddingModal, setShowBiddingModal } = useBiddingModal();
 
     const navigate = useNavigate();
 
@@ -43,16 +44,18 @@ const OrderView = () => {
 
     const deadline = formatDeadline(orderContent?.deadline);
 
-    const deadlinePassed = checkDeadline(orderContent?.deadline);    
+    const deadlinePassed = checkDeadline(orderContent?.deadline);  
+    
+
 
     
-    const [selectedFileName, setSelectedFileName] = useState(""); // State to store the selected file name
+    const [selectedFileName, setSelectedFileName] = useState("");
 
     const handleFileInputChange = (e) => {
       const selectedFile = e.target.files[0];
   
       if (selectedFile) {
-        setSelectedFileName(selectedFile.name); // Set the selected file name in the state
+        setSelectedFileName(selectedFile.name); 
       }
     }
     const openFileDialog = () => {
@@ -64,7 +67,6 @@ const OrderView = () => {
 
 
     const uploadAttachmentFile = () => {
-        // Function to handle file upload
         const attachment = fileInputRef.current.files[0];
     
         if (attachment) {
@@ -128,6 +130,7 @@ const OrderView = () => {
         }
     }    
 
+ 
     useEffect(()=>{
         console.log("Getting order.....")
         // getOrder(orderId).then((data)=>{
@@ -139,6 +142,7 @@ const OrderView = () => {
 
     return (                
         <div className='order-view'>
+          <BiddingModal />
             {
                 loading ?
                 <OrderSkeletonLoading />                
@@ -146,12 +150,17 @@ const OrderView = () => {
                 orderContent && 
                 (
                 <>
+                
                     <div className='order-details'>
                         <strong style={{fontWeight:'bold'}}>{orderContent?.title}</strong>            
                         <div className='order-elements'>
                             <article>{orderContent?.category}</article>
                             <strong>{!loading && ('$'+orderContent?.amount)}</strong>
+                            <a onClick={() => setShowBiddingModal(true)} className="inline-block px-5 py-3 text-sm rounded-3xl font-medium text-white bg-sky-400 border border-sky-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring">
+                              Bidding order
+                </a>
                             <article className='status'>{orderContent?.status}</article>  
+                            
                             {
                                 (orderContent?.status != 'Completed') &&
                                 <div>
@@ -264,8 +273,6 @@ const OrderView = () => {
     </div>
   )}
 </div>
-
-
                         <div className="instructions">
                             <strong>
                                 {

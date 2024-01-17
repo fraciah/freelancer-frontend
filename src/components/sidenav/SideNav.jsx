@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdAdd, MdTaskAlt, MdPendingActions, MdAccessTime } from 'react-icons/md';
 import { FiMenu } from "react-icons/fi";
+import { FaClockRotateLeft } from "react-icons/fa6";
 
 const SideNav = () => {
     const navigate = useNavigate();   
@@ -22,10 +23,15 @@ const SideNav = () => {
                     <FiMenu size={iconSize}/>
                     Dashboard
                 </Link>
+                <Link to='./available' className="nav-item">
+                <FaClockRotateLeft size={iconSize}/>
+                   Available
+                </Link>
                 <Link to='./in-progress' className="nav-item">
                     <MdPendingActions size={iconSize}/>
                     In Progress
                 </Link>
+                
                 <Link to='./completed' className="nav-item">
                     <MdTaskAlt size={iconSize}/>
                     Completed
