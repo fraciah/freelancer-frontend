@@ -4,11 +4,16 @@ import { useOrderContext } from '../../../providers/OrderProvider';
 import { useNavigate } from 'react-router-dom';
 import { HiMiniClipboardDocumentList } from "react-icons/hi2";
 import LoadingSkeletonOrder from '../../loading/Loading';
+import { useEffect } from 'react';
 
 const Available = () => {
-    const {ordersAvailable, loading} = useOrderContext();
+    const {getOrdersAvailable, ordersAvailable, loading} = useOrderContext();
 
-    const navigate = useNavigate();
+    useEffect(()=>{
+        getOrdersAvailable()
+    },[])
+
+    // const navigate = useNavigate();
     return (
         loading?
         <LoadingSkeletonOrder />:
