@@ -34,6 +34,28 @@ export const OrderProvider = (props) => {
         'Authorization':`Bearer ${userToken}`                
     }
 
+    const getOrdersAvailable = async() => {
+        const ordersUrl = `${import.meta.env.VITE_API_URL}/orders?status=available`
+        try {
+            const getOrders = await fetch(ordersUrl, {
+                headers: {
+                    'Content-Type':'application/json',
+                    'Authorization': `Bearer ${userToken}`
+                }
+            })
+
+            const orders = await getOrders.json();
+            const available = orders.filter(order=>order.status==='Available');
+
+            setOrdersAvailable(available);            
+            return orders
+        } catch (errors) {
+            console.error(errors);
+        } finally {
+            setLoading(false);
+        }        
+    }
+
     const getAllOrders = async() => {
         const ordersUrl = `${import.meta.env.VITE_API_URL}/orders`
         try {
@@ -45,14 +67,15 @@ export const OrderProvider = (props) => {
             })
 
             const orders = await getOrders.json();
-            const available = orders.filter(order=>order.status==='Available');
+            // const available = orders.filter(order=>order.status==='Available');
             const inProgress = orders.filter(order=>order.status==='In Progress');
             const completed = orders.filter(order=>order.status==='Completed');
 
-            setOrdersAvailable(available);
+            // setOrdersAvailable(available);
             setOrdersInProgress(inProgress);
             setOrdersCompleted(completed);
             setOrders(orders);
+            console.log(orders);
 
             return orders
         } catch (errors) {
@@ -270,7 +293,7 @@ export const OrderProvider = (props) => {
 
     return <OrderContext.Provider value={{
         orders, 
-        ordersAvailable,
+        ordersAvailable,        
         ordersInProgress, 
         ordersCompleted, 
         loading,
@@ -281,7 +304,8 @@ export const OrderProvider = (props) => {
         updateInstructions,
         completeOrder,
         getAllOrders,
-        uploadAttachment,      
+        uploadAttachment,  
+        getOrdersAvailable    
     }}>
         {props.children}
     </OrderContext.Provider>
