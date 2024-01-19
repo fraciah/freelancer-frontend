@@ -1,4 +1,4 @@
-.dashboard, .main-in-progress, .completed {
+.dashboard, .main-in-progress, .completed, .main-available {
     padding: 0 1rem;
     display: flex;
     flex-wrap: wrap;

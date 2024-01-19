@@ -157,7 +157,7 @@ const OrderView = () => {
                             <article>{orderContent?.category}</article>
                             <strong>{!loading && ('$'+orderContent?.amount)}</strong>
                             <a onClick={() => setShowBiddingModal(true)} className="inline-block px-5 py-3 text-sm rounded-3xl font-medium text-white bg-sky-400 border border-sky-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring">
-                              Bidding order
+                              Place Bid
                 </a>
                             <article className='status'>{orderContent?.status}</article>  
                             
