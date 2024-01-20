@@ -4,7 +4,6 @@ import { useState, useCallback, useMemo, useEffect } from "react";
 import { useAuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
 
-// ... other imports ...
 
 const UpdateModal = ({ showUpdateModal, setUpdateModal, orderDetails, onUpdateBid }) => {
     const [bidAmount, setBidAmount] = useState(orderDetails.amount);

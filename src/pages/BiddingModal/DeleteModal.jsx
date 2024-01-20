@@ -4,25 +4,39 @@ import { useState, useCallback, useMemo } from "react";
 import { useAuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
 
-const DeleteModal = ({ showDeleteModal, setDeleteModal, orderDetails, onDeleteBid }) => {
 
-  const handleCloseModal = () => {
-    setDeleteModal(false);
-  };
-
-  const handleConfirmDelete = async () => {
-    try {
-      // Add your delete logic here
-      toast.success("Bid deleted successfully");
-      // Notify the parent component about the deletion
-      onDeleteBid();
-    } catch (error) {
-      console.error("Error deleting bid:", error.message);
-      toast.error("Failed to delete bid");
-    } finally {
-      handleCloseModal();
-    }
-  };
+const DeleteModal = ({ showDeleteModal, setDeleteModal, onDeleteBid }) => {
+    const { orderId } = useParams();
+    const { userToken } = useAuthContext();
+    const handleCloseModal = () => {
+      setDeleteModal(false);
+    };
+  
+    const handleConfirmDelete = async () => {
+      try {
+        
+         
+         const response = await fetch(`${import.meta.env.VITE_API_URL}/orders/${orderId}/bid/`, {
+           method: "DELETE",
+           headers: {
+             "Content-Type": "application/json",
+             'Authorization': `Bearer ${userToken}`
+           },
+         });
+  
+         if (response.ok) {
+        toast.success("Bid deleted successfully");
+        onDeleteBid();
+        } else {
+           console.error("Failed to delete bid:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error deleting bid:", error.message);
+        toast.error("Failed to delete bid");
+      } finally {
+        handleCloseModal();
+      }
+    };;
 
   return (
     <Modal showModal={showDeleteModal} setShowModal={setDeleteModal}>
