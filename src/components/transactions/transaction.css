@@ -1,0 +1,22 @@
+.transaction-table {
+    position: inherit;
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+th, td {
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+tbody tr:nth-of-type(even) {
+    background-color: var(--background);
+}

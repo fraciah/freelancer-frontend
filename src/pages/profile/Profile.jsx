@@ -6,10 +6,12 @@ import { MdVerified, MdPendingActions, MdOutlineAddTask } from "react-icons/md";
 import { MdAccessTime, MdTaskAlt } from "react-icons/md";
 import { MdModeEdit, MdAdd  } from "react-icons/md";
 import { timeAgo } from '../../../utils/helpers/TimeAgo';
+import Transaction from '../../components/transactions/Transaction';
+import PulseLoader from "react-spinners/PulseLoader";
 import './profile.css';
 
 const Profile = () => {
-    const { loadingUserProfile, loadedUserProfile, submitNewBio, uploadProfilePhoto } = useAuthContext();
+    const { loadingUserProfile, loadedUserProfile, submitNewBio, uploadProfilePhoto, userToken } = useAuthContext();
 
     const [userProfile, setUserProfile] = useState(loadedUserProfile);
 
@@ -22,6 +24,9 @@ const Profile = () => {
 
     const { orders } = useOrderContext();
     console.log("orders",orders);
+
+    const [transactions, setTransactions] = useState();
+    const [loadingTransactions, setLoadingTransactions] = useState(true);
 
     const toggleEditBio = () => {
         setEditBio(userProfile?.bio);
@@ -74,7 +79,34 @@ const Profile = () => {
         setEditBio(false);
     }
 
+    const getTransactions = async() => {
+        const transactionUrl = `${import.meta.env.VITE_API_URL}/transactions`
+        try {
+            const retrieveTransactions = await fetch(transactionUrl, {
+                headers: {
+                    'content-Type':'application/json',
+                    'authorization':`Bearer ${userToken}`
+                }
+            })
+
+            if (retrieveTransactions.ok) {
+                const transactions = await retrieveTransactions.json();
+                setTransactions(transactions)
+                console.log(transactions);
+            }
+
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoadingTransactions(false)
+        }
+    }
+
     const iconSize = 25;
+
+    useState(()=>{
+        userToken && getTransactions()
+    },[])
 
     return (
     <div className='flex'>
@@ -133,7 +165,7 @@ const Profile = () => {
                         <article className=''>{userProfile ? timeAgo(userProfile?.last_login):'---'}</article>
                     </div>
                 </div>
-                <div className='mt-5 flex flex-col space-y-2'>
+                <div className='mt-5 flex flex-col space-y-2 mb-4'>
                     <div className='bio'>
                         <strong style={{display:'flex', gap:'1rem'}}>Bio
                             {
@@ -170,6 +202,18 @@ const Profile = () => {
                     </div>
                     <button className='save' onClick={submitEditedProfile} style={{}}>Save</button>
                 </div>
+                {
+                loadingTransactions ?
+                <div>
+                    <PulseLoader size={10}  color='#7fc2f5' />
+                </div>:
+                
+                transactions.length > 0 &&
+                <>
+                    <article>My Transactions</article>
+                    <Transaction transactions={transactions} user={userProfile?.username} />                             
+                </>
+            }
             </div>
         </div>
     </div>
