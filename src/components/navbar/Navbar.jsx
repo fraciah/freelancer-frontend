@@ -13,7 +13,8 @@ const Navbar = () => {
     const [userProfile, setUserProfile] = useState(loadedUserProfile);
     
     const { orders } = useOrderContext();
-    
+    console.log("orders",orders);
+
     const { unreadNotif } = useNotificationContext();
     // console.log("Unread",unreadNotif);
 

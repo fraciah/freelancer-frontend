@@ -19,7 +19,6 @@ export const OrderProvider = (props) => {
 
     const [orders, setOrders] = useState([]);
     const [ordersAvailable, setOrdersAvailable] = useState([]);
-    const [ordersBidding, setOrdersBidding] = useState([]);
     const [ordersInProgress, setOrdersInProgress] = useState([]);
     const [ordersCompleted, setOrdersCompleted] = useState([]);
 
@@ -57,31 +56,6 @@ export const OrderProvider = (props) => {
         }        
     }
 
-    const getBidding = async () => {
-        const biddingUrl = `${import.meta.env.VITE_API_URL}/orders?bidding=true`;
-        
-        try {
-            setLoading(true); 
-            const getBiddings = await fetch(biddingUrl, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${userToken}`
-                }
-            });
-    
-            const biddings = await getBiddings.json();
-            console.log(biddings)
-            setOrdersBidding(biddings);
-            return biddings;
-        } catch (errors) {
-            console.error(errors);
-        } finally {
-            setLoading(false); 
-        }
-    };
-    
-      
-
     const getAllOrders = async() => {
         const ordersUrl = `${import.meta.env.VITE_API_URL}/orders`
         try {
@@ -101,7 +75,7 @@ export const OrderProvider = (props) => {
             setOrdersInProgress(inProgress);
             setOrdersCompleted(completed);
             setOrders(orders);
-            
+            console.log(orders);
 
             return orders
         } catch (errors) {
@@ -319,8 +293,7 @@ export const OrderProvider = (props) => {
 
     return <OrderContext.Provider value={{
         orders, 
-        ordersAvailable,
-        ordersBidding,        
+        ordersAvailable,        
         ordersInProgress, 
         ordersCompleted, 
         loading,
@@ -331,7 +304,6 @@ export const OrderProvider = (props) => {
         updateInstructions,
         completeOrder,
         getAllOrders,
-        getBidding,
         uploadAttachment,  
         getOrdersAvailable    
     }}>
