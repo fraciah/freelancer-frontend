@@ -1,20 +1,23 @@
-import React from 'react';
-import './in-progress.css';
+import React ,{useEffect}from 'react';
+import './Bid-view.css';
 import OrderComponent from '../../../components/order-component/OrderComponent';
 import { useOrderContext } from '../../../providers/OrderProvider';
 import LoadingSkeletonOrder from '../../loading/Loading';
 
-const InProgress = () => {
+const BidDetails = () => {
 
-    const {ordersInProgress, loading} = useOrderContext();    
-
+    const {ordersBidding, loading,getBidding} = useOrderContext();    
+    
+    useEffect( () =>{
+      getBidding()
+    },[])
     return (
         loading?
         <LoadingSkeletonOrder />:
         <div className='main-in-progress'>             
             {                
-                (ordersInProgress.length > 0)?
-                ordersInProgress.map((order, index)=>{
+                (ordersBidding.length > 0)?
+                ordersBidding.map((order, index)=>{
                     // console.log("Rendering again...", order)
                     return (
                         // <div className='in-progress'>
@@ -38,4 +41,4 @@ const InProgress = () => {
     );
 }
 
-export default InProgress;
+export default BidDetails;

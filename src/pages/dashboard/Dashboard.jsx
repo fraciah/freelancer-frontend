@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useOrderContext } from '../../providers/OrderProvider';
 import OrderComponent from '../../components/order-component/OrderComponent';
-import InProgress from '../orders/in-progress/InProgress';
-import Completed from '../orders/completed/Completed';
 import './dashboard.css';
-import Solved from '../solved/Solved';
 import {HiMiniClipboardDocumentList} from 'react-icons/hi2';
 import LoadingSkeletonOrder from '../loading/Loading';
 
