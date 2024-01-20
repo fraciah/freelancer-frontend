@@ -51,7 +51,7 @@ export const AuthProvider = props => {
     const handleLogOut = () => {
         removeAccessToken();
         setUserToken(null);
-        navigate('/');
+        navigate('/app');
     }
 
     const handleRegister = async(e)=> {
