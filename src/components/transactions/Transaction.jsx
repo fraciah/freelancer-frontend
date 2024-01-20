@@ -1,9 +1,12 @@
 import React from 'react';
-import './transaction.css';
+import { useNavigate } from 'react-router-dom';
 import { timeAgo } from '../../../utils/helpers/TimeAgo';
+import './transaction.css';
 
 const Transaction = ({transactions, user}) => {
-
+    const navigate = useNavigate();
+    // console.log("Transactions",transactions)
+    
     return (
         <div>
             <table className='transaction-table'>
@@ -21,7 +24,7 @@ const Transaction = ({transactions, user}) => {
                     {
                         transactions?.map((transaction, index)=>{
                             return (
-                                <tr className='transaction'>
+                                <tr className='transaction' onClick={() => navigate(`../order/${transaction.order}`)}>
                                     <td>{transaction._from}</td>
                                     <td>{transaction._to}</td>
                                     <td>

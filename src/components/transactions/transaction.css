@@ -7,6 +7,10 @@
     overflow: hidden;
 }
 
+.transaction{
+    cursor: pointer;
+}
+
 thead {
     background-color: var(--secondary-color);
     color: #fff;
