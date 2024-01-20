@@ -208,7 +208,7 @@ const Profile = () => {
                     <PulseLoader size={10}  color='#7fc2f5' />
                 </div>:
                 
-                transactions.length > 0 &&
+                transactions?.length > 0 &&
                 <>
                     <article>My Transactions</article>
                     <Transaction transactions={transactions} user={userProfile?.username} />                             
