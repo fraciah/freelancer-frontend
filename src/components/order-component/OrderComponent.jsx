@@ -27,7 +27,9 @@ const OrderComponent = ({ content }) => {
         {content.status === 'Available' && (
           <div></div>
         )}
-      </div>     
+      </div>   
+      
+        
 
       <div className='bottom-box'>
         <div className='fx-start'>

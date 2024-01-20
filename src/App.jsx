@@ -35,7 +35,7 @@ function App() {
                 <Route path='/' element={<Dashboard />}/> 
                 <Route path='/in-progress' element={<InProgress/>}/>
                 <Route path='/available' element={<Available/>} />
-                <Route path='/Bid-view' element={<BidDetails />} /> 
+                <Route path='Bid-view' element={<BidDetails />} /> 
                 <Route path='/completed'element={<Completed/>}/>
                 <Route path='/profile'element={<Profile/>}/>
                 <Route path='/notifications'element={<Notification/>}/>

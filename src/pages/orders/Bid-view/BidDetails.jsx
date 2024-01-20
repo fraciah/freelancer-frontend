@@ -1,84 +1,44 @@
+import React ,{useEffect}from 'react';
+import './Bid-view.css';
+import OrderComponent from '../../../components/order-component/OrderComponent';
+import { useOrderContext } from '../../../providers/OrderProvider';
+import LoadingSkeletonOrder from '../../loading/Loading';
 
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAuthContext } from '../../../providers/AuthProvider';
-import { toast } from 'react-hot-toast';
+const BidDetails = () => {
 
-const BidDetailsPage = () => {
-  const { orderId, bidId } = useParams();
-  const { userToken } = useAuthContext();
-  const [bidDetails, setBidDetails] = useState({});
-  const [updatedBidAmount, setUpdatedBidAmount] = useState(bidDetails.amount || 0);
+    const {ordersBidding, loading,getBidding} = useOrderContext();    
+    
+    useEffect( () =>{
+      getBidding()
+    },[])
+    return (
+        loading?
+        <LoadingSkeletonOrder />:
+        <div className='main-in-progress'>             
+            {                
+                (ordersBidding.length > 0)?
+                ordersBidding.map((order, index)=>{
+                    // console.log("Rendering again...", order)
+                    return (
+                        // <div className='in-progress'>
+                            <OrderComponent key={index} content={order}/>
+                        // </div>                        
+                    )
+                }):
+                <section className="flex items-center justify-items-center h-full ml-[100px] sm:p-16 dark:bg-gray-900 dark:text-gray-100">
+                <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8 space-y-8 text-center sm:max-w-md">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-20 h-20">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+            </svg>
+            
+             <p className="text-xl">There are are no orders currently . Try again later.</p>
+                    <a rel="noopener noreferrer" href="#" className="px-8 py-3 font-semibold rounded bg-blue-400 dark:text-gray-900">Back to homepage</a>
+                </div>
+            </section>
+            }
+        </div>           
+            
+    );
+}
 
-  useEffect(() => {
-    const fetchBidDetails = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/orders/49c38b40-c063-4a28-aea0-177afce16559/bid/`, {
-            method: 'GET',
-            headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${userToken}`,
-          },
-        });
-
-        if (!response.ok) {
-          console.error('Failed to fetch bid details:', response.statusText);
-          return;
-        }
-
-        const bid = await response.json();
-        setBidDetails(bid);
-        setUpdatedBidAmount(bid.amount);
-      } catch (error) {
-        console.error('Error fetching bid details:', error.message);
-      }
-    };
-
-    fetchBidDetails();
-  }, [orderId, userToken]);
-
-  const handleUpdateBid = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/orders/49c38b40-c063-4a28-aea0-177afce16559/bid/`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({ amount: updatedBidAmount }),
-      });
-
-      if (response.ok) {
-        toast.success('Bid updated successfully');
-      } else {
-        console.error('Failed to update bid:', response.statusText);
-        toast.error('Failed to update bid');
-      }
-    } catch (error) {
-      console.error('Error updating bid:', error.message);
-      toast.error('Error updating bid');
-    }
-  };
-
-  return (
-    <div>
-      <h1>Bid Details</h1>
-      <p>Bid Amount: {bidDetails.amount}</p>
-      {/* Display other bid details as needed */}
-
-      <label htmlFor="updatedBidAmount">Update Bid Amount:</label>
-      <input
-        type="number"
-        id="updatedBidAmount"
-        value={updatedBidAmount}
-        onChange={(e) => setUpdatedBidAmount(parseFloat(e.target.value))}
-      />
-
-      <button type="button" onClick={handleUpdateBid}>
-        Update Bid
-      </button>
-    </div>
-  );
-};
-
-export default BidDetailsPage;
+export default BidDetails;
