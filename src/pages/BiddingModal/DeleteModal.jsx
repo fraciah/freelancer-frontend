@@ -5,7 +5,7 @@ import { useAuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
 
 
-const DeleteModal = ({ showDeleteModal, setDeleteModal, onDeleteBid }) => {
+const DeleteModal = ({ showDeleteModal, setDeleteModal }) => {
     const { orderId } = useParams();
     const { userToken } = useAuthContext();
     const handleCloseModal = () => {
@@ -26,7 +26,7 @@ const DeleteModal = ({ showDeleteModal, setDeleteModal, onDeleteBid }) => {
   
          if (response.ok) {
         toast.success("Bid deleted successfully");
-        onDeleteBid();
+        
         } else {
            console.error("Failed to delete bid:", response.statusText);
         }
