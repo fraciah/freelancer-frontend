@@ -38,8 +38,11 @@ const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
         setBidList([...bidList, newBid]);
         toast.success("Bid placed");
       } else {
+        const status = response.status;
+        if (status === 401 || status === 404) {
+          toast.error("We could not find the order");
+        }
         console.error("Failed to place bid:", response.statusText);
-        toast.error("Failed to place bid");
       }
     } catch (error) {
       console.error("Error placing bid:", error.message);
