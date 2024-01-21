@@ -20,7 +20,7 @@ import { useDeleteModal } from "../../BiddingModal/DeleteModal";
 const OrderView = () => {
   const ordersUrl = `${import.meta.env.VITE_API_URL}/orders/`;
 
-  const { userToken } = useAuthContext();
+  const { userToken, loadedUserProfile } = useAuthContext();
 
   const navigate = useNavigate();
 
@@ -129,6 +129,10 @@ const OrderView = () => {
     getOrder(orderId);
   }, [orderId]);
 
+  const myBid = orderContent?.bidders.some(
+    (bid) => bid.freelancer.user.username === loadedUserProfile?.username
+  );
+
   return (
     <div className="order-view">
       {orderContent?.status === "Available" && (
@@ -151,30 +155,35 @@ const OrderView = () => {
                 <article>{orderContent?.category}</article>
                 <strong>{!loading && "$" + orderContent?.amount}</strong>
                 {orderContent?.status === "Available" && (
-                  <a
-                    onClick={() => setShowBiddingModal(true)}
-                    className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-sky-400 border border-sky-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
-                  >
-                    Place bid
-                  </a>
-                )}
-                {orderContent?.length > 0 && (
                   <>
-                    <a
-                      onClick={() => setShowUpdateModal(true)}
-                      className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-sky-400 border border-sky-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
-                    >
-                      update
-                    </a>
-                    <a
-                      onClick={() => setShowDeleteModal(true)}
-                      className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-red-400 border border-red-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
-                    >
-                      Delete bid
-                    </a>
+                    {myBid ? (
+                      <>
+                        <a
+                          onClick={() => setShowUpdateModal(true)}
+                          className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-sky-400 border border-sky-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
+                        >
+                          Edit Bid
+                        </a>
+                        <a
+                          onClick={() => setShowDeleteModal(true)}
+                          className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-red-400 border border-red-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
+                        >
+                          Cancel bid
+                        </a>
+                      </>
+                    ) : (
+                      <a
+                        onClick={() => setShowBiddingModal(true)}
+                        className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-sky-400 border border-sky-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
+                      >
+                        Place bid
+                      </a>
+                    )}
                   </>
                 )}
-                <article className="status">{orderContent?.status}</article>
+                {orderContent?.status != "Available" && (
+                  <article className="status">{orderContent?.status}</article>
+                )}
               </div>
               <h2 className="card-jobtitle">
                 by{" "}
