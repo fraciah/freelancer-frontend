@@ -22,10 +22,6 @@ const OrderView = () => {
 
   const { userToken } = useAuthContext();
 
-    const { BiddingModal, setShowBiddingModal } = useBiddingModal();
-    const { UpdateModal, setShowUpdateModal } = useUpdateModal();
-    const { DeleteModal, setShowDeleteModal } = useDeleteModal();
-
   const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
@@ -49,6 +45,10 @@ const OrderView = () => {
   const deadlinePassed = checkDeadline(orderContent?.deadline);
 
   const [selectedFileName, setSelectedFileName] = useState("");
+
+  const { BiddingModal, setShowBiddingModal } = useBiddingModal(orderContent);
+  const { UpdateModal, setShowUpdateModal } = useUpdateModal();
+  const { DeleteModal, setShowDeleteModal } = useDeleteModal();
 
   const handleFileInputChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -126,18 +126,18 @@ const OrderView = () => {
 
   useEffect(() => {
     console.log("Getting order.....");
-    // getOrder(orderId).then((data)=>{
-    //     setOrderContent(data);
-    // })
-    // orderId && navigate(`./orders/${orderId}`)
     getOrder(orderId);
   }, [orderId]);
 
   return (
     <div className="order-view">
-      <BiddingModal />
-      <UpdateModal />
-      <DeleteModal />
+      {orderContent?.status === "Available" && (
+        <>
+          <BiddingModal order={orderContent} />
+          <UpdateModal />
+          <DeleteModal />
+        </>
+      )}
       {loading ? (
         <OrderSkeletonLoading />
       ) : (
@@ -150,43 +150,61 @@ const OrderView = () => {
               <div className="order-elements">
                 <article>{orderContent?.category}</article>
                 <strong>{!loading && "$" + orderContent?.amount}</strong>
-                <a onClick={() => setShowBiddingModal(true)} className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-sky-400 border border-sky-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring">
-                              place bid
-                </a>
-                <a onClick={() => setShowUpdateModal(true)} className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-sky-400 border border-sky-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring">
-                              update
-                </a>
-                            <article className='status'>{orderContent?.status}</article>  
-                            <a onClick={() => setShowDeleteModal(true)} className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-red-400 border border-red-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring">
-                              Delete bid
-                </a>
-                
-
-               
+                {orderContent?.status === "Available" && (
+                  <a
+                    onClick={() => setShowBiddingModal(true)}
+                    className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-sky-400 border border-sky-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
+                  >
+                    Place bid
+                  </a>
+                )}
+                {orderContent?.length > 0 && (
+                  <>
+                    <a
+                      onClick={() => setShowUpdateModal(true)}
+                      className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-sky-400 border border-sky-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
+                    >
+                      update
+                    </a>
+                    <a
+                      onClick={() => setShowDeleteModal(true)}
+                      className="inline-block px-3 py-2 text-sm rounded-3xl font-medium text-white bg-red-400 border border-red-400 active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
+                    >
+                      Delete bid
+                    </a>
+                  </>
+                )}
+                <article className="status">{orderContent?.status}</article>
               </div>
-              <h2 className="card-jobtitle">by <a href=""><span>{orderContent.client.user.username}</span></a> <span className='inline-flex ml-4'>
-                        {
-                                (orderContent?.status != 'Completed') &&
-                                <div>
-                                    {deadlinePassed && (
-                                    <article style={{
-                                        color: 'red',
-                                    }}>
-                                        {deadline}
-                                        <span className='ml-2'>overdue</span>
-                                    </article>
-                                    )}
-                                    {!deadlinePassed && (
-                                        <article style={{color:'green'}}>
-                                            {deadline} Remain
-                                        </article>
-                                    )}
-                                </div>
-                            }
-                        </span></h2> 
+              <h2 className="card-jobtitle">
+                by{" "}
+                <a href="">
+                  <span>{orderContent.client.user.username}</span>
+                </a>{" "}
+                <span className="inline-flex ml-4">
+                  {orderContent?.status != "Completed" && (
+                    <div>
+                      {deadlinePassed && (
+                        <article
+                          style={{
+                            color: "red",
+                          }}
+                        >
+                          {deadline}
+                          <span className="ml-2">overdue</span>
+                        </article>
+                      )}
+                      {!deadlinePassed && (
+                        <article style={{ color: "green" }}>
+                          {deadline} Remain
+                        </article>
+                      )}
+                    </div>
+                  )}
+                </span>
+              </h2>
               {(orderContent.status === "Completed" ||
                 orderContent.status === "In Progress") && (
-                  
                 <div className="order-soln">
                   {orderContent?.solution && loadingAttachemnt ? (
                     <div className="animate-pulse"></div>
