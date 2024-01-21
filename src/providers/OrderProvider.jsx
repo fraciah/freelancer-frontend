@@ -9,49 +9,30 @@ import { useJwt } from "react-jwt";
 export const OrderContext = createContext();
 
 export const OrderProvider = (props) => {
-  const navigate = useNavigate();
 
-  const ordersUrl = `${import.meta.env.VITE_API_URL}/orders/`;
+    const navigate = useNavigate();
 
-  const { userToken } = useAuthContext();
-  const { decodedToken } = useJwt(userToken);
+    const ordersUrl = `${import.meta.env.VITE_API_URL}/orders/`
 
-  const [orders, setOrders] = useState([]);
-  const [ordersAvailable, setOrdersAvailable] = useState([]);
-  const [ordersInProgress, setOrdersInProgress] = useState([]);
-  const [ordersCompleted, setOrdersCompleted] = useState([]);
+    const { userToken } = useAuthContext();
+    const { decodedToken } = useJwt(userToken);
 
-  const [loadingAttachemnt, setLoadingAttachment] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [submitLoading, setSubmitLoading] = useState(false);
+    const [orders, setOrders] = useState([]);
+    const [ordersAvailable, setOrdersAvailable] = useState([]);
+    const [ordersBidding, setOrdersBidding] = useState([]);
+    const [ordersInProgress, setOrdersInProgress] = useState([]);
+    const [ordersCompleted, setOrdersCompleted] = useState([]);
 
-  const [user, setUser] = useState();
-  const [socket, setSocket] = useState(null);
+    const [loadingAttachemnt, setLoadingAttachment] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [submitLoading, setSubmitLoading] = useState(false);
 
-  const headersContent = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${userToken}`,
-  };
+    const [user, setUser] = useState();
+    const [socket, setSocket] = useState(null);
 
-  const getOrdersAvailable = async () => {
-    const ordersUrl = `${import.meta.env.VITE_API_URL}/orders?status=available`;
-    try {
-      const getOrders = await fetch(ordersUrl, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
-
-      const orders = await getOrders.json();
-      const available = orders.filter((order) => order.status === "Available");
-
-      setOrdersAvailable(available);
-      return orders;
-    } catch (errors) {
-      console.error(errors);
-    } finally {
-      setLoading(false);
+    const headersContent = {
+        'Content-Type':'application/json',
+        'Authorization':`Bearer ${userToken}`                
     }
   };
 
@@ -100,53 +81,58 @@ export const OrderProvider = (props) => {
         Authorization: `Bearer ${userToken}`,
       };
 
-      let bodyData;
+    const getBidding = async () => {
+        const biddingUrl = `${import.meta.env.VITE_API_URL}/orders?bidding=true`;
+        
+        try {
+            setLoading(true); 
+            const getBiddings = await fetch(biddingUrl, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${userToken}`
+                }
+            });
+    
+            const biddings = await getBiddings.json();
+            console.log(biddings)
+            setOrdersBidding(biddings);
+            return biddings;
+        } catch (errors) {
+            console.error(errors);
+        } finally {
+            setLoading(false); 
+        }
+    };
+    
+      
 
-      if (e.target.attachment.files.length > 0) {
-        const attachment = e.target.attachment.files[0];
-        const data = new FormData();
-        data.append("title", title);
-        data.append("category", category);
-        data.append("attachment", attachment);
-        data.append("deadline", deadline.toISOString());
-        data.append("instructions", instructions);
-        data.append("amount", amount);
+    const getAllOrders = async() => {
+        const ordersUrl = `${import.meta.env.VITE_API_URL}/orders`
+        try {
+            const getOrders = await fetch(ordersUrl, {
+                headers: {
+                    'Content-Type':'application/json',
+                    'Authorization': `Bearer ${userToken}`
+                }
+            })
 
-        bodyData = data;
-      } else {
-        const jsonPayload = {
-          title,
-          category,
-          deadline: deadline.toISOString(),
-          instructions,
-          amount,
-        };
+            const orders = await getOrders.json();
+            // const available = orders.filter(order=>order.status==='Available');
+            const inProgress = orders.filter(order=>order.status==='In Progress');
+            const completed = orders.filter(order=>order.status==='Completed');
 
-        bodyData = JSON.stringify(jsonPayload);
-        headers["Content-Type"] = "application/json";
-      }
+            // setOrdersAvailable(available);
+            setOrdersInProgress(inProgress);
+            setOrdersCompleted(completed);
+            setOrders(orders);
+            
 
-      const createOrder = await fetch(ordersUrl, {
-        method: "post",
-        headers,
-        body: bodyData,
-      });
-
-      const status = createOrder.status;
-
-      if (status === 201) {
-        console.log("navigation");
-        getAllOrders().then(() => {
-          navigate("./app");
-        });
-        setSubmitLoading(false);
-      } else if (status === 401) {
-        navigate("/login?redirect=create-task");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSubmitLoading(false);
+            return orders
+        } catch (errors) {
+            console.error(errors);
+        } finally {
+            setLoading(false);
+        }        
     }
   };
 
@@ -272,29 +258,69 @@ export const OrderProvider = (props) => {
       socket?.close();
     }
 
-    return () => {
-      if (socket) {
-        socket.close();
-      }
-    };
-  }, [decodedToken, user]);
+    // useEffect(()=>{
 
-  // const [orderDetails, setOrderDetails] = useState();
+    // },[])
 
-  useEffect(() => {
-    userToken && getAllOrders();
-    // socket.onopen = () => {
-    //     console.log("Connection established");
-    // }
-  }, [userToken]);
 
-  return (
-    <OrderContext.Provider
-      value={{
-        orders,
+    // socket.onmessage = (event) => {
+    //     const receivedData = JSON.parse(event.data);
+    //     const newOrder = (receivedData.message.order);
+    //     console.log("Received ", receivedData);
+    //     setOrders(prev=>{
+    //         const updatedOrders = [newOrder, ...prev];
+    //         const inProgress = updatedOrders.filter(order=>order.status==='In Progress');
+    //         setOrdersInProgress(inProgress);
+    //         return updatedOrders;
+    //     });
+    // }    
+
+    useEffect(()=>{
+
+        setUser(decodedToken?.user_id)
+        if (user) {
+            const newSocket = new WebSocket(`ws://127.0.0.1:8000/ws/order/${user}/`);        
+            setSocket(newSocket);
+            newSocket.onmessage = (event) => {
+                const receivedData = JSON.parse(event.data);
+                const newOrder = (receivedData.message.order);
+                setOrders(prev=>{
+                    const updatedOrders = [newOrder, ...prev];
+                    const inProgress = updatedOrders.filter(order=>order.status==='In Progress');
+                    setOrdersInProgress(inProgress);
+                    return updatedOrders;
+                });   
+            }
+            setSocket(newSocket);            
+        } else {
+            socket?.close();
+        }
+
+        return () => {
+            if (socket){
+                socket.close();
+            }
+        }
+
+    }, [decodedToken, user])
+
+    // const [orderDetails, setOrderDetails] = useState();
+
+    useEffect(()=>{
+        userToken && getAllOrders();
+        // socket.onopen = () => {
+        //     console.log("Connection established");
+        // }
+        
+
+    },[userToken]);
+
+    return <OrderContext.Provider value={{
+        orders, 
         ordersAvailable,
-        ordersInProgress,
-        ordersCompleted,
+        ordersBidding,        
+        ordersInProgress, 
+        ordersCompleted, 
         loading,
         submitLoading,
         loadingAttachemnt,
@@ -303,11 +329,12 @@ export const OrderProvider = (props) => {
         updateInstructions,
         completeOrder,
         getAllOrders,
-        uploadAttachment,
-        getOrdersAvailable,
-      }}
-    >
-      {props.children}
+        getBidding,
+        uploadAttachment,  
+        getOrdersAvailable    
+    }}>
+        {props.children}
+
     </OrderContext.Provider>
   );
 };
