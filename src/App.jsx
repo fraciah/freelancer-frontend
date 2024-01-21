@@ -17,7 +17,6 @@ import Notification from './pages/notification/Notification';
 import OrderView from './pages/orders/order-view/OrderView';
 import Settings from './pages/settings/Settings';
 import Available from './pages/orders/available/Available';
-import BidDetails from './pages/orders/Bid-view/BidDetails';
 
 function App() {
   const { userToken } = useAuthContext();
@@ -34,8 +33,7 @@ function App() {
               <Routes>
                 <Route path='/' element={<Dashboard />}/> 
                 <Route path='/in-progress' element={<InProgress/>}/>
-                <Route path='/available' element={<Available/>} />
-                <Route path='/Bid-view' element={<BidDetails />} /> 
+                <Route path='/available' element={<Available/>} /> 
                 <Route path='/completed'element={<Completed/>}/>
                 <Route path='/profile'element={<Profile/>}/>
                 <Route path='/notifications'element={<Notification/>}/>
