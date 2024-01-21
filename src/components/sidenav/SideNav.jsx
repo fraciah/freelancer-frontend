@@ -27,10 +27,6 @@ const SideNav = () => {
                 <FaClockRotateLeft size={iconSize}/>
                    Available
                 </Link>
-                <Link to='./Bid-view' className="nav-item">
-                <MdAccessTime  size={iconSize}/>
-                    My Bids
-                </Link>
                 <Link to='./in-progress' className="nav-item">
                     <MdPendingActions size={iconSize}/>
                     In Progress
