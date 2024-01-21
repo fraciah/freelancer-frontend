@@ -5,7 +5,6 @@ import { useAuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
 
 const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
-  console.log(order);
   const [bidAmount, setBidAmount] = useState(order.amount);
   const [bidList, setBidList] = useState([]);
   const { userToken } = useAuthContext();
@@ -34,7 +33,6 @@ const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
 
       if (response.ok) {
         const newBid = await response.json();
-        console.log(newBid);
         setBidList([...bidList, newBid]);
         toast.success("Bid placed");
       } else {
@@ -59,11 +57,10 @@ const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
   const watchAmount = (e) => {
     const amt = parseFloat(e.target.value);
     setBidAmount(parseFloat(amt));
-    if (amt < order.amount) {
+    if (amt < order.amount || isNaN(amt)) {
       setAmtLow(true);
-    } else if (amt > order.amount) {
+    } else if (amt >= order.amount) {
       setAmtLow(false);
-      setInputClass({});
     }
   };
 

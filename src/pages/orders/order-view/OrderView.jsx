@@ -47,7 +47,7 @@ const OrderView = () => {
   const [selectedFileName, setSelectedFileName] = useState("");
 
   const { BiddingModal, setShowBiddingModal } = useBiddingModal(orderContent);
-  const { UpdateModal, setShowUpdateModal } = useUpdateModal();
+  const { UpdateModal, setShowUpdateModal } = useUpdateModal(orderContent);
   const { DeleteModal, setShowDeleteModal } = useDeleteModal();
 
   const handleFileInputChange = (e) => {
@@ -137,7 +137,7 @@ const OrderView = () => {
     <div className="order-view">
       {orderContent?.status === "Available" && (
         <>
-          <BiddingModal order={orderContent} />
+          <BiddingModal />
           <UpdateModal />
           <DeleteModal />
         </>
