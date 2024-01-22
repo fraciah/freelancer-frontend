@@ -1,15 +1,36 @@
 import { useParams } from "react-router-dom";
 import Modal from "./modal";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { useAuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
 
-const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
+const UpdateModal = ({
+  showUpdateModal,
+  setUpdateModal,
+  order,
+  onUpdateBid,
+}) => {
   const [bidAmount, setBidAmount] = useState(order.amount);
-  const [bidList, setBidList] = useState([]);
-  const { userToken } = useAuthContext();
+  const { orderId } = useParams();
+  const { userToken, loadedUserProfile } = useAuthContext();
 
-  const handleBidSubmit = async (e) => {
+  const [myBid, setMyBid] = useState(
+    order?.bidders.find(
+      (bid) => bid.freelancer.user.username === loadedUserProfile?.username
+    )
+  );
+
+  useState(() => {
+    if (myBid) {
+      setBidAmount(myBid.amount);
+    }
+  }, [myBid]);
+
+  const handleCloseModal = () => {
+    setUpdateModal(false);
+  };
+
+  const handleBidUpdate = async (e) => {
     e.preventDefault();
     try {
       if (bidAmount < order.amount) {
@@ -20,9 +41,9 @@ const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
       }
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/orders/${order.id}/bid/`,
+        `${import.meta.env.VITE_API_URL}/orders/${orderId}/bid/`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${userToken}`,
@@ -33,26 +54,29 @@ const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
 
       if (response.ok) {
         const newBid = await response.json();
-        setBidList([...bidList, newBid]);
-        toast.success("Bid placed");
+        const amt = newBid.amount;
+        toast.success("Bid updated successfully");
+        // Pass the updated bid to the parent component
+        const updatedBid = {
+          ...myBid,
+          amount: amt,
+        };
+
+        myBid.amount = amt;
+
+        console.log(updatedBid);
+        setMyBid(updatedBid);
+        // onUpdateBid(updatedBid);
       } else {
-        const status = response.status;
-        if (status === 401 || status === 404) {
-          toast.error("We could not find the order");
-        }
-        console.error("Failed to place bid:", response.statusText);
+        console.error("Failed to update bid:", response.statusText);
       }
     } catch (error) {
-      console.error("Error placing bid:", error.message);
-      toast.error("Failed to place bid");
+      console.error("Error updating bid:", error.message);
     } finally {
       handleCloseModal();
     }
   };
 
-  const handleCloseModal = () => {
-    setBiddingModal(false);
-  };
   const [amtLow, setAmtLow] = useState(false);
   const watchAmount = (e) => {
     const amt = parseFloat(e.target.value);
@@ -65,12 +89,12 @@ const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
   };
 
   return (
-    <Modal showModal={showBiddingModal} setShowModal={setBiddingModal}>
+    <Modal showModal={showUpdateModal} setShowModal={setUpdateModal}>
       <div className="w-full overflow-hidden shadow-xl md:max-w-md md:rounded-2xl md:border md:border-gray-200">
         <div className="relative p-4 w-full max-w-md max-h-full">
           <div className="relative  dark:bg-gray-700">
             {/* Modal body */}
-            <form className="p-4 md:p-5" onSubmit={handleBidSubmit}>
+            <form className="p-4 md:p-5" onSubmit={handleBidUpdate}>
               <div className="flex items-center mb-4">
                 <span
                   htmlFor="price"
@@ -125,7 +149,7 @@ const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
                   name="price"
                   id="price"
                   min={0}
-                  defaultValue={order.amount}
+                  defaultValue={myBid?.amount}
                   onChange={watchAmount}
                   className={`block w-full rounded-md py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset ${
                     amtLow ? "focus:ring-red-600" : "focus:ring-sky-600"
@@ -143,7 +167,7 @@ const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
                 type="submit"
                 className={`flex w-full justify-center mt-4 rounded-md bg-sky-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-sky-900focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
               >
-                Place bid
+                Update Bid
               </button>
             </form>
           </div>
@@ -153,25 +177,25 @@ const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
   );
 };
 
-export function useBiddingModal(order) {
-  const [showBiddingModal, setShowBiddingModal] = useState(false);
+export function useUpdateModal(order) {
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
 
-  const BiddingModalCallback = useCallback(
-    (orderId) => {
+  const UpdateModalCallback = useCallback(
+    (onUpdateBid) => {
       return (
-        <BiddingModal
-          showBiddingModal={showBiddingModal}
-          setBiddingModal={setShowBiddingModal}
-          orderId={orderId}
+        <UpdateModal
+          showUpdateModal={showUpdateModal}
+          setUpdateModal={setShowUpdateModal}
           order={order}
+          onUpdateBid={onUpdateBid}
         />
       );
     },
-    [showBiddingModal, order]
+    [showUpdateModal, order]
   );
 
   return useMemo(
-    () => ({ setShowBiddingModal, BiddingModal: BiddingModalCallback }),
-    [setShowBiddingModal, BiddingModalCallback]
+    () => ({ setShowUpdateModal, UpdateModal: UpdateModalCallback }),
+    [setShowUpdateModal, UpdateModalCallback]
   );
 }
