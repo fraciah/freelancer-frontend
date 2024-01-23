@@ -133,6 +133,12 @@ const OrderView = () => {
     (bid) => bid.freelancer.user.username === loadedUserProfile?.username
   );
 
+  
+  const hasUserBided =
+    orderContent &&
+    orderContent.bidders &&
+    orderContent.bidders.length > 0;
+
   return (
     <div className="order-view">
       {orderContent?.status === "Available" && (
@@ -376,11 +382,13 @@ const OrderView = () => {
                 </div>
               )}
             </div>
-            <Chat
-              orderId={orderId}
-              client={orderContent.client}
-              freelancer={orderContent.freelancer}
-            />
+            {hasUserBided && (
+        <Chat
+          orderId={orderId}
+          client={orderContent.client}
+          freelancer={orderContent.freelancer}
+        />
+      )}
           </>
         )
       )}
