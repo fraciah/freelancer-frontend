@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <OrderProvider>
         <ChatProvider>
           <NotificationProvider>
-            <ToasterContext />
+          <ToasterContext />
             <App />
           </NotificationProvider>
         </ChatProvider>
