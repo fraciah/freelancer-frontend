@@ -46,6 +46,9 @@ const OrderView = () => {
 
   const [selectedFileName, setSelectedFileName] = useState("");
 
+ 
+
+
   const { BiddingModal, setShowBiddingModal } = useBiddingModal(orderContent);
   const { UpdateModal, setShowUpdateModal } = useUpdateModal(orderContent);
   const { DeleteModal, setShowDeleteModal } = useDeleteModal();
@@ -293,7 +296,6 @@ const OrderView = () => {
                         </button>
                       </div>
                     )}
-
                   {orderContent?.solution && (
                     <div className=" ">
                       <a
@@ -314,8 +316,7 @@ const OrderView = () => {
                       <div className="mt-2">
                         <dl>
                           <div>
-                            <dd className="text-sm text-gray-500">
-                              <span className="mr-2">Solutiion type :</span>
+                            <dd className="text-sm text-gray-500 mr-4">
                               {orderContent?.solution?._type}
                             </dd>
                           </div>
@@ -323,10 +324,10 @@ const OrderView = () => {
                       </div>
                       <IoMdDownload
                         onClick={downloadFile}
-                        className="cursor-pointer"
+                        className="cursor-pointer mt-2"
                         size={iconSize}
                       />
-                      <span className="text-gray-500 ">{uploadedAt}</span>
+                      <span className="text-gray-500 mt-2 text-sm">{uploadedAt}</span>
                     </div>
                   )}
                 </div>

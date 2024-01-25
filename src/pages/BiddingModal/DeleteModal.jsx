@@ -34,6 +34,7 @@ const DeleteModal = ({ showDeleteModal, setDeleteModal }) => {
       toast.error("Failed to delete bid");
     } finally {
       handleCloseModal();
+      window.location.reload();
     }
   };
 
