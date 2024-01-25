@@ -136,11 +136,8 @@ const OrderView = () => {
     (bid) => bid.freelancer.user.username === loadedUserProfile?.username
   );
 
-  
-  const hasUserBided =
-    orderContent &&
-    orderContent.bidders &&
-    orderContent.bidders.length > 0;
+  //   const hasUserBided =
+  //     orderContent && orderContent.bidders && orderContent.bidders.length > 0;
 
   return (
     <div className="order-view">
@@ -383,13 +380,15 @@ const OrderView = () => {
                 </div>
               )}
             </div>
-            {hasUserBided && (
-        <Chat
-          orderId={orderId}
-          client={orderContent.client}
-          freelancer={orderContent.freelancer}
-        />
-      )}
+            {(myBid ||
+              orderContent?.freelancer?.user.username ===
+                loadedUserProfile?.username) && (
+              <Chat
+                orderId={orderId}
+                client={orderContent.client}
+                freelancer={orderContent.freelancer}
+              />
+            )}
           </>
         )
       )}
