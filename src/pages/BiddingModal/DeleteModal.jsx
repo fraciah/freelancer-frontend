@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo } from "react";
 import { useAuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
 
-const DeleteModal = ({ showDeleteModal, setDeleteModal }) => {
+const DeleteModal = ({ showDeleteModal, setDeleteModal, setOrderContent }) => {
   const { orderId } = useParams();
   const { userToken } = useAuthContext();
   const handleCloseModal = () => {
@@ -25,7 +25,9 @@ const DeleteModal = ({ showDeleteModal, setDeleteModal }) => {
       );
 
       if (response.ok) {
+        const newOrder = await response.json();
         toast.success("Bid deleted successfully");
+        setOrderContent(newOrder);
       } else {
         console.error("Failed to delete bid:", response.statusText);
       }
@@ -121,7 +123,7 @@ const DeleteModal = ({ showDeleteModal, setDeleteModal }) => {
   );
 };
 
-export function useDeleteModal() {
+export function useDeleteModal(setOrderContent) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const DeleteModalCallback = useCallback(
@@ -132,6 +134,7 @@ export function useDeleteModal() {
           setDeleteModal={setShowDeleteModal}
           orderDetails={orderDetails}
           onDeleteBid={onDeleteBid}
+          setOrderContent={setOrderContent}
         />
       );
     },
