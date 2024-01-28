@@ -16,6 +16,7 @@ import { formatDeadline } from "../../../../utils/helpers/DeadlineFormat";
 import { useBiddingModal } from "../../BiddingModal/biddingModal";
 import { useUpdateModal } from "../../BiddingModal/UpdateModal";
 import { useDeleteModal } from "../../BiddingModal/DeleteModal";
+import { checkBid } from "../../../../utils/helpers/checkBid";
 
 const OrderView = () => {
   const ordersUrl = `${import.meta.env.VITE_API_URL}/orders/`;
@@ -45,10 +46,6 @@ const OrderView = () => {
   const deadlinePassed = checkDeadline(orderContent?.deadline);
 
   const [selectedFileName, setSelectedFileName] = useState("");
-
-  const { BiddingModal, setShowBiddingModal } = useBiddingModal(orderContent);
-  const { UpdateModal, setShowUpdateModal } = useUpdateModal(orderContent);
-  const { DeleteModal, setShowDeleteModal } = useDeleteModal();
 
   const handleFileInputChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -129,12 +126,20 @@ const OrderView = () => {
     getOrder(orderId);
   }, [orderId]);
 
-  const myBid = orderContent?.bidders.some(
-    (bid) => bid.freelancer.user.username === loadedUserProfile?.username
-  );
+  useEffect(() => {
+    orderContent && setMyBid(checkBid(orderContent, loadedUserProfile));
+  }, [orderContent]);
 
-  //   const hasUserBided =
-  //     orderContent && orderContent.bidders && orderContent.bidders.length > 0;
+  const [myBid, setMyBid] = useState(checkBid(orderContent, loadedUserProfile));
+
+  const { BiddingModal, setShowBiddingModal } = useBiddingModal(
+    orderContent,
+    setOrderContent
+  );
+  const { UpdateModal, setShowUpdateModal } = useUpdateModal(orderContent);
+  const { DeleteModal, setShowDeleteModal } = useDeleteModal(setOrderContent);
+
+  console.log(myBid);
 
   return (
     <div className="order-view">
