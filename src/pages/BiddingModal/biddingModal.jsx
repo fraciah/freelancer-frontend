@@ -3,8 +3,14 @@ import Modal from "./modal";
 import { useState, useCallback, useMemo } from "react";
 import { useAuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
+import { checkBid } from "../../../utils/helpers/checkBid";
 
-const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
+const BiddingModal = ({
+  showBiddingModal,
+  setBiddingModal,
+  order,
+  setOrderContent,
+}) => {
   const [bidAmount, setBidAmount] = useState(order.amount);
   const [bidList, setBidList] = useState([]);
   const { userToken } = useAuthContext();
@@ -33,8 +39,9 @@ const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
 
       if (response.ok) {
         const newBid = await response.json();
-        setBidList([...bidList, newBid]);
         toast.success("Bid placed");
+        console.log(newBid);
+        setOrderContent(newBid);
       } else {
         const status = response.status;
         if (status === 401 || status === 404) {
@@ -153,7 +160,7 @@ const BiddingModal = ({ showBiddingModal, setBiddingModal, order }) => {
   );
 };
 
-export function useBiddingModal(order) {
+export function useBiddingModal(order, setOrderContent) {
   const [showBiddingModal, setShowBiddingModal] = useState(false);
 
   const BiddingModalCallback = useCallback(
@@ -164,6 +171,7 @@ export function useBiddingModal(order) {
           setBiddingModal={setShowBiddingModal}
           orderId={orderId}
           order={order}
+          setOrderContent={setOrderContent}
         />
       );
     },
