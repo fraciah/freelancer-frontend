@@ -56,6 +56,27 @@ export const OrderProvider = (props) => {
     }
   };
 
+  const deleteSolution = async (orderId,solutionId) => {
+    const DeleteSolutionUrl =`${import.meta.env.VITE_API_URL}/orders/${orderId}/solution/?solution-id=${solutionId}`;
+    try {
+        const response = await fetch(DeleteSolutionUrl, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userToken}`,                
+            },
+        });
+        if (response.ok) {
+            console.log('Solution deleted successfully');
+        } else {
+            console.error('Failed to delete solution');
+        }
+    } catch (error) {
+        console.error('Error deleting solution:', error);
+    }
+};
+
+
   const getBidding = async () => {
     const biddingUrl = `${import.meta.env.VITE_API_URL}/orders?bidding=true`;
 
@@ -90,6 +111,7 @@ export const OrderProvider = (props) => {
       });
 
       const orders = await getOrders.json();
+      console.log(orders)
       // const available = orders.filter(order=>order.status==='Available');
       const inProgress = orders.filter(
         (order) => order.status === "In Progress"
@@ -328,6 +350,7 @@ export const OrderProvider = (props) => {
         completeOrder,
         getAllOrders,
         getBidding,
+        deleteSolution,
         uploadAttachment,
         getOrdersAvailable,
       }}
