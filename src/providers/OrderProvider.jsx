@@ -56,25 +56,7 @@ export const OrderProvider = (props) => {
     }
   };
 
-  const deleteSolution = async (orderId,solutionId) => {
-    const DeleteSolutionUrl =`${import.meta.env.VITE_API_URL}/orders/${orderId}/solution/?solution-id=${solutionId}`;
-    try {
-        const response = await fetch(DeleteSolutionUrl, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${userToken}`,                
-            },
-        });
-        if (response.ok) {
-            console.log('Solution deleted successfully');
-        } else {
-            console.error('Failed to delete solution');
-        }
-    } catch (error) {
-        console.error('Error deleting solution:', error);
-    }
-};
+
 
 
   const getBidding = async () => {
@@ -350,7 +332,6 @@ export const OrderProvider = (props) => {
         completeOrder,
         getAllOrders,
         getBidding,
-        deleteSolution,
         uploadAttachment,
         getOrdersAvailable,
       }}

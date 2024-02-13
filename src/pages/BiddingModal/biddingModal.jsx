@@ -3,7 +3,6 @@ import Modal from "./modal";
 import { useState, useCallback, useMemo } from "react";
 import { useAuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
-import { checkBid } from "../../../utils/helpers/checkBid";
 
 const BiddingModal = ({
   showBiddingModal,
@@ -12,7 +11,6 @@ const BiddingModal = ({
   setOrderContent,
 }) => {
   const [bidAmount, setBidAmount] = useState(order.amount);
-  const [bidList, setBidList] = useState([]);
   const { userToken } = useAuthContext();
 
   const handleBidSubmit = async (e) => {

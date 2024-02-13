@@ -17,6 +17,7 @@ import { useBiddingModal } from "../../BiddingModal/biddingModal";
 import { useUpdateModal } from "../../BiddingModal/UpdateModal";
 import { useDeleteModal } from "../../BiddingModal/DeleteModal";
 import { checkBid } from "../../../../utils/helpers/checkBid";
+import { toast } from "react-hot-toast";
 
 const OrderView = () => {
   const ordersUrl = `${import.meta.env.VITE_API_URL}/orders/`;
@@ -93,6 +94,26 @@ const OrderView = () => {
     );
     link.click();
   };
+
+  const deleteSolution = async (orderId,solutionId) => {
+    const DeleteSolutionUrl =`${import.meta.env.VITE_API_URL}/orders/${orderId}/solution/?solution-id=${solutionId}`;
+    try {
+        const response = await fetch(DeleteSolutionUrl, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userToken}`,                
+            },
+        });
+        if (response.ok) {
+            toast.success('Solution deleted successfully');
+        } else {
+            toast.error('Failed to delete solution');
+        }
+    } catch (error) {
+        toast.error('Error deleting solution:', error);
+    }
+};
 
   const getOrder = async (orderId) => {
     try {
@@ -241,7 +262,7 @@ const OrderView = () => {
 <div class="instructions mt-3">
   <strong>OVERALL RATING</strong>
       
-      <article class="mt-1 ml-2"><span class="mr-2  ">message:</span>{orderContent.rating.message}</article>
+      <article className="mt-1 ml-2"><span className="mr-2  ">message:</span>{orderContent.rating.message}</article>
     </div>
                 </div>
                 )}
@@ -255,6 +276,7 @@ const OrderView = () => {
                     <div className="solution">
                       <strong>
                         {orderContent?.solution ? "Solutions" : "Solutions"}
+
                         {orderContent?.status === "In Progress" && (
                           <>
                             <input
@@ -271,6 +293,24 @@ const OrderView = () => {
                       </strong>
                     </div>
                   )}
+            <details className="group [&_summary::-webkit-details-marker]:hidden flex ">
+              <summary className="flex cursor-pointer  rounded-lg right-0 top-0 justify-end ml-11">
+                <span className="shrink-0 transition duration-300 group-open:-rotate-180  ml-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                  </svg>
+            </span>
+          </summary>
+          <ul className="mt-2 space-y-1 px-4 right-0 top-0 justify-end flex ">
+            <li>
+              <a
+                 onClick={() => deleteSolution(orderContent.id, orderContent.solution.id)}
+                className=" rounded-lg px-4 py-2 text-sm cursor-pointer font-medium text-white  bg-red-400">
+                Delete Solution
+              </a>
+            </li>
+          </ul>
+        </details>
 
                   {!orderContent?.solution &&
                     orderContent?.status === "In Progress" && (
@@ -323,7 +363,10 @@ const OrderView = () => {
                     )}
 
                   {orderContent?.solution && (
+                    
+                    
                     <div className=" ">
+
                       <a
                         href={orderContent?.solution?.solution}
                         id="solution-file"
