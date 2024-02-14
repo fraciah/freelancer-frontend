@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Login from "./pages/login/Login";
 import { useAuthContext } from "./providers/AuthProvider";
-import { useState } from "react";
+import { createContext, useState } from "react";
 import PasswordReset from "./pages/reset-password/PasswordReset";
 import SetPassword from "./components/modal/set-password/SetPassword";
 import BadToken from "./pages/bad-token/BadToken";
@@ -19,13 +19,21 @@ import Settings from "./pages/settings/Settings";
 import Available from "./pages/orders/available/Available";
 import BidDetails from "./pages/orders/Bid-view/BidDetails";
 
+export const ThemeContext = createContext(null)
+
 function App() {
+  const [theme, setTheme] = useState("dark");
   const { userToken } = useAuthContext();
+  
+  const toggleTheme = () => {
+    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+  };
 
   const Main = () => {
     return (
       <>
-        <main className="app">
+      <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <main className="app" id={theme}>
           <SideNav />
           <div className="app-main-content">
             <Navbar />
@@ -44,13 +52,15 @@ function App() {
             </div>
           </div>
         </main>
+      </ThemeContext.Provider>
       </>
     );
   };
 
   return (
     <>
-      <Routes>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <Routes>
         <Route path="login" element={<Login />} />
         <Route path="/app/*" element={userToken ? <Main /> : <Login />} />
         <Route path="reset-password" element={<PasswordReset />} />
@@ -61,6 +71,7 @@ function App() {
           element={<SetPassword />}
         />
       </Routes>
+    </ThemeContext.Provider>
     </>
   );
 }

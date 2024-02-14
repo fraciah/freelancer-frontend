@@ -124,13 +124,13 @@ const Profile = () => {
                     }
                     <input id='upload-profile' onChange={updateProfilePhoto} ref={fileInputRef} style={{ display: 'none' }} size={5 * 1024 * 1024} accept='image/*' type="file" /> 
                     <div className='space-y-1 text-gray-600'>
-                        <article className={loadingUserProfile?'username-skeleton':''} style={{fontWeight:'bold', display:'flex', gap:'1rem', alignItems:'center'}}>
+                        <article className={loadingUserProfile?'username-skeleton':''} style={{fontWeight:'bold', display:'flex', gap:'1rem', alignItems:'center',color:'#f7fafc'}}>
                             {userProfile?.username} 
                             {
                                 (userProfile?.is_verified === 'True') && <MdVerified className='' size={iconSize}/>
                             }
                         </article>
-                        <article style={{
+                        <article className='text-white' style={{
                             animation: loadingUserProfile?`skeleton-loading 1s linear infinite alternate`:''
                         }}>{userProfile?.email}</article>
                     </div>
@@ -139,30 +139,30 @@ const Profile = () => {
                     <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdTaskAlt className='text-sky-300' size={iconSize}/>
-                            <article>Total Orders</article>
+                            <article className='text-white'>Total Orders</article>
                         </div>
                         <span className=''>{userProfile?.orders_count}</span>
                     </div>
                     <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdPendingActions className='text-sky-300' size={iconSize}/>
-                            <article>Orders in Progress</article>
+                            <article className='text-white'>Orders in Progress</article>
                         </div>
                         <span className=''>{ordersInProgress.length}</span>
                     </div>
                     <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdOutlineAddTask className='text-sky-300' size={iconSize}/>
-                            <article>Orders completed</article>
+                            <article className='text-white'>Orders completed</article>
                         </div>
                         <span className=''>{ordersCompleted?.length}</span>
                     </div>
                     <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdAccessTime className='text-sky-300' size={iconSize}/>
-                            <article>Last Login</article>
+                            <article className='text-white'>Last Login</article>
                         </div>
-                        <article className=''>{userProfile ? timeAgo(userProfile?.last_login):'---'}</article>
+                        <article className='text-white'>{userProfile ? timeAgo(userProfile?.last_login):'---'}</article>
                     </div>
                 </div>
                 <div className='mt-5 flex flex-col space-y-2 mb-4'>
@@ -177,13 +177,15 @@ const Profile = () => {
                         </strong>
                         {
                             editBio ?
-                            <textarea name="" id="" rows="4" value={editedBio} onChange={(e)=>setEditedBio(e.target.value)}
+                            <textarea  name="" id="" rows="4" value={editedBio} onChange={(e)=>setEditedBio(e.target.value)}
                             style={{
                                 resize:'none',
                                 border:'none',
                                 width:'100%',
                                 padding:'4px',
-                                outline:'none'
+                                outline:'none',
+                                color: '#535354',
+                                backgroundColor: '#f7fafc', 
                             }}
                             />:
                             (

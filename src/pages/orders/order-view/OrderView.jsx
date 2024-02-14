@@ -95,8 +95,8 @@ const OrderView = () => {
     link.click();
   };
 
-  const deleteSolution = async (orderId,solutionId) => {
-    const DeleteSolutionUrl =`${import.meta.env.VITE_API_URL}/orders/${orderId}/solution/?solution-id=${solutionId}`;
+  const deleteSolution = async (orderId, solutionId) => {
+    const DeleteSolutionUrl = `${import.meta.env.VITE_API_URL}/orders/${orderId}/solution/?solution-id=${solutionId}`;
     try {
         const response = await fetch(DeleteSolutionUrl, {
             method: 'DELETE',
@@ -107,6 +107,10 @@ const OrderView = () => {
         });
         if (response.ok) {
             toast.success('Solution deleted successfully');
+            setOrderContent(prevOrderContent => ({
+                ...prevOrderContent,
+                solution: null   
+            }));
         } else {
             toast.error('Failed to delete solution');
         }
@@ -114,6 +118,7 @@ const OrderView = () => {
         toast.error('Error deleting solution:', error);
     }
 };
+
 
   const getOrder = async (orderId) => {
     try {
@@ -181,7 +186,7 @@ const OrderView = () => {
                 {orderContent?.title}
               </strong>
               <div className="order-elements">
-                <article>{orderContent?.category}</article>
+                <article className="category">{orderContent?.category}</article>
                 <strong>{!loading && "$" + orderContent?.amount}</strong>
                 {orderContent?.status === "Available" && (
                   <>
@@ -319,7 +324,7 @@ const OrderView = () => {
                       <div className="upload-div">
                         <span
                           onClick={openFileDialog}
-                          className="block w-full cursor-pointer  h-auto  border border-sky-300 border-dashed bg-white px-3 py-2 text-sm transition  focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 "
+                          className="block w-full cursor-pointer  h-auto  border border-sky-300 border-dashed bg-accent px-3 py-2 text-sm transition  focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 "
                         >
                           <p className="text-center justify-center align-middle flex mt-1 text-sky-400">
                             {" "}
@@ -342,7 +347,7 @@ const OrderView = () => {
                         </span>
 
                         <div className="">
-                          <span className="text-sm text-gray-500">
+                          <span className="text-sm ">
                             solution type:
                           </span>
                           <select
@@ -355,12 +360,12 @@ const OrderView = () => {
                           </select>
                         </div>
 
-                        <button
+                        <a
                           onClick={uploadAttachmentFile}
-                          className="inline-block px-12 py-3 text-sm font-medium text-white bg-sky-400 border border-sky-400 rounded active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
+                          className="inline-block px-12 py-3 text-sm font-medium bg-sky-400 border border-sky-400 rounded  cursor-pointer focus:outline-none focus:ring"
                         >
                           Submit
-                        </button>
+                        </a>
                       </div>
                     )}
 
@@ -374,7 +379,7 @@ const OrderView = () => {
                         id="solution-file"
                         rel="noopener noreferrer"
                         download
-                        className="block rounded-lg p-4 shadow-sm bg-white"
+                        className="block rounded-lg p-4 shadow-sm bg-accent"
                       >
                         {typeof orderContent?.solution?.solution === "string"
                           ? orderContent?.solution?.solution.substring(
@@ -388,7 +393,7 @@ const OrderView = () => {
                         <dl>
                           <div>
                             <dd className="text-sm text-gray-500">
-                              <span className="mr-2">Solutiion type :</span>
+                              <span className="mr-2 text-white">Solutiion type :</span>
                               {orderContent?.solution?._type}
                             </dd>
                           </div>
@@ -399,13 +404,13 @@ const OrderView = () => {
                         className="cursor-pointer"
                         size={iconSize}
                       />
-                      <span className="text-gray-500 ">{uploadedAt}</span>
+                      <span className="text-white">{uploadedAt}</span>
                     </div>
                   )}
                 </div>
               )}
               <div className="instructions">
-                <strong>
+                <strong className="text-white">
                   {orderContent?.status === "In Progress" ||
                   orderContent?.status === "Available"
                     ? orderContent?.instructions
@@ -426,7 +431,7 @@ const OrderView = () => {
                     <div style={{ height: "1.5rem" }}></div>
                   ) : (
                     <strong style={{ height: "1.5rem" }}>
-                      {orderContent?.attachment ? "Attachments" : "Attachments"}
+                     <p className="text-white"> {orderContent?.attachment ? "Attachments" : "Attachments"}</p>
                       {orderContent?.status === "In Progress"}
                     </strong>
                   )}
