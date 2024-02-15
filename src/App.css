@@ -43,3 +43,12 @@
 .routes {
     padding: 1rem 0;
 }
+
+#light {
+    background-color:  #f7fafc;
+  }
+  
+  #dark {
+    background-color:  var(--secondary-color);
+  }
+  

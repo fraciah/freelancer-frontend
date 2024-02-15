@@ -56,6 +56,9 @@ export const OrderProvider = (props) => {
     }
   };
 
+
+
+
   const getBidding = async () => {
     const biddingUrl = `${import.meta.env.VITE_API_URL}/orders?bidding=true`;
 
@@ -90,6 +93,7 @@ export const OrderProvider = (props) => {
       });
 
       const orders = await getOrders.json();
+      console.log(orders)
       // const available = orders.filter(order=>order.status==='Available');
       const inProgress = orders.filter(
         (order) => order.status === "In Progress"

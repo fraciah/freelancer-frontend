@@ -17,6 +17,7 @@ import { useBiddingModal } from "../../BiddingModal/biddingModal";
 import { useUpdateModal } from "../../BiddingModal/UpdateModal";
 import { useDeleteModal } from "../../BiddingModal/DeleteModal";
 import { checkBid } from "../../../../utils/helpers/checkBid";
+import { toast } from "react-hot-toast";
 
 const OrderView = () => {
   const ordersUrl = `${import.meta.env.VITE_API_URL}/orders/`;
@@ -94,6 +95,31 @@ const OrderView = () => {
     link.click();
   };
 
+  const deleteSolution = async (orderId, solutionId) => {
+    const DeleteSolutionUrl = `${import.meta.env.VITE_API_URL}/orders/${orderId}/solution/?solution-id=${solutionId}`;
+    try {
+        const response = await fetch(DeleteSolutionUrl, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userToken}`,                
+            },
+        });
+        if (response.ok) {
+            toast.success('Solution deleted successfully');
+            setOrderContent(prevOrderContent => ({
+                ...prevOrderContent,
+                solution: null   
+            }));
+        } else {
+            toast.error('Failed to delete solution');
+        }
+    } catch (error) {
+        toast.error('Error deleting solution:', error);
+    }
+};
+
+
   const getOrder = async (orderId) => {
     try {
       const getOrderById = await fetch(`${ordersUrl}${orderId}`, {
@@ -160,7 +186,7 @@ const OrderView = () => {
                 {orderContent?.title}
               </strong>
               <div className="order-elements">
-                <article>{orderContent?.category}</article>
+                <article className="category">{orderContent?.category}</article>
                 <strong>{!loading && "$" + orderContent?.amount}</strong>
                 {orderContent?.status === "Available" && (
                   <>
@@ -220,6 +246,32 @@ const OrderView = () => {
                   )}
                 </span>
               </h2>
+              {orderContent.rating && (
+              <div className="">
+                <div className ="flex gap-0.5">
+    {[...Array(orderContent.rating.stars)].map((_, index) => (
+        <svg key={index} className="h-6 w-6 shrink-0 fill-amber-400" viewBox="0 0 256 256">
+            <path
+                d="M239.2 97.4A16.4 16.4.0 00224.6 86l-59.4-4.1-22-55.5A16.4 16.4.0 00128 16h0a16.4 16.4.0 00-15.2 10.4L90.4 82.2 31.4 86A16.5 16.5.0 0016.8 97.4 16.8 16.8.0 0022 115.5l45.4 38.4L53.9 207a18.5 18.5.0 007 19.6 18 18 0 0020.1.6l46.9-29.7h.2l50.5 31.9a16.1 16.1.0 008.7 2.6 16.5 16.5.0 0015.8-20.8l-14.3-58.1L234 115.5A16.8 16.8.0 00239.2 97.4z">
+            </path>
+        </svg>
+    ))}
+    {[...Array(5 - orderContent.rating.stars)].map((_, index) => (
+        <svg key={index} className="h-6 w-6 shrink-0 fill-gray-300" viewBox="0 0 256 256">
+            <path
+                d="M239.2 97.4A16.4 16.4.0 00224.6 86l-59.4-4.1-22-55.5A16.4 16.4.0 00128 16h0a16.4 16.4.0 00-15.2 10.4L90.4 82.2 31.4 86A16.5 16.5.0 0016.8 97.4 16.8 16.8.0 0022 115.5l45.4 38.4L53.9 207a18.5 18.5.0 007 19.6 18 18 0 0020.1.6l46.9-29.7h.2l50.5 31.9a16.1 16.1.0 008.7 2.6 16.5 16.5.0 0015.8-20.8l-14.3-58.1L234 115.5A16.8 16.8.0 00239.2 97.4z">
+            </path>
+        </svg>
+    ))}
+</div>
+<div class="instructions mt-3">
+  <strong>OVERALL RATING</strong>
+      
+      <article className="mt-1 ml-2"><span className="mr-2  ">message:</span>{orderContent.rating.message}</article>
+    </div>
+                </div>
+                )}
+
               {(orderContent.status === "Completed" ||
                 orderContent.status === "In Progress") && (
                 <div className="order-soln">
@@ -229,6 +281,7 @@ const OrderView = () => {
                     <div className="solution">
                       <strong>
                         {orderContent?.solution ? "Solutions" : "Solutions"}
+
                         {orderContent?.status === "In Progress" && (
                           <>
                             <input
@@ -245,13 +298,33 @@ const OrderView = () => {
                       </strong>
                     </div>
                   )}
+            {orderContent?.solution && (
+  <details className="group [&_summary::-webkit-details-marker]:hidden flex ">
+    <summary className="flex cursor-pointer  rounded-lg right-0 top-0 justify-end ml-11">
+      <span className="shrink-0 transition duration-300 group-open:-rotate-180  ml-3">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+        </svg>
+      </span>
+    </summary>
+    <ul className="mt-2 space-y-1 px-4 right-0 top-0 justify-end flex ">
+      <li>
+        <a
+           onClick={() => deleteSolution(orderContent.id, orderContent.solution.id)}
+          className=" rounded-lg px-4 py-2 text-sm cursor-pointer font-medium text-white  bg-red-400">
+          Delete Solution
+        </a>
+      </li>
+    </ul>
+  </details>
+)}
 
                   {!orderContent?.solution &&
                     orderContent?.status === "In Progress" && (
                       <div className="upload-div">
                         <span
                           onClick={openFileDialog}
-                          className="block w-full cursor-pointer  h-auto  border border-sky-300 border-dashed bg-white px-3 py-2 text-sm transition  focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 "
+                          className="block w-full cursor-pointer  h-auto  border border-sky-300 border-dashed bg-accent px-3 py-2 text-sm transition  focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 "
                         >
                           <p className="text-center justify-center align-middle flex mt-1 text-sky-400">
                             {" "}
@@ -274,7 +347,7 @@ const OrderView = () => {
                         </span>
 
                         <div className="">
-                          <span className="text-sm text-gray-500">
+                          <span className="text-sm ">
                             solution type:
                           </span>
                           <select
@@ -287,23 +360,26 @@ const OrderView = () => {
                           </select>
                         </div>
 
-                        <button
+                        <a
                           onClick={uploadAttachmentFile}
-                          className="inline-block px-12 py-3 text-sm font-medium text-white bg-sky-400 border border-sky-400 rounded active:text-sky-400 hover:text-white cursor-pointer focus:outline-none focus:ring"
+                          className="inline-block px-12 py-3 text-sm font-medium bg-sky-400 border border-sky-400 rounded  cursor-pointer focus:outline-none focus:ring"
                         >
                           Submit
-                        </button>
+                        </a>
                       </div>
                     )}
 
                   {orderContent?.solution && (
+                    
+                    
                     <div className=" ">
+
                       <a
                         href={orderContent?.solution?.solution}
                         id="solution-file"
                         rel="noopener noreferrer"
                         download
-                        className="block rounded-lg p-4 shadow-sm bg-white"
+                        className="block rounded-lg p-4 shadow-sm bg-accent"
                       >
                         {typeof orderContent?.solution?.solution === "string"
                           ? orderContent?.solution?.solution.substring(
@@ -317,7 +393,7 @@ const OrderView = () => {
                         <dl>
                           <div>
                             <dd className="text-sm text-gray-500">
-                              <span className="mr-2">Solutiion type :</span>
+                              <span className="mr-2 text-white">Solutiion type :</span>
                               {orderContent?.solution?._type}
                             </dd>
                           </div>
@@ -328,13 +404,13 @@ const OrderView = () => {
                         className="cursor-pointer"
                         size={iconSize}
                       />
-                      <span className="text-gray-500 ">{uploadedAt}</span>
+                      <span className="text-white">{uploadedAt}</span>
                     </div>
                   )}
                 </div>
               )}
               <div className="instructions">
-                <strong>
+                <strong className="text-white">
                   {orderContent?.status === "In Progress" ||
                   orderContent?.status === "Available"
                     ? orderContent?.instructions
@@ -355,7 +431,7 @@ const OrderView = () => {
                     <div style={{ height: "1.5rem" }}></div>
                   ) : (
                     <strong style={{ height: "1.5rem" }}>
-                      {orderContent?.attachment ? "Attachments" : "Attachments"}
+                     <p className="text-white"> {orderContent?.attachment ? "Attachments" : "Attachments"}</p>
                       {orderContent?.status === "In Progress"}
                     </strong>
                   )}

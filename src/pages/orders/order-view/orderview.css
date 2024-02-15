@@ -18,6 +18,7 @@
 
 .order-details strong {
   position: relative;
+  color:var(--background);
 }
 
 .order-soln,
@@ -30,7 +31,8 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background-color: var(--background);
+  color:var(--background);
+  background-color: var(--bg-color);
   /* background-color: aliceblue; */
   border-radius: 4px;
 }
@@ -51,10 +53,12 @@
   text-align: center;
   text-wrap: balance;
 }
-
+.category{
+  color: #fff;
+}
 .complete-order {
   width: inherit;
-  background-color: var(--secondary-color);
+  background-color: var(--bg-color);
   border: none;
   border-radius: 10px;
   color: #f5f5f5;
@@ -74,7 +78,7 @@
   font-size: 11px;
   white-space: nowrap;
   font-weight: 600;
-
+  color:var(--background);
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
@@ -110,7 +114,7 @@
   width: 30%;
   padding: 1rem;
   justify-content: space-between;
-
+  color:var(--background);
   display: flex;
   flex-direction: row;
   transition: border 3s;
@@ -118,11 +122,12 @@
 
 .solution_type {
   display: flex;
+  color:var(--background);
 }
 .uploadedAt {
   font-size: medium;
   padding-left: 90%;
-
+  color:var(--background);
   justify-content: flex-end;
   height: fit-content;
   position: inline;
@@ -132,6 +137,7 @@
 .instructions {
   line-height: 1.6;
   font-family: inherit;
+  color:#fff;
 }
 
 .instructions strong {
@@ -150,35 +156,27 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: 1.6;
+  color:var(--background);
 }
 
-.edit-icon {
-  color: var(--secondary-color);
-}
 
 .instructions strong,
 .attachments strong {
   display: flex;
   align-items: center;
   gap: 2rem;
-  color: var(--secondary-color);
-}
-
-.submit-instructions {
-  background-color: var(--secondary-color);
-  border: none;
-  color: #fff;
-  border-radius: 4px;
+  color: var(--background);
 }
 
 .upload-div {
   position: inherit;
   width: 100%;
   display: flex;
+  color:var(--background);
 }
 
 .upload-div article {
-  border: solid 1px var(--secondary-color);
+  border: solid 1px var(--accent-sec-color);
   border-radius: 8px;
   padding: 1rem;
   border-style: dashed;
@@ -187,7 +185,7 @@ textarea {
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  color: var(--secondary-color);
+  color:var(--background);
 }
 
 /* Loading Animations */

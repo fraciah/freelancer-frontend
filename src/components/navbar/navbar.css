@@ -12,9 +12,10 @@
     position: sticky;
     top: 0;
     left: 0;
-    background-color: #fff;
+    background-color: var(--secondary-color);
     z-index: 1;
     height: 10vh;
+    border-bottom: solid 1px var(--bg-color);
 }
 .logo-img{
     height: 3rem;
@@ -30,9 +31,11 @@
     width: 100%;
     padding: 1.3rem 0.8rem;
     border-radius: 2rem;
+    color: #fff;
     border: solid 1px var(--secondary-color);
     font-size: var(--fontsize-normal);
     outline-color: var(--secondary-color);
+    background-color: var(--bg-color);
 }
 .search-input:focus{
   border: solid 2px var(--secondary-color);
@@ -57,17 +60,16 @@
   background-color: rgb(235, 235, 235);
 }
 .logout{
-  font-size: 1rem;
-  background-color: #ECF0F3;
-  padding: 4px 6px;
-  font-weight: 300;
-  color: var(--secondary-color);
   cursor: pointer;
-  border: solid 1px #ECF0F3;
-  border-radius: 4px;
-}
-.logout:hover{
   border: solid 1px var(--secondary-color);
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  transition: color 0.3s;
+  color: #fff;
+}
+.logout:hover {
+  border: solid 1px #fff;
+  /* color: var(--secondary-color); */
 }
 .notif-bell {
   position: relative;
@@ -78,7 +80,7 @@
   transform: rotate(10deg);
 }
 .notif-icon {
-  color: var(--secondary-color);
+  color: var(--background);
 }
 .notif-bell div {
   position: absolute;
@@ -100,7 +102,7 @@
 }
 .settings {
   transition: transform 0.5 ease-in-out;
-  color: var(--secondary-color);
+  color: var(--background);
 }
 
 .settings:hover {
@@ -124,14 +126,15 @@
 .profile-info article{
   font-size: 1.2rem;
   font-weight: bold;
+  color: var(--background);
 }
 .img-placeholder{
-  background-color: var(--secondary-color);
-  color: #fff;
   border-radius: 50%;
   height: 2.5rem;
   width: 2.5rem;
+  border: solid 1px gray;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: var(--secondary-color);
 }
