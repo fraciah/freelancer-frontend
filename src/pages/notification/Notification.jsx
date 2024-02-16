@@ -59,8 +59,8 @@ const Notification = () => {
                notifications.length > 0 ?
                 notifications?.map((notification, index)=>{
                     return (
-                        <div style={{backgroundColor:notification?.read_status?'#eeeeee':''}} onClick={()=>navigateToOrder(notification.order_id, notification.id)} className='notif-box' key={index}>
-                            <IoMdNotificationsOutline size={30}/>
+                        <div style={{backgroundColor:notification?.read_status?'#404c5e':''}} onClick={()=>navigateToOrder(notification.order_id, notification.id)} className='notif-box' key={index}>
+                            <IoMdNotificationsOutline size={30} style={{color:'#f7fafc'}}/>
                             <div className='notif-message'>
                                 <article>{notification.message}</article>
                             </div>  
