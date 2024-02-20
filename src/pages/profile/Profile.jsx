@@ -151,28 +151,28 @@ const Profile = () => {
           <div className="prof-summary flex flex-wrap gap-4 w-full items-center mt-4">
             <div className="prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600">
               <div className="flex items-center gap-2">
-                <MdTaskAlt className="text-sky-300" size={iconSize} />
+                <MdTaskAlt className="text-white" size={iconSize} />
                 <article className="text-white">Total Orders</article>
               </div>
               <span className="">{userProfile?.orders_count}</span>
             </div>
             <div className="prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600">
               <div className="flex items-center gap-2">
-                <MdPendingActions className="text-sky-300" size={iconSize} />
+                <MdPendingActions className="text-white" size={iconSize} />
                 <article className="text-white">Orders in Progress</article>
               </div>
               <span className="">{ordersInProgress.count}</span>
             </div>
             <div className="prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600">
               <div className="flex items-center gap-2">
-                <MdOutlineAddTask className="text-sky-300" size={iconSize} />
+                <MdOutlineAddTask className="text-white" size={iconSize} />
                 <article className="text-white">Orders completed</article>
               </div>
               <span className="">{ordersCompleted?.count}</span>
             </div>
             <div className="prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600">
               <div className="flex items-center gap-2">
-                <MdAccessTime className="text-sky-300" size={iconSize} />
+                <MdAccessTime className="text-white" size={iconSize} />
                 <article className="text-white">Last Login</article>
               </div>
               <article className="text-white">

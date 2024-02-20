@@ -11,15 +11,16 @@ const Settings = () => {
   const { loadedUserProfile } = useAuthContext();
   const [userProfile, setUserProfile] = useState(loadedUserProfile);
   const settings = userProfile?.settings;
+  console.log(settings);
   const [emailToggleStates, setEmailToggleStates] = useState({
-    uploadedWork: settings.email_uploaded_work,
-    newMessages: settings.email_new_messages,
-    deadline: settings.email_deadline,
+    uploadedWork: settings?.email_uploaded_work,
+    newMessages: settings?.email_new_messages,
+    deadline: settings?.email_deadline,
   });
   const [appToggleStates, setAppToggleStates] = useState({
-    uploadedWork: settings.app_uploaded_work,
-    newMessages: settings.app_new_messages,
-    deadline: settings.app_deadline,
+    uploadedWork: settings?.app_uploaded_work,
+    newMessages: settings?.app_new_messages,
+    deadline: settings?.app_deadline,
   });
 
   const handleEmailToggle = (field) => {
