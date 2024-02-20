@@ -8,13 +8,13 @@ import { MdModeEdit, MdAdd  } from "react-icons/md";
 import { timeAgo } from '../../../utils/helpers/TimeAgo';
 import Transaction from '../../components/transactions/Transaction';
 import PulseLoader from "react-spinners/PulseLoader";
+import getUnicodeFlagIcon from "country-flag-icons/unicode";
 import './profile.css';
 
 const Profile = () => {
     const { loadingUserProfile, loadedUserProfile, submitNewBio, uploadProfilePhoto, userToken } = useAuthContext();
 
     const [userProfile, setUserProfile] = useState(loadedUserProfile);
-
     const { ordersCompleted, ordersInProgress, } = useOrderContext();
 
     const [editBio, setEditBio] = useState(false);
@@ -133,6 +133,29 @@ const Profile = () => {
                         <article className='text-white' style={{
                             animation: loadingUserProfile?`skeleton-loading 1s linear infinite alternate`:''
                         }}>{userProfile?.email}</article>
+                    </div>
+                </div>
+                <div className="address text-white">
+                    <div className="address-element">
+                        {userProfile?.address.country ? (
+                            <>
+                            <article>{userProfile?.address.country}</article>
+                            <article>
+                                {getUnicodeFlagIcon(`${userProfile?.address.countryCode}`)}
+                                {/* {getUnicodeFlagIcon('🇰🇪')} */}
+                            </article>
+                            </>
+                        ) : (
+                            <span>Loading Country</span>
+                        )}
+                    </div>
+                    <div className="address-element">
+                        <span>IP Address: </span>
+                        {userProfile?.address.ip ? (
+                            <article>{userProfile?.address.ip}</article>
+                        ) : (
+                            <span>-------</span>
+                        )}
                     </div>
                 </div>
                 <div className='prof-summary flex flex-wrap gap-4 w-full items-center mt-4'>

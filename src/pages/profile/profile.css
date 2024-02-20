@@ -12,6 +12,16 @@
     transition: border 3s;
 }
 
+.address {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+.address .address-element {
+    display: flex;
+    gap: 3rem;
+    padding: 0.5rem;
+}
+
 .prof-element {
     border-radius: 4px;
 }

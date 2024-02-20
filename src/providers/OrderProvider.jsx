@@ -45,7 +45,7 @@ export const OrderProvider = (props) => {
       });
 
       const orders = await getOrders.json();
-      const available = orders.filter((order) => order.status === "Available");
+      const available = orders.results.filter((order) => order.status === "Available");
 
       setOrdersAvailable(available);
       return orders;
@@ -95,17 +95,17 @@ export const OrderProvider = (props) => {
       const orders = await getOrders.json();
       console.log(orders)
       // const available = orders.filter(order=>order.status==='Available');
-      const inProgress = orders.filter(
+      const inProgress = orders.results.filter(
         (order) => order.status === "In Progress"
       );
-      const completed = orders.filter((order) => order.status === "Completed");
+      const completed = orders.results.filter((order) => order.status === "Completed");
 
       // setOrdersAvailable(available);
       setOrdersInProgress(inProgress);
       setOrdersCompleted(completed);
-      setOrders(orders);
+      setOrders(orders.results);
 
-      return orders;
+      return orders.results;
     } catch (errors) {
       console.error(errors);
     } finally {
