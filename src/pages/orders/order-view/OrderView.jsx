@@ -2,7 +2,7 @@ import React from "react";
 import "./orderview.css";
 import { IoMdDownload } from "react-icons/io";
 import Chat from "../../../components/chat/Chat";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useOrderContext } from "../../../providers/OrderProvider";
 import { timeAgo } from "../../../../utils/helpers/TimeAgo";
 import { useState } from "react";
@@ -221,9 +221,9 @@ const OrderView = () => {
               </div>
               <h2 className="card-jobtitle">
                 by{" "}
-                <a href="">
+                <Link to="../client-profile">
                   <span>{orderContent.client.user.username}</span>
-                </a>{" "}
+                </Link>{" "}
                 <span className="inline-flex ml-4">
                   {orderContent?.status != "Completed" && (
                     <div>
