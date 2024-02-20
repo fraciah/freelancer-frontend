@@ -1,25 +1,20 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./chat.css";
-import { IoSend } from "react-icons/io5";
-import { useEffect } from "react";
+import { IoSend, IoCloseOutline } from "react-icons/io5"; // Import IoCloseOutline
+import { IoChatbubblesSharp } from "react-icons/io5";
 import { useChatContext } from "../../providers/ChatProvider";
 import { useAuthContext } from "../../providers/AuthProvider";
 import { timeFormater } from "../../../utils/helpers/TimeFormater";
-import { IoChatbubblesSharp } from "react-icons/io5";
-import { useRef } from "react";
-import { useState } from "react";
-import { useLayoutEffect } from "react";
 
-const Chat = ({ orderId, client, freelancer }) => {
+const Chat = ({ orderId, client, freelancer, isChatOpen, toggleChat }) => {
   const { loadedUserProfile } = useAuthContext();
+  const iconSize = 25;
   const { loadingChats, chats, getChats, sendChat, socket, typingData } =
     useChatContext();
 
   const [typing, setTyping] = useState(false);
-
+  const [msg, setMsg] = useState("");
   const messageRef = useRef();
-  const [msg, setMsg] = useState();
-
   const chatBoxRef = useRef();
 
   const getReceiver = () => {
@@ -39,7 +34,7 @@ const Chat = ({ orderId, client, freelancer }) => {
     }
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight * 2;
     }
@@ -68,7 +63,7 @@ const Chat = ({ orderId, client, freelancer }) => {
   }, [orderId, loadedUserProfile]);
 
   return (
-    <div className="chat">
+    <div className={`chat ${isChatOpen ? "show" : ""}`}>
       <div className="chat-header">
         <div className="receiver-profile">
           <article className="img-chat">{`${
@@ -85,28 +80,27 @@ const Chat = ({ orderId, client, freelancer }) => {
             {typing && <span>Typing...</span>}
           </div>
         </div>
+        <IoCloseOutline className="close-chat" onClick={toggleChat} size={24} />
       </div>
       {chats?.length > 0 ? (
         <div className="messages-box" id="msg" ref={chatBoxRef}>
           {chats?.map((msg, index) => {
             return (
-              <>
-                <div
-                  key={index}
-                  className={
-                    msg.sender?.username === loadedUserProfile?.username
-                      ? "send-message"
-                      : "received-message"
-                  }
-                >
-                  <article>{msg.message}</article>
-                  <div className="time">
-                    <small className="sent-at">
-                      {timeFormater(msg.timestamp)}
-                    </small>
-                  </div>
+              <div
+                key={index}
+                className={
+                  msg.sender?.username === loadedUserProfile?.username
+                    ? "send-message"
+                    : "received-message"
+                }
+              >
+                <article>{msg.message}</article>
+                <div className="time">
+                  <small className="sent-at">
+                    {timeFormater(msg.timestamp)}
+                  </small>
                 </div>
-              </>
+              </div>
             );
           })}
         </div>
