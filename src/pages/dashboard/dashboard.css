@@ -11,6 +11,24 @@
   box-sizing: border-box;
 }
 
+.next-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.next {
+  border-radius: 8px;
+  border: solid 1px var(--accent-sec-color);
+  background-color: var(--accent-sec-color);
+  color: #fff;
+  cursor: pointer;
+  gap: 1rem;
+  width: 4rem;
+  text-align: center !important;
+}
+
 .order-content {
   box-sizing: border-box;
   position: relative;

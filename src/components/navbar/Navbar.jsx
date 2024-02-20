@@ -15,7 +15,7 @@ const Navbar = () => {
 
   const { orders } = useOrderContext();
 
-  const { unreadNotif } = useNotificationContext();
+  const { unreadNotifCount } = useNotificationContext();
   // console.log("Unread",unreadNotif);
 
   const navigate = useNavigate();
@@ -75,10 +75,10 @@ const Navbar = () => {
           onClick={() => navigate("./notifications")}
         >
           <IoMdNotificationsOutline className="notif-icon" size={iconSize} />
-          {unreadNotif.length > 0 && (
+          {unreadNotifCount > 0 && (
             <div>
               <article>
-                {unreadNotif.length > 9 ? "9+" : unreadNotif.length}
+                {unreadNotifCount > 9 ? "9+" : unreadNotifCount}
               </article>
             </div>
           )}

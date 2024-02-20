@@ -17,14 +17,37 @@ export const OrderProvider = (props) => {
   const { decodedToken } = useJwt(userToken);
 
   const [orders, setOrders] = useState([]);
-  const [ordersAvailable, setOrdersAvailable] = useState([]);
-  const [ordersBidding, setOrdersBidding] = useState([]);
-  const [ordersInProgress, setOrdersInProgress] = useState([]);
-  const [ordersCompleted, setOrdersCompleted] = useState([]);
+  const [ordersAvailable, setOrdersAvailable] = useState({
+    orders: [],
+    count: 0,
+    next: null,
+  });
+  const [ordersInProgress, setOrdersInProgress] = useState({
+    orders: [],
+    count: 0,
+    next: null,
+  });
+  const [ordersCompleted, setOrdersCompleted] = useState({
+    orders: [],
+    count: 0,
+    next: null,
+  });
+
+  const [ordersBidding, setOrdersBidding] = useState({
+    orders: [],
+    count: 0,
+    next: null,
+  });
+
+  const [loadingAvailable, setLoadingAvailable] = useState(true);
+
+  const [loadingInProgress, setLoadingInProgress] = useState(true);
+  const [loadingCompleted, setLoadingCompleted] = useState(true);
+
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const [loadingAttachemnt, setLoadingAttachment] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [submitLoading, setSubmitLoading] = useState(false);
+  const [loadingBids, setLoadingBids] = useState(true);
 
   const [user, setUser] = useState();
   const [socket, setSocket] = useState(null);
@@ -34,36 +57,104 @@ export const OrderProvider = (props) => {
     Authorization: `Bearer ${userToken}`,
   };
 
-  const getOrdersAvailable = async () => {
-    const ordersUrl = `${import.meta.env.VITE_API_URL}/orders?status=available`;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${userToken}`,
+  };
+
+  const getAvailable = async (page_number) => {
     try {
-      const getOrders = await fetch(ordersUrl, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
-
-      const orders = await getOrders.json();
-      const available = orders.filter((order) => order.status === "Available");
-
-      setOrdersAvailable(available);
-      return orders;
-    } catch (errors) {
-      console.error(errors);
+      const getAvaialable = await fetch(
+        `${ordersUrl}?status=available&page=${page_number}`,
+        {
+          headers,
+        }
+      );
+      const available = await getAvaialable.json();
+      setOrdersAvailable((prev) => ({
+        orders: prev.orders.concat(available.results),
+        count: available.count,
+        next: available.next,
+      }));
+    } catch (error) {
+      console.log(error);
     } finally {
-      setLoading(false);
+      setLoadingAvailable(false);
     }
   };
 
+  const getInProgress = async (page_number) => {
+    try {
+      const getInProgress = await fetch(
+        `${ordersUrl}?status=in_progress&page=${page_number}`,
+        {
+          headers,
+        }
+      );
+      const inProgress = await getInProgress.json();
+      setOrdersInProgress((prev) => ({
+        orders: prev.orders.concat(inProgress.results),
+        count: inProgress.count,
+        next: inProgress.next,
+      }));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingInProgress(false);
+    }
+  };
 
+  const getCompleted = async (page_number) => {
+    try {
+      const getCompleted = await fetch(
+        `${ordersUrl}?status=completed&page=${page_number}`,
+        {
+          headers,
+        }
+      );
+      const completed = await getCompleted.json();
+      setOrdersCompleted((prev) => ({
+        orders: prev.orders.concat(completed.results),
+        count: completed.count,
+        next: completed.next,
+      }));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingCompleted(false);
+    }
+  };
 
+  // const getOrdersAvailable = async () => {
+  //   const ordersUrl = `${import.meta.env.VITE_API_URL}/orders?status=available`;
+  //   try {
+  //     const getOrders = await fetch(ordersUrl, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${userToken}`,
+  //       },
+  //     });
 
-  const getBidding = async () => {
-    const biddingUrl = `${import.meta.env.VITE_API_URL}/orders?bidding=true`;
+  //     const orders = await getOrders.json();
+  //     const available = orders.results.filter(
+  //       (order) => order.status === "Available"
+  //     );
+
+  //     setOrdersAvailable(available);
+  //     return orders;
+  //   } catch (errors) {
+  //     console.error(errors);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const getBidding = async (page) => {
+    const biddingUrl = `${
+      import.meta.env.VITE_API_URL
+    }/orders?bidding=true&page=${page}`;
 
     try {
-      setLoading(true);
       const getBiddings = await fetch(biddingUrl, {
         headers: {
           "Content-Type": "application/json",
@@ -72,46 +163,49 @@ export const OrderProvider = (props) => {
       });
 
       const biddings = await getBiddings.json();
-      console.log(biddings);
-      setOrdersBidding(biddings);
-      return biddings;
+      setOrdersBidding((prev) => ({
+        orders: prev.orders.concat(biddings.results),
+        count: biddings.count,
+        next: biddings.next,
+      }));
     } catch (errors) {
       console.error(errors);
     } finally {
-      setLoading(false);
+      setLoadingBids(false);
     }
   };
 
-  const getAllOrders = async () => {
-    const ordersUrl = `${import.meta.env.VITE_API_URL}/orders`;
-    try {
-      const getOrders = await fetch(ordersUrl, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
+  // const getAllOrders = async () => {
+  //   const ordersUrl = `${import.meta.env.VITE_API_URL}/orders`;
+  //   try {
+  //     const getOrders = await fetch(ordersUrl, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${userToken}`,
+  //       },
+  //     });
 
-      const orders = await getOrders.json();
-      console.log(orders)
-      // const available = orders.filter(order=>order.status==='Available');
-      const inProgress = orders.filter(
-        (order) => order.status === "In Progress"
-      );
-      const completed = orders.filter((order) => order.status === "Completed");
+  //     const orders = await getOrders.json();
+  //     // const available = orders.filter(order=>order.status==='Available');
+  //     const inProgress = orders.results.filter(
+  //       (order) => order.status === "In Progress"
+  //     );
+  //     const completed = orders.results.filter(
+  //       (order) => order.status === "Completed"
+  //     );
 
-      // setOrdersAvailable(available);
-      setOrdersInProgress(inProgress);
-      setOrdersCompleted(completed);
-      setOrders(orders);
+  //     // setOrdersAvailable(available);
+  //     setOrdersInProgress(inProgress);
+  //     setOrdersCompleted(completed);
+  //     setOrders(orders.results);
 
-      return orders;
-    } catch (errors) {
-      console.error(errors);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     return orders.results;
+  //   } catch (errors) {
+  //     console.error(errors);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const createOrder = async (e) => {
     try {
@@ -306,13 +400,40 @@ export const OrderProvider = (props) => {
     };
   }, [decodedToken, user]);
 
+  const updateOrdersAvailable = (orderRes) => {
+    setOrdersAvailable((prev) => {
+      const updatedOrders = prev.orders.filter(
+        (order) => order.id !== orderRes?.id
+      );
+      return {
+        ...prev,
+        orders: updatedOrders,
+        count: prev.count - 1,
+      };
+    });
+
+    getAvailable(1);
+
+    setOrdersInProgress((prev) => {
+      const updatedOrders = [orderRes].concat(prev.orders);
+      return {
+        ...prev,
+        orders: updatedOrders,
+        count: prev.count + 1,
+      };
+    });
+  };
+
   // const [orderDetails, setOrderDetails] = useState();
 
   useEffect(() => {
-    userToken && getAllOrders();
-    // socket.onopen = () => {
-    //     console.log("Connection established");
-    // }
+    // userToken && getAllOrders();
+    if (userToken) {
+      getAvailable(1);
+      getInProgress(1);
+      getCompleted(1);
+      getBidding(1);
+    }
   }, [userToken]);
 
   return (
@@ -320,20 +441,24 @@ export const OrderProvider = (props) => {
       value={{
         orders,
         ordersAvailable,
-        ordersBidding,
         ordersInProgress,
         ordersCompleted,
-        loading,
+        loadingAvailable,
+        loadingInProgress,
+        loadingCompleted,
         submitLoading,
         loadingAttachemnt,
-        // getOrder,
+        ordersBidding,
+        loadingBids,
         createOrder,
         updateInstructions,
         completeOrder,
-        getAllOrders,
-        getBidding,
+        getAvailable,
+        getInProgress,
+        getCompleted,
         uploadAttachment,
-        getOrdersAvailable,
+        updateOrdersAvailable,
+        getBidding,
       }}
     >
       {props.children}
