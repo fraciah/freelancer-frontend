@@ -100,6 +100,7 @@ const Notification = () => {
             <article>New notifications will appear here, hang on!</article>
             <MdNotificationAdd size={120} className="placeholder-icon" />
           </div>
+
         </div>
       )}
     </div>

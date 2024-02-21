@@ -1,6 +1,7 @@
 import React from "react";
 import "./orderview.css";
 import { IoMdDownload } from "react-icons/io";
+import { IoChatbubblesSharp, IoCloseOutline } from 'react-icons/io5';
 import Chat from "../../../components/chat/Chat";
 import { useParams } from "react-router-dom";
 import { useOrderContext } from "../../../providers/OrderProvider";
@@ -18,6 +19,14 @@ import { useUpdateModal } from "../../BiddingModal/UpdateModal";
 import { useDeleteModal } from "../../BiddingModal/DeleteModal";
 import { checkBid } from "../../../../utils/helpers/checkBid";
 import { toast } from "react-hot-toast";
+
+const FloatingButton = ({ onClick }) => {
+  return (
+    <div className="floating-button" onClick={onClick}>
+      <IoChatbubblesSharp className="chat-icon" size={25}/>
+    </div>
+  );
+};
 
 const OrderView = () => {
   const ordersUrl = `${import.meta.env.VITE_API_URL}/orders/`;
@@ -167,6 +176,12 @@ const OrderView = () => {
 
   console.log(myBid);
 
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const toggleChat = () => {
+    setIsChatOpen(!isChatOpen);
+  };
+
   return (
     <div className="order-view">
       {orderContent?.status === "Available" && (
@@ -244,6 +259,7 @@ const OrderView = () => {
                       )}
                     </div>
                   )}
+
                 </span>
               </h2>
               {orderContent.rating && (
@@ -270,6 +286,7 @@ const OrderView = () => {
       <article className="mt-1 ml-2"><span className="mr-2  ">message:</span>{orderContent.rating.message}</article>
     </div>
                 </div>
+                
                 )}
 
               {(orderContent.status === "Completed" ||
@@ -420,7 +437,7 @@ const OrderView = () => {
                 </strong>
                 {orderContent?.instructions && (
                   <div>
-                    <article>{orderContent?.instructions}</article>
+                    <article className="content">{orderContent?.instructions}</article>
                   </div>
                 )}
               </div>
@@ -463,12 +480,17 @@ const OrderView = () => {
             {(myBid ||
               orderContent?.freelancer?.user.username ===
                 loadedUserProfile?.username) && (
-              <Chat
+                  <div className={`chat-drawer ${isChatOpen ? 'show' : ''}`}>
+                     <Chat
                 orderId={orderId}
                 client={orderContent.client}
                 freelancer={orderContent.freelancer}
+                isChatOpen={isChatOpen} 
+                toggleChat={toggleChat} 
               />
+            </div>
             )}
+            {window.innerWidth <= 900 && <FloatingButton onClick={toggleChat} />}
           </>
         )
       )}
