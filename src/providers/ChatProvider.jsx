@@ -45,11 +45,12 @@ export const ChatProvider = (props) => {
       if (sendChat.ok) {
         const response = await sendChat.json();
         setChats((prev) => {
+          console.log(prev);
           const updatedChats = [...prev, response];
           setChats(updatedChats);
           return updatedChats;
         });
-        return response;
+        return response.results;
       } else {
       }
     } catch (error) {
@@ -68,6 +69,7 @@ export const ChatProvider = (props) => {
       const chats = await getOrderChats.json();
 
       if (getOrderChats.ok) {
+        console.log(chats);
         setChats(chats);
       } else {
         console.error("Error fetching chats");
