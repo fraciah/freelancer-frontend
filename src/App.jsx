@@ -13,6 +13,7 @@ import SideNav from "./components/sidenav/SideNav";
 import Completed from "./pages/orders/completed/Completed";
 import InProgress from "./pages/orders/in-progress/InProgress";
 import Profile from "./pages/profile/Profile";
+import ClientProfile from "./pages/profile/ClientProfile";
 import Notification from "./pages/notification/Notification";
 import OrderView from "./pages/orders/order-view/OrderView";
 import Settings from "./pages/settings/Settings";
@@ -46,6 +47,7 @@ function App() {
                 <Route path="/completed" element={<Completed />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/notifications" element={<Notification />} />
+                <Route path="/client-profile" element={<ClientProfile />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/order/:orderId" element={<OrderView />} />
               </Routes>
