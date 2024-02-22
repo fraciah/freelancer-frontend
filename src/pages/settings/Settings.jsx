@@ -6,35 +6,73 @@ import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { MdAppSettingsAlt } from "react-icons/md";
 import { useState } from "react";
 import { useAuthContext } from "../../providers/AuthProvider";
+import toast from "react-hot-toast";
 
 const Settings = () => {
-  const { loadedUserProfile } = useAuthContext();
-  const [userProfile, setUserProfile] = useState(loadedUserProfile);
+  const { loadedUserProfile, userToken } = useAuthContext();
+  const [userProfile] = useState(loadedUserProfile);
   const settings = userProfile?.settings;
-  console.log(settings);
   const [emailToggleStates, setEmailToggleStates] = useState({
-    uploadedWork: settings?.email_uploaded_work,
-    newMessages: settings?.email_new_messages,
-    deadline: settings?.email_deadline,
+    email_uploaded_work: settings?.email_uploaded_work,
+    email_new_messages: settings?.email_new_messages,
+    email_deadline: settings?.email_deadline,
   });
   const [appToggleStates, setAppToggleStates] = useState({
-    uploadedWork: settings?.app_uploaded_work,
-    newMessages: settings?.app_new_messages,
-    deadline: settings?.app_deadline,
+    app_uploaded_work: settings?.app_uploaded_work,
+    app_new_messages: settings?.app_new_messages,
+    app_deadline: settings?.app_deadline,
   });
 
+  const updateSettings = async (field, value) => {
+    const profileUrl = `${import.meta.env.VITE_API_URL}/profile/${
+      userProfile.id
+    }/`;
+
+    const body = JSON.stringify({
+      settings: {
+        [field]: value,
+      },
+    });
+
+    try {
+      const updateSetting = await fetch(profileUrl, {
+        method: "put",
+        headers: {
+          "content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body,
+      });
+
+      const response = await updateSetting.json();
+
+      if (updateSetting.ok) {
+        return response;
+      } else {
+        toast.error("Error updating preferences!");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
+
   const handleEmailToggle = (field) => {
-    setEmailToggleStates((prevState) => ({
-      ...prevState,
-      [field]: !prevState[field],
-    }));
+    updateSettings(field, !emailToggleStates[field]).then((response) => {
+      setEmailToggleStates((prevState) => ({
+        ...prevState,
+        [field]: response?.settings[field],
+      }));
+    });
   };
 
   const handleAppToggle = (field) => {
-    setAppToggleStates((prevState) => ({
-      ...prevState,
-      [field]: !prevState[field],
-    }));
+    updateSettings(field, !appToggleStates[field]).then((response) => {
+      setAppToggleStates((prevState) => ({
+        ...prevState,
+        [field]: response?.settings[field],
+      }));
+    });
   };
 
   const iconSize = 23;
@@ -65,12 +103,12 @@ const Settings = () => {
                 <input
                   className="input-toggle"
                   type="radio"
-                  checked={emailToggleStates.uploadedWork}
+                  checked={emailToggleStates.email_uploaded_work}
                   hidden={true}
                 />
                 <label
                   className="label-toggle"
-                  onClick={() => handleEmailToggle("uploadedWork")}
+                  onClick={() => handleEmailToggle("email_uploaded_work")}
                 ></label>
               </div>
               <div>
@@ -78,12 +116,12 @@ const Settings = () => {
                 <input
                   className="input-toggle"
                   type="radio"
-                  checked={emailToggleStates.newMessages}
+                  checked={emailToggleStates.email_new_messages}
                   hidden={true}
                 />
                 <label
                   className="label-toggle"
-                  onClick={() => handleEmailToggle("newMessages")}
+                  onClick={() => handleEmailToggle("email_new_messages")}
                 ></label>
               </div>
               <div>
@@ -91,12 +129,12 @@ const Settings = () => {
                 <input
                   className="input-toggle"
                   type="radio"
-                  checked={emailToggleStates.deadline}
+                  checked={emailToggleStates.email_deadline}
                   hidden={true}
                 />
                 <label
                   className="label-toggle"
-                  onClick={() => handleEmailToggle("deadline")}
+                  onClick={() => handleEmailToggle("email_deadline")}
                 ></label>
               </div>
             </div>
@@ -109,12 +147,12 @@ const Settings = () => {
                 <input
                   className="input-toggle"
                   type="radio"
-                  checked={appToggleStates.uploadedWork}
+                  checked={appToggleStates.app_uploaded_work}
                   hidden={true}
                 />
                 <label
                   className="label-toggle"
-                  onClick={() => handleAppToggle("uploadedWork")}
+                  onClick={() => handleAppToggle("app_uploaded_work")}
                 ></label>
               </div>
               <div>
@@ -122,12 +160,12 @@ const Settings = () => {
                 <input
                   className="input-toggle"
                   type="radio"
-                  checked={appToggleStates.newMessages}
+                  checked={appToggleStates.app_new_messages}
                   hidden={true}
                 />
                 <label
                   className="label-toggle"
-                  onClick={() => handleAppToggle("newMessages")}
+                  onClick={() => handleAppToggle("app_new_messages")}
                 ></label>
               </div>
               <div>
@@ -135,12 +173,12 @@ const Settings = () => {
                 <input
                   className="input-toggle"
                   type="radio"
-                  checked={appToggleStates.deadline}
+                  checked={appToggleStates.app_deadline}
                   hidden={true}
                 />
                 <label
                   className="label-toggle"
-                  onClick={() => handleAppToggle("deadline")}
+                  onClick={() => handleAppToggle("app_deadline")}
                 ></label>
               </div>
             </div>
