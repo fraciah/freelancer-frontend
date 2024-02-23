@@ -1,7 +1,7 @@
 import React from "react";
 import "./orderview.css";
 import { IoMdDownload } from "react-icons/io";
-import { IoChatbubblesSharp, IoCloseOutline } from 'react-icons/io5';
+import { IoChatbubblesSharp, IoCloseOutline } from "react-icons/io5";
 import Chat from "../../../components/chat/Chat";
 import { Link, useParams } from "react-router-dom";
 import { useOrderContext } from "../../../providers/OrderProvider";
@@ -23,7 +23,7 @@ import { toast } from "react-hot-toast";
 const FloatingButton = ({ onClick }) => {
   return (
     <div className="floating-button" onClick={onClick}>
-      <IoChatbubblesSharp className="chat-icon" size={25}/>
+      <IoChatbubblesSharp className="chat-icon" size={25} />
     </div>
   );
 };
@@ -105,29 +105,30 @@ const OrderView = () => {
   };
 
   const deleteSolution = async (orderId, solutionId) => {
-    const DeleteSolutionUrl = `${import.meta.env.VITE_API_URL}/orders/${orderId}/solution/?solution-id=${solutionId}`;
+    const DeleteSolutionUrl = `${
+      import.meta.env.VITE_API_URL
+    }/orders/${orderId}/solution/?solution-id=${solutionId}`;
     try {
-        const response = await fetch(DeleteSolutionUrl, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${userToken}`,                
-            },
-        });
-        if (response.ok) {
-            toast.success('Solution deleted successfully');
-            setOrderContent(prevOrderContent => ({
-                ...prevOrderContent,
-                solution: null   
-            }));
-        } else {
-            toast.error('Failed to delete solution');
-        }
+      const response = await fetch(DeleteSolutionUrl, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+      if (response.ok) {
+        toast.success("Solution deleted successfully");
+        setOrderContent((prevOrderContent) => ({
+          ...prevOrderContent,
+          solution: null,
+        }));
+      } else {
+        toast.error("Failed to delete solution");
+      }
     } catch (error) {
-        toast.error('Error deleting solution:', error);
+      toast.error("Error deleting solution:", error);
     }
-};
-
+  };
 
   const getOrder = async (orderId) => {
     try {
@@ -236,7 +237,9 @@ const OrderView = () => {
               </div>
               <h2 className="card-jobtitle">
                 by{" "}
-                <Link to="../client-profile">
+                <Link
+                  to={`../client-profile/${orderContent.client.user.username}`}
+                >
                   <span>{orderContent.client.user.username}</span>
                 </Link>{" "}
                 <span className="inline-flex ml-4">
@@ -259,35 +262,42 @@ const OrderView = () => {
                       )}
                     </div>
                   )}
-
                 </span>
               </h2>
               {orderContent.rating && (
-              <div className="">
-                <div className ="flex gap-0.5">
-    {[...Array(orderContent.rating.stars)].map((_, index) => (
-        <svg key={index} className="h-6 w-6 shrink-0 fill-amber-400" viewBox="0 0 256 256">
-            <path
-                d="M239.2 97.4A16.4 16.4.0 00224.6 86l-59.4-4.1-22-55.5A16.4 16.4.0 00128 16h0a16.4 16.4.0 00-15.2 10.4L90.4 82.2 31.4 86A16.5 16.5.0 0016.8 97.4 16.8 16.8.0 0022 115.5l45.4 38.4L53.9 207a18.5 18.5.0 007 19.6 18 18 0 0020.1.6l46.9-29.7h.2l50.5 31.9a16.1 16.1.0 008.7 2.6 16.5 16.5.0 0015.8-20.8l-14.3-58.1L234 115.5A16.8 16.8.0 00239.2 97.4z">
-            </path>
-        </svg>
-    ))}
-    {[...Array(5 - orderContent.rating.stars)].map((_, index) => (
-        <svg key={index} className="h-6 w-6 shrink-0 fill-gray-300" viewBox="0 0 256 256">
-            <path
-                d="M239.2 97.4A16.4 16.4.0 00224.6 86l-59.4-4.1-22-55.5A16.4 16.4.0 00128 16h0a16.4 16.4.0 00-15.2 10.4L90.4 82.2 31.4 86A16.5 16.5.0 0016.8 97.4 16.8 16.8.0 0022 115.5l45.4 38.4L53.9 207a18.5 18.5.0 007 19.6 18 18 0 0020.1.6l46.9-29.7h.2l50.5 31.9a16.1 16.1.0 008.7 2.6 16.5 16.5.0 0015.8-20.8l-14.3-58.1L234 115.5A16.8 16.8.0 00239.2 97.4z">
-            </path>
-        </svg>
-    ))}
-</div>
-<div class="instructions mt-3">
-  <strong>OVERALL RATING</strong>
-      
-      <article className="mt-1 ml-2"><span className="mr-2  ">message:</span>{orderContent.rating.message}</article>
-    </div>
+                <div className="">
+                  <div className="flex gap-0.5">
+                    {[...Array(orderContent.rating.stars)].map((_, index) => (
+                      <svg
+                        key={index}
+                        className="h-6 w-6 shrink-0 fill-amber-400"
+                        viewBox="0 0 256 256"
+                      >
+                        <path d="M239.2 97.4A16.4 16.4.0 00224.6 86l-59.4-4.1-22-55.5A16.4 16.4.0 00128 16h0a16.4 16.4.0 00-15.2 10.4L90.4 82.2 31.4 86A16.5 16.5.0 0016.8 97.4 16.8 16.8.0 0022 115.5l45.4 38.4L53.9 207a18.5 18.5.0 007 19.6 18 18 0 0020.1.6l46.9-29.7h.2l50.5 31.9a16.1 16.1.0 008.7 2.6 16.5 16.5.0 0015.8-20.8l-14.3-58.1L234 115.5A16.8 16.8.0 00239.2 97.4z"></path>
+                      </svg>
+                    ))}
+                    {[...Array(5 - orderContent.rating.stars)].map(
+                      (_, index) => (
+                        <svg
+                          key={index}
+                          className="h-6 w-6 shrink-0 fill-gray-300"
+                          viewBox="0 0 256 256"
+                        >
+                          <path d="M239.2 97.4A16.4 16.4.0 00224.6 86l-59.4-4.1-22-55.5A16.4 16.4.0 00128 16h0a16.4 16.4.0 00-15.2 10.4L90.4 82.2 31.4 86A16.5 16.5.0 0016.8 97.4 16.8 16.8.0 0022 115.5l45.4 38.4L53.9 207a18.5 18.5.0 007 19.6 18 18 0 0020.1.6l46.9-29.7h.2l50.5 31.9a16.1 16.1.0 008.7 2.6 16.5 16.5.0 0015.8-20.8l-14.3-58.1L234 115.5A16.8 16.8.0 00239.2 97.4z"></path>
+                        </svg>
+                      )
+                    )}
+                  </div>
+                  <div class="instructions mt-3">
+                    <strong>OVERALL RATING</strong>
+
+                    <article className="mt-1 ml-2">
+                      <span className="mr-2  ">message:</span>
+                      {orderContent.rating.message}
+                    </article>
+                  </div>
                 </div>
-                
-                )}
+              )}
 
               {(orderContent.status === "Completed" ||
                 orderContent.status === "In Progress") && (
@@ -315,26 +325,43 @@ const OrderView = () => {
                       </strong>
                     </div>
                   )}
-            {orderContent?.solution && (
-  <details className="group [&_summary::-webkit-details-marker]:hidden flex ">
-    <summary className="flex cursor-pointer  rounded-lg right-0 top-0 justify-end ml-11">
-      <span className="shrink-0 transition duration-300 group-open:-rotate-180  ml-3">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
-        </svg>
-      </span>
-    </summary>
-    <ul className="mt-2 space-y-1 px-4 right-0 top-0 justify-end flex ">
-      <li>
-        <a
-           onClick={() => deleteSolution(orderContent.id, orderContent.solution.id)}
-          className=" rounded-lg px-4 py-2 text-sm cursor-pointer font-medium text-white  bg-red-400">
-          Delete Solution
-        </a>
-      </li>
-    </ul>
-  </details>
-)}
+                  {orderContent?.solution && (
+                    <details className="group [&_summary::-webkit-details-marker]:hidden flex ">
+                      <summary className="flex cursor-pointer  rounded-lg right-0 top-0 justify-end ml-11">
+                        <span className="shrink-0 transition duration-300 group-open:-rotate-180  ml-3">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
+                            />
+                          </svg>
+                        </span>
+                      </summary>
+                      <ul className="mt-2 space-y-1 px-4 right-0 top-0 justify-end flex ">
+                        <li>
+                          <a
+                            onClick={() =>
+                              deleteSolution(
+                                orderContent.id,
+                                orderContent.solution.id
+                              )
+                            }
+                            className=" rounded-lg px-4 py-2 text-sm cursor-pointer font-medium text-white  bg-red-400"
+                          >
+                            Delete Solution
+                          </a>
+                        </li>
+                      </ul>
+                    </details>
+                  )}
 
                   {!orderContent?.solution &&
                     orderContent?.status === "In Progress" && (
@@ -364,9 +391,7 @@ const OrderView = () => {
                         </span>
 
                         <div className="">
-                          <span className="text-sm ">
-                            solution type:
-                          </span>
+                          <span className="text-sm ">solution type:</span>
                           <select
                             onChange={(e) => setSolutionType(e.target.value)}
                             value={solutionType}
@@ -387,10 +412,7 @@ const OrderView = () => {
                     )}
 
                   {orderContent?.solution && (
-                    
-                    
                     <div className=" ">
-
                       <a
                         href={orderContent?.solution?.solution}
                         id="solution-file"
@@ -410,7 +432,9 @@ const OrderView = () => {
                         <dl>
                           <div>
                             <dd className="text-sm text-gray-500">
-                              <span className="mr-2 text-white">Solutiion type :</span>
+                              <span className="mr-2 text-white">
+                                Solutiion type :
+                              </span>
                               {orderContent?.solution?._type}
                             </dd>
                           </div>
@@ -437,7 +461,9 @@ const OrderView = () => {
                 </strong>
                 {orderContent?.instructions && (
                   <div>
-                    <article className="content">{orderContent?.instructions}</article>
+                    <article className="content">
+                      {orderContent?.instructions}
+                    </article>
                   </div>
                 )}
               </div>
@@ -448,7 +474,12 @@ const OrderView = () => {
                     <div style={{ height: "1.5rem" }}></div>
                   ) : (
                     <strong style={{ height: "1.5rem" }}>
-                     <p className="text-white"> {orderContent?.attachment ? "Attachments" : "Attachments"}</p>
+                      <p className="text-white">
+                        {" "}
+                        {orderContent?.attachment
+                          ? "Attachments"
+                          : "Attachments"}
+                      </p>
                       {orderContent?.status === "In Progress"}
                     </strong>
                   )}
@@ -480,17 +511,19 @@ const OrderView = () => {
             {(myBid ||
               orderContent?.freelancer?.user.username ===
                 loadedUserProfile?.username) && (
-                  <div className={`chat-drawer ${isChatOpen ? 'show' : ''}`}>
-                     <Chat
-                orderId={orderId}
-                client={orderContent.client}
-                freelancer={orderContent.freelancer}
-                isChatOpen={isChatOpen} 
-                toggleChat={toggleChat} 
-              />
-            </div>
+              <div className={`chat-drawer ${isChatOpen ? "show" : ""}`}>
+                <Chat
+                  orderId={orderId}
+                  client={orderContent.client}
+                  freelancer={orderContent.freelancer}
+                  isChatOpen={isChatOpen}
+                  toggleChat={toggleChat}
+                />
+              </div>
             )}
-            {window.innerWidth <= 900 && <FloatingButton onClick={toggleChat} />}
+            {window.innerWidth <= 900 && (
+              <FloatingButton onClick={toggleChat} />
+            )}
           </>
         )
       )}
