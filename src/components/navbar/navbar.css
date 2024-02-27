@@ -197,6 +197,10 @@
   align-items: center !important;
   justify-content: center !important;
 }
+.search-nav.visible {
+  display: flex;
+  align-items: center;
+}
 
 @media screen and (max-width: 768px) {
   .desc {
@@ -264,12 +268,32 @@
 }
 
 @media screen and (max-width: 480px) {
+  .mobile-invisible {
+    display: none;
+  }
   .search-nav {
     display: none;
   }
 
-  .search-icon {
-    display: flex;
-    margin-left: 4rem;
+  .visible {
+    display: none;
   }
+  .search-nav {
+    width: 100%; 
+    margin-right: 0; 
+  }
+
+  .search-icon {
+    margin-left: 0;
+    display: flex;
+    margin-left: 4rem; 
+    
+  }
+
+
+  .menu-icon {
+    display: flex !important;
+    align-items: center;
+  }
+
 }

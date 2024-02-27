@@ -9,6 +9,7 @@ import { useNotificationContext } from "../../providers/NotificationProvider";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineMenu } from "react-icons/md";
 import { IoSearchOutline } from "react-icons/io5";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoIosLogOut } from "react-icons/io";
 import { useEffect, useRef } from "react";
@@ -17,6 +18,8 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [showMoreElements, setShowMoreElements] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(true);
+  
 
   const navRef = useRef(null);
 
@@ -67,13 +70,21 @@ const Navbar = () => {
   };
 
   return (
-    <div className="top-nav">
+    <div className={`top-nav ${searchVisible ? "search-visible" : ""}`}>
       <div className="icons">
-        <div className="search-icon">
-          <IoSearchOutline size={iconSize} />
+        <div className="search-icon" onClick={() => setSearchVisible(!searchVisible)}>
+        {searchVisible && (
+            <MdKeyboardArrowLeft
+            size={iconSize}
+              
+            />
+          )}
+          <IoSearchOutline 
+          size={iconSize}
+          />
         </div>
       </div>
-      <div className="search-nav">
+      <div className={`search-nav ${searchVisible ? "visible" : "mobile-invisible"}`}>
         <input
           value={searchQuery}
           onChange={(e) => searchOrdersFromQuery(e.target.value)}
@@ -96,7 +107,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      <div className="profile">
+      <div className={`profile ${searchVisible ? "visible" : ""}`}>
         <div
           className={`mini-elements ${
             showMoreElements ? "show-mini-elements" : "hide-mini-elements"
