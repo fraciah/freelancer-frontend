@@ -1,50 +1,38 @@
 .notifications {
-  box-sizing: border-box;
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  color: #fff;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  color: aliceblue;
 }
 
 .notif-box {
-  width: 60%;
-  padding: 1.5rem;
+  width: 65%;
+  padding: 2.4rem;
   background-color: var(--bg-color);
-  color: #fff;
-  justify-content: space-between;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 1rem;
   line-height: 1.8;
   cursor: pointer;
   border-radius: 4px;
-  grid-column: 3;
-}
-
-.next-notif {
-  display: flex;
-  justify-content: center;
-  width: 60%;
+  height: 2rem;
 }
 
 .notif-message {
-  width: 80%;
-}
-
-.bell {
   display: flex;
-  align-items: center;
+  width: 75%;
 }
 
 .notif-duration {
-  width: fit-content;
+  width: 20%;
   display: flex;
   justify-content: center;
   text-align: end;
   align-items: center;
   gap: 1rem;
-  width: 20%;
 }
 
 .no-notif {
@@ -72,10 +60,6 @@
 
 .notif-circle {
   background-color: var(--green-var);
-  width: 8px;
-  height: 8px;
-  aspect-ratio: 1;
-  border-radius: 50%;
 }
 
 /* Animation loading */
@@ -118,40 +102,4 @@
 
 .notif-sk-box div:last-child {
   width: 80%;
-}
-
-@media screen and (max-width: 1200px) {
-  .notif-box,
-  .next-notif {
-    width: 90%;
-  }
-}
-
-@media screen and (max-width: 900px) {
-  .notifications {
-    width: 90%;
-    gap: 0.5rem;
-  }
-
-  .notif-box,
-  .next-notif {
-    width: 100%;
-    height: fit-content;
-    padding: 0.5rem;
-    min-height: 5rem;
-  }
-}
-@media screen and (max-width: 768px) {
-  .notifications {
-    width: 100dvw;
-    gap: 0.5rem;
-  }
-
-  .notif-box,
-  .next-notif {
-    width: 100%;
-    height: fit-content;
-    padding: 0.5rem;
-    min-height: 5rem;
-  }
 }
