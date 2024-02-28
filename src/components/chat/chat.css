@@ -152,7 +152,11 @@
     cursor: not-allowed;
     color: gray;
   }
-  
+
+
+  .close-chat {
+    display: none; 
+  }
 
 @media screen and (max-width: 900px) {
   .chat {
@@ -169,6 +173,10 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+  .close-chat {
+    display: block; 
+    cursor: pointer;
   }
   
 }
