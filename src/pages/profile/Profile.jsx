@@ -22,8 +22,6 @@ const Profile = () => {
     const [editBio, setEditBio] = useState(false);
     const [editedBio, setEditedBio] = useState(userProfile?.bio);
 
-    const fileInputRef = useRef(null);
-
     const { orders } = useOrderContext();
     console.log("orders",orders);
 
@@ -35,37 +33,6 @@ const Profile = () => {
         setEditBio(!editBio);
     }
 
-    const openFileDialog = () => {
-        console.log("Open")
-        if(fileInputRef.current){
-            fileInputRef.current.click();
-        }
-    }
-
-    const updateProfilePhoto = (e) => {
-        const profilePhoto = e.target.files[0];
-        console.log("Submitted");
-        
-        if (profilePhoto) {
-            if (profilePhoto.size <= 5 *1024 *1024){
-                uploadProfilePhoto(profilePhoto, userProfile?.id)
-                .then((json)=>{
-                    const updateProfile = {
-                        ...userProfile,
-                        profile_photo: json.profile_photo
-                    }
-
-                    userProfile.profile_photo = json.profile_photo;
-                    setUserProfile(updateProfile)
-                })
-            }
-            else {
-                console.log("Select lower resolution image")
-            }
-        } else {
-            console.log("Select correct img format")
-        }
-    }
     const submitEditedProfile = () => {
         if(userProfile.bio != editedBio){
             submitNewBio(editedBio, (userProfile?.id))
@@ -132,29 +99,29 @@ const Profile = () => {
                     }}>{userProfile?.email}</article>
                 </div>
                 </div>
-                <div className='prof-summary flex flex-wrap gap-4 w-full items-center mt-4'>
-                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
+                <div className='prof-summary flex flex-col sm:flex-row gap-4 w-full items-center mt-4'>
+                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center w-full sm:flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdTaskAlt className='text-sky-300' size={iconSize}/>
                             <article className='text-white'>Total Orders</article>
                         </div>
                         <span className=''>{userProfile?.orders_count}</span>
                     </div>
-                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
+                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center w-full sm:flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdPendingActions className='text-sky-300' size={iconSize}/>
                             <article className='text-white'>Orders in Progress</article>
                         </div>
                         <span className=''>{ordersInProgress.length}</span>
                     </div>
-                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
+                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center w-full sm:flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdOutlineAddTask className='text-sky-300' size={iconSize}/>
                             <article className='text-white'>Orders completed</article>
                         </div>
                         <span className=''>{ordersCompleted?.length}</span>
                     </div>
-                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center flex-1 text-gray-600'>
+                    <div className='prof-element justify-between p-4 border border-sky-300 flex items-center w-full sm:flex-1 text-gray-600'>
                         <div className='flex items-center gap-2'>
                             <MdAccessTime className='text-sky-300' size={iconSize}/>
                             <article className='text-white'>Last Login</article>
