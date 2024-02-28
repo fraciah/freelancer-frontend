@@ -114,8 +114,7 @@
     position: absolute;
     z-index: 999999;
     padding-right: 2rem;
-    height: auto;
-    width: auto;
+    height: 80dvh;
     border-bottom: solid 1px var(--bg-color);
   }
 
