@@ -18,7 +18,7 @@
 
 .order-details strong {
   position: relative;
-  color:var(--background);
+  color: var(--background);
 }
 
 .order-soln,
@@ -31,7 +31,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  color:var(--background);
+  color: var(--background);
   background-color: var(--bg-color);
   /* background-color: aliceblue; */
   border-radius: 4px;
@@ -53,7 +53,7 @@
   text-align: center;
   text-wrap: balance;
 }
-.category{
+.category {
   color: #fff;
 }
 .complete-order {
@@ -78,9 +78,15 @@
   font-size: 11px;
   white-space: nowrap;
   font-weight: 600;
-  color:var(--background);
+  color: var(--background);
   text-transform: uppercase;
   letter-spacing: 1.5px;
+}
+
+.prof-disp-icon {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .order-soln div div {
@@ -115,7 +121,7 @@
   width: 30%;
   padding: 1rem;
   justify-content: space-between;
-  color:var(--background);
+  color: var(--background);
   display: flex;
   flex-direction: row;
   transition: border 3s;
@@ -123,12 +129,12 @@
 
 .solution_type {
   display: flex;
-  color:var(--background);
+  color: var(--background);
 }
 .uploadedAt {
   font-size: medium;
   padding-left: 90%;
-  color:var(--background);
+  color: var(--background);
   justify-content: flex-end;
   height: fit-content;
   position: inline;
@@ -138,14 +144,14 @@
 .instructions {
   line-height: 1.6;
   font-family: inherit;
-  color:#fff;
+  color: #fff;
 }
 
 .instructions strong {
   height: auto;
   width: auto;
 }
-.content{
+.content {
   display: flex;
   height: fit-content;
   width: auto;
@@ -163,9 +169,8 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: 1.6;
-  color:var(--background);
+  color: var(--background);
 }
-
 
 .instructions strong,
 .attachments strong {
@@ -179,9 +184,8 @@ textarea {
   position: inherit;
   width: 100%;
   display: flex;
-  color:var(--background);
+  color: var(--background);
 }
-
 
 /* Loading Animations */
 
@@ -235,11 +239,11 @@ textarea {
 }
 
 @media screen and (max-width: 900px) {
-  .order-view{
+  .order-view {
     display: flex;
     margin-left: 30px;
   }
-  .floating-button{
+  .floating-button {
     position: fixed;
     width: 100px;
     height: 100px;
@@ -247,7 +251,7 @@ textarea {
     right: 0;
     margin: 35px 25px;
   }
- .floating-button .chat-icon {
+  .floating-button .chat-icon {
     position: absolute;
     width: 65px;
     height: 65px;
@@ -273,19 +277,17 @@ textarea {
     right: 0;
     width: 70%;
     height: 100%;
-    background-color:var(--bg-color);
+    background-color: var(--bg-color);
     border-left: 1px solid #ccc;
     transition: transform 0.3s ease-in-out;
     transform: translateX(100%);
-    z-index: 998; 
+    z-index: 998;
   }
 
   .chat-drawer.show {
     transform: translateX(0);
   }
-  
 }
 
 @media screen and (max-width: 600px) {
-  
 }
