@@ -368,14 +368,12 @@ const OrderView = () => {
                       <div className="upload-div">
                         <span
                           onClick={openFileDialog}
-                          className="block w-full cursor-pointer  h-auto  border border-sky-300 border-dashed bg-accent px-3 py-2 text-sm transition  focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 "
+                          className="block w-[105px] md:w-full lg:w-full cursor-pointer  h-auto  border border-sky-300 border-dashed bg-accent px-3 py-2 text-sm transition  focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 "
                         >
-                          <p className="text-center justify-center align-middle flex mt-1 text-sky-400">
-                            {" "}
-                            {selectedFileName
-                              ? selectedFileName
-                              : "Upload solution"}
-                          </p>
+                         <p className="text-center justify-center align-middle flex mt-1 truncate text-sky-400">
+                            {selectedFileName ? selectedFileName : "Upload solution"}
+                        </p>
+
                           <input
                             onChange={(e) => {
                               setSolutionType("Draft");
@@ -391,11 +389,10 @@ const OrderView = () => {
                         </span>
 
                         <div className="">
-                          <span className="text-sm ">solution type:</span>
                           <select
                             onChange={(e) => setSolutionType(e.target.value)}
                             value={solutionType}
-                            className="h-10 border-2 border-sky-500 focus:outline-none focus:border-sky-400 text-sky-400 rounded py-0 md:py-1 tracking-wider"
+                            className="h-10 border-2 border-sky-500 mr-3 ml-4 focus:outline-none focus:border-sky-400 text-sky-400 rounded py-0 md:py-1 tracking-wider"
                           >
                             <option value="Draft">Draft</option>
                             <option value="Final">Final</option>
@@ -404,7 +401,7 @@ const OrderView = () => {
 
                         <a
                           onClick={uploadAttachmentFile}
-                          className="inline-block px-12 py-3 text-sm font-medium bg-sky-400 border border-sky-400 rounded  cursor-pointer focus:outline-none focus:ring"
+                          className="inline-flex px-3 py-3 left-0 ml-4  text-sm font-medium bg-sky-400 border border-sky-400 rounded  cursor-pointer focus:outline-none focus:ring"
                         >
                           Submit
                         </a>
@@ -412,41 +409,37 @@ const OrderView = () => {
                     )}
 
                   {orderContent?.solution && (
-                    <div className=" ">
-                      <a
-                        href={orderContent?.solution?.solution}
-                        id="solution-file"
-                        rel="noopener noreferrer"
-                        download
-                        className="block rounded-lg p-4 shadow-sm bg-accent"
-                      >
-                        {typeof orderContent?.solution?.solution === "string"
-                          ? orderContent?.solution?.solution.substring(
-                              orderContent?.solution?.solution.lastIndexOf(
-                                "/"
-                              ) + 1
-                            )
-                          : ""}
-                      </a>
-                      <div className="mt-2">
-                        <dl>
-                          <div>
-                            <dd className="text-sm text-gray-500">
-                              <span className="mr-2 text-white">
-                                Solutiion type :
-                              </span>
-                              {orderContent?.solution?._type}
-                            </dd>
-                          </div>
-                        </dl>
-                      </div>
-                      <IoMdDownload
-                        onClick={downloadFile}
-                        className="cursor-pointer"
-                        size={iconSize}
-                      />
-                      <span className="text-white">{uploadedAt}</span>
-                    </div>
+                    <div className="flex items-center space-x-11">
+  <a
+    href={orderContent?.solution?.solution}
+    id="solution-file"
+    rel="noopener noreferrer"
+    download
+    className="block rounded-lg p-4 shadow-sm bg-accent w-[100px] md:max-w-[200px] lg:w-full truncate"
+  >
+    {typeof orderContent?.solution?.solution === "string"
+      ? orderContent?.solution?.solution.substring(
+          orderContent?.solution?.solution.lastIndexOf("/") + 1
+        )
+      : ""}
+  </a>
+  <div className="mt-2">
+    <dl>
+      <div>
+        <dd className="text-sm text-white">
+          {orderContent?.solution?._type}
+        </dd>
+      </div>
+    </dl>
+  </div>
+  <IoMdDownload
+    onClick={downloadFile}
+    className="cursor-pointer"
+    size={iconSize}
+  />
+  <span className="text-white">{uploadedAt}</span>
+</div>
+
                   )}
                 </div>
               )}
@@ -521,9 +514,18 @@ const OrderView = () => {
                 />
               </div>
             )}
-            {window.innerWidth <= 900 && (
-              <FloatingButton onClick={toggleChat} />
+            {(myBid ||
+              orderContent?.freelancer?.user.username ===
+                loadedUserProfile?.username) && (
+              <div>
+                {window.innerWidth <= 900 && (
+              <FloatingButton onClick={toggleChat}  size={20}/>
             )}
+              </div>
+            )}
+            
+            
+            
           </>
         )
       )}
