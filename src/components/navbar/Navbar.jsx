@@ -89,7 +89,7 @@ const Navbar = () => {
           value={searchQuery}
           onChange={(e) => searchOrdersFromQuery(e.target.value)}
           type="text"
-          placeholder="Search my orders"
+          placeholder="Search categories of orders"
         />
         {suggestions.length > 0 && searchQuery && (
           <div className="suggestions">
