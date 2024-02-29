@@ -12,9 +12,22 @@ const Notification = () => {
 
   const { notifications, loading, markNotificationRead, getNotifications } =
     useNotificationContext();
+
   const navigateToOrder = (orderId, notifId) => {
+    const notif = notifications.list.find((notif) => notif.id === notifId);
     orderId && navigate(`../order/${orderId}`);
-    markNotificationRead(notifId);
+    console.log(notif);
+
+    if (!notif.read_status) {
+      markNotificationRead(notifId, notif);
+      // .then((res) => {
+      //   const upatedNotif = {
+      //     ...prevNotif,
+      //     read_status: res.read_status,
+      //   };
+      //   upatedNotif.read_status = res.read_status;
+      // });
+    }
   };
 
   return (
@@ -56,33 +69,25 @@ const Notification = () => {
         </div>
       ) : notifications.list.length > 0 ? (
         <>
-          {notifications?.list.map((notification, index) => {
+          {notifications.list?.map((notification, index) => {
             return (
               <div
-                style={{
-                  backgroundColor: notification?.read_status ? "#eeeeee" : "",
-                }}
                 onClick={() =>
                   navigateToOrder(notification.order_id, notification.id)
                 }
                 className="notif-box"
                 key={index}
               >
-                <IoMdNotificationsOutline size={30} />
+                <div className="bell">
+                  <IoMdNotificationsOutline size={30} />
+                </div>
                 <div className="notif-message">
                   <article>{notification.message}</article>
                 </div>
                 <div className="notif-duration">
                   <article>{timeAgo(notification.created_at)}</article>
                   {!notification?.read_status && (
-                    <div
-                      className="notif-circle"
-                      style={{
-                        width: "10px",
-                        height: "10px",
-                        borderRadius: "50%",
-                      }}
-                    ></div>
+                    <div className="notif-circle"></div>
                   )}
                 </div>
               </div>
@@ -100,7 +105,6 @@ const Notification = () => {
             <article>New notifications will appear here, hang on!</article>
             <MdNotificationAdd size={120} className="placeholder-icon" />
           </div>
-
         </div>
       )}
     </div>
