@@ -247,7 +247,7 @@ const OrderView = () => {
                   </div>
                   <span>{orderContent.client.user.username}</span>
                 </Link>
-                <span className="inline-flex ml-4">
+                <span className="inline-flex ml-4 mt-2 justify-center ">
                   {orderContent?.status != "Completed" && (
                     <div>
                       {deadlinePassed && (
@@ -262,7 +262,7 @@ const OrderView = () => {
                       )}
                       {!deadlinePassed && (
                         <article style={{ color: "green" }}>
-                          {deadline} Remain
+                          {deadline} Remaing
                         </article>
                       )}
                     </div>
@@ -519,9 +519,16 @@ const OrderView = () => {
                 />
               </div>
             )}
-            {window.innerWidth <= 900 && (
+            {(myBid ||
+              orderContent?.freelancer?.user.username ===
+                loadedUserProfile?.username) && (
+              <div >
+                {window.innerWidth <= 900 && (
               <FloatingButton onClick={toggleChat} />
             )}
+              </div>
+            )}
+            
           </>
         )
       )}
