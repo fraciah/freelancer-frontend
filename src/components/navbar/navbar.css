@@ -1,3 +1,8 @@
+* {
+  --fontsize-small: 0.9rem;
+  --fontsize-normal: 0.95rem;
+  --secondary-color: #7fc2f5;
+}
 .top-nav {
   box-sizing: border-box;
   display: flex;
