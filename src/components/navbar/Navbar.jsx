@@ -1,7 +1,6 @@
 import React from "react";
 import "./navbar.css";
 import { IoMdNotificationsOutline, IoMdSettings } from "react-icons/io";
-import { MdHelpOutline } from "react-icons/md";
 import { useAuthContext } from "../../providers/AuthProvider";
 import { useState } from "react";
 import { useOrderContext } from "../../providers/OrderProvider";
@@ -23,19 +22,6 @@ const Navbar = () => {
 
   const navRef = useRef(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
-        setShowMoreElements(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const { loadingUserProfile, loadedUserProfile, handleLogOut } =
     useAuthContext();
@@ -118,12 +104,6 @@ const Navbar = () => {
             <article className="logout">Logout</article>
             <span>
               <IoIosLogOut className="desc" size={iconSize} />
-            </span>
-          </div>
-          <div className="help">
-            <span className="desc">Support</span>
-            <span>
-              <MdHelpOutline className="" size={iconSize} />
             </span>
           </div>
           <div

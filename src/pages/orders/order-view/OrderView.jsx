@@ -19,6 +19,8 @@ import { useUpdateModal } from "../../BiddingModal/UpdateModal";
 import { useDeleteModal } from "../../BiddingModal/DeleteModal";
 import { checkBid } from "../../../../utils/helpers/checkBid";
 import { toast } from "react-hot-toast";
+import RatingOrderView from "../../../components/rating/order-review/RatingOrderView";
+import { IoPersonSharp } from "react-icons/io5";
 
 const FloatingButton = ({ onClick }) => {
   return (
@@ -236,12 +238,15 @@ const OrderView = () => {
                 )}
               </div>
               <h2 className="card-jobtitle">
-                by{" "}
                 <Link
+                  className="prof-disp-icon"
                   to={`../client-profile/${orderContent.client.user.username}`}
                 >
+                  <div>
+                    <IoPersonSharp size={50} />
+                  </div>
                   <span>{orderContent.client.user.username}</span>
-                </Link>{" "}
+                </Link>
                 <span className="inline-flex ml-4">
                   {orderContent?.status != "Completed" && (
                     <div>
@@ -265,8 +270,9 @@ const OrderView = () => {
                 </span>
               </h2>
               {orderContent.rating && (
-                <div className="">
-                  <div className="flex gap-0.5">
+                <div className="review-box">
+                  <RatingOrderView order={orderContent} />
+                  {/* <div className="flex gap-0.5">
                     {[...Array(orderContent.rating.stars)].map((_, index) => (
                       <svg
                         key={index}
@@ -287,15 +293,15 @@ const OrderView = () => {
                         </svg>
                       )
                     )}
-                  </div>
-                  <div class="instructions mt-3">
+                  </div> */}
+                  {/* <div class="instructions mt-3">
                     <strong>OVERALL RATING</strong>
 
                     <article className="mt-1 ml-2">
                       <span className="mr-2  ">message:</span>
                       {orderContent.rating.message}
                     </article>
-                  </div>
+                  </div> */}
                 </div>
               )}
 
@@ -410,36 +416,35 @@ const OrderView = () => {
 
                   {orderContent?.solution && (
                     <div className="flex items-center space-x-11">
-  <a
-    href={orderContent?.solution?.solution}
-    id="solution-file"
-    rel="noopener noreferrer"
-    download
-    className="block rounded-lg p-4 shadow-sm bg-accent w-[100px] md:max-w-[200px] lg:w-full truncate"
-  >
-    {typeof orderContent?.solution?.solution === "string"
-      ? orderContent?.solution?.solution.substring(
-          orderContent?.solution?.solution.lastIndexOf("/") + 1
-        )
-      : ""}
-  </a>
-  <div className="mt-2">
-    <dl>
-      <div>
-        <dd className="text-sm text-white">
-          {orderContent?.solution?._type}
-        </dd>
-      </div>
-    </dl>
-  </div>
-  <IoMdDownload
-    onClick={downloadFile}
-    className="cursor-pointer"
-    size={iconSize}
-  />
-  <span className="text-white">{uploadedAt}</span>
-</div>
-
+                    <a
+                      href={orderContent?.solution?.solution}
+                      id="solution-file"
+                      rel="noopener noreferrer"
+                      download
+                      className="block rounded-lg p-4 shadow-sm bg-accent w-[100px] md:max-w-[200px] lg:w-full truncate"
+                    >
+                      {typeof orderContent?.solution?.solution === "string"
+                        ? orderContent?.solution?.solution.substring(
+                            orderContent?.solution?.solution.lastIndexOf("/") + 1
+                          )
+                        : ""}
+                    </a>
+                    <div className="mt-2">
+                      <dl>
+                        <div>
+                          <dd className="text-sm text-white">
+                            {orderContent?.solution?._type}
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                    <IoMdDownload
+                      onClick={downloadFile}
+                      className="cursor-pointer"
+                      size={iconSize}
+                    />
+                    <span className="text-white">{uploadedAt}</span>
+                  </div>
                   )}
                 </div>
               )}
@@ -514,18 +519,9 @@ const OrderView = () => {
                 />
               </div>
             )}
-            {(myBid ||
-              orderContent?.freelancer?.user.username ===
-                loadedUserProfile?.username) && (
-              <div>
-                {window.innerWidth <= 900 && (
-              <FloatingButton onClick={toggleChat}  size={20}/>
+            {window.innerWidth <= 900 && (
+              <FloatingButton onClick={toggleChat} />
             )}
-              </div>
-            )}
-            
-            
-            
           </>
         )
       )}

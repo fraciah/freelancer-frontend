@@ -64,6 +64,23 @@
   font-size: 0.9rem;
 }
 
+.card-jobtitle {
+  bottom: 0;
+  font-size: 11px;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--background);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.prof-disp-icon {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
 
 .order-soln div div {
   position: inherit;
